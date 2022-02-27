@@ -45,3 +45,6 @@ Things you may want to cover:
 
 # webpack
 * rake assets:precompile RAILS_ENV=production
+
+# reset last commit
+* git reset HEAD~    
