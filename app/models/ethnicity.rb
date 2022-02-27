@@ -1,0 +1,3 @@
+class Ethnicity < ApplicationRecord
+
+end

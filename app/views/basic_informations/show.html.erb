@@ -1,0 +1,132 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+
+        <!-- Profile Image -->
+        <div class="card card-primary card-outline">
+          <div class="card-body box-profile">
+            <div class="text-center">
+              <%#= image_tag(@lab.image.url, alt: 'User profile picture', class: "profile-user-img img-fluid img-circle") if @lab.image? %>
+            </div>
+
+<!--            <h3 class="profile-username text-center"><%#= @lab.name %></h3>-->
+
+<!--            <p class="text-muted text-center"><%#= @lab.user_id %></p>-->
+
+            <ul class="list-group list-group-unbordered mb-3">
+              <li class="list-group-item">
+                <b>Bác sĩ</b> <a class="float-right">1,322</a>
+              </li>
+              <li class="list-group-item">
+                <b>Đang điều trị</b> <a class="float-right">543</a>
+              </li>
+              <li class="list-group-item">
+                <b>Thành viên</b> <a class="float-right">13,287</a>
+              </li>
+            </ul>
+
+<!--            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>-->
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+        <!-- About Me Box -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Thông tin</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+<!--            <strong><i class="fas fa-book mr-1"></i> Education</strong>-->
+
+<!--            <p class="text-muted">-->
+<!--              B.S. in Computer Science from the University of Tennessee at Knoxville-->
+<!--            </p>-->
+
+<!--            <hr>-->
+
+            <strong><i class="fas fa-map-marker-alt mr-1"></i> <%= t("user_tests.fields.full_name") %></strong>
+
+            <p class="text-muted"><%= @user.full_name %></p>
+
+            <hr>
+
+            <strong><i class="fas fa-full_name mr-1"></i> <%= t("user_tests.fields.full_name") %></strong>
+
+            <p class="text-muted">
+              <span class="tag tag-primary"><%= @user.full_name %></span>
+            </p>
+
+            <hr>
+
+            <strong><i class="far fa-file-alt mr-1"></i> <%= t("user_tests.fields.full_name") %></strong>
+
+            <p class="text-muted"><%= @user.full_name %></p>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+
+<div class="modal fade show" id="modal-lg" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><%= t('result_tests.fields.update_result_test') %></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form id="result_test_id" method="post" accept-charset="UTF-8" class="edit_result_test">
+        <input type="hidden" name="_method" value="patch">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <div class="modal-body">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="result"><%= t('result_tests.fields.result') %></label>
+                <textarea type="text" class="form-control" id="result_test_result" name="result_test[result]"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="full_name"><%= t('result_tests.fields.full_name') %></label>
+                <input type="text" class="form-control" id="result_test_full_name" name="result_test[full_name]">
+              </div>
+<!--              <div class="form-group">-->
+<!--                <label for="exampleInputFile">File input</label>-->
+<!--                <div class="input-group">-->
+<!--                  <div class="custom-file">-->
+<!--                    <input type="file" class="custom-file-input" name="result_test[file]">-->
+<!--                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>-->
+<!--                  </div>-->
+<!--                  <div class="input-group-append">-->
+<!--                    <span class="input-group-text">Upload</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <%= t('button.cancel_btn') %>
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <%= t('button.update_btn') %>
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript">
+</script>

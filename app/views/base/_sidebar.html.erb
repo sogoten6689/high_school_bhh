@@ -1,0 +1,52 @@
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+    <%= link_to home_path, class: "brand-link" do %>
+      <%#= image_tag ("/assets/LinkLabLogo.png"), class: "brand-image img-circle elevation-3", alt: "BHH Logo", style: "opacity: .8" %>
+      <span class="brand-text font-weight-light">THPT Bình Hưng Hoà</span>
+    <% end %>
+<!--    <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"-->
+<!--         style="opacity: .8">-->
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+<!--      <div class="image">-->
+        <%= image_tag("/assets/avatar.png") %>
+<!--      </div>-->
+      <div class="info">
+        <a href="#" class="d-block">
+          <%= current_user.email %>
+        </a>
+        <%= form_for(:user, url: destroy_user_session_path, :method => :delete) do |f| %>
+          <%= f.submit "Log out",  class: "btn btn-danger btn-xs text-center" %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+
+
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+        <li class="nav-item <%= menu_open_class?([])%> ">
+          <%= link_to basic_informations_url, :class => "nav-link #{current_class?(basic_informations_url)}" do %>
+            <i class="fa fa-user-alt nav-icon"></i>
+            <p>
+              Thông tin cơ bản
+              <%#= t('sidebar.user') %>
+            </p>
+          <% end %>
+        </li>
+
+      </ul>
+    </nav>
+
+    <!-- /.sidebar-menu -->
+
+  </div>
+  <!-- /.sidebar -->
+</aside>

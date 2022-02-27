@@ -1,0 +1,3 @@
+class ActionHistory < ApplicationRecord
+
+end
