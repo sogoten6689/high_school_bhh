@@ -4,6 +4,9 @@ class BasicInformationsController < ApplicationController
   rescue_from ActiveRecord::InvalidForeignKey, with: :invalid_foreign_key
 
   def index
+    @user = User.find(current_user.id)
+    @provinces = Province.all
+    @ethnicities = Ethnicity.all
   end
 
   def show
