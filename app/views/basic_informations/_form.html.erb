@@ -34,7 +34,7 @@
           <label for="full_name">
             <%= 'Ngày tháng năm sinh' + @user.birthday.to_s %>
           </label>
-          <%= f.text_field :birthday, class: "form-control datepicker",
+          <%= f.date_field :birthday, class: "form-control datepicker",
                            id: "birthday", placeholder: 'dd/MM/yyyy' %>
           <% @user.errors.full_messages_for(:birthday).each do |message| %>
             <div class="text-danger"><%= message %></div>

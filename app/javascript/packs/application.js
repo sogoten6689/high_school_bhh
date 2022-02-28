@@ -3,12 +3,30 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
+require('admin-lte')
+
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
-import '../stylesheets/application.scss';
+import 'bootstrap'
+import '../stylesheets/application.scss'
+import "@fortawesome/fontawesome-free/css/all.css"
+import 'select2'
+import '../stylesheets/dropify.min.css'
+import './dropify.min.js'
+
+
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+document.addEventListener("turbolinks:load", () => {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+global.toastr = require("toastr")
+
+window.jQuery = $
+window.$ = $

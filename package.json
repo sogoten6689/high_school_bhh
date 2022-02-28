@@ -1,17 +1,27 @@
 {
-  "name": "high-school",
+  "name": "high_school",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.4.3",
-    "turbolinks": "^5.2.0",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "@rails/webpacker": "5.2.1",
+    "admin-lte": "^3.1.0",
+    "bootstrap": "^4.6.0",
+    "font-awesome": "4.7.0",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.16.1",
+    "sass": "^1.49.9",
+    "toastr": "^2.1.4",
+    "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
+  "engines": {
+    "node": "14.13.1",
+    "yarn": "1.22.17"
+  },
   "devDependencies": {
-    "webpack-dev-server": "^3"
+    "webpack-dev-server": "^3.11.2"
   }
 }
