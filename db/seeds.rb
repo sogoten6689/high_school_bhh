@@ -6,12 +6,17 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 users = [
-  {email:'admin@gmail.com', password: '123456', role: 4, full_name: 'Admin', identification: '123456789'},
-  {email:'123456ngoclam@gmail.com', password: '123456', role: 1, full_name: 'Nguyen Ngoc Lam', identification: '426421642'},
+  {
+    email:'admin@gmail.com', password: '123456',
+    role: 4, full_name: 'Admin', name: 'Admin',
+    identification: '123456789', },
+  {email:'123456ngoclam@gmail.com', password: '123456',
+   role: 1, full_name: 'Nguyen Ngoc Lam', name: 'Lam',
+   identification: '426421642'},
 ]
 
 users.each do |user|
-  new_user = User.where(email: user[:email]).first_or_create(user).save!
+  new_user = User.where(email: user[:email]).first_or_create(user).save(:validate => false)
 end
 
 provines = [

@@ -15,7 +15,6 @@ $('#ethnicity').on('change', function () {
     }
 );
 
-
 $('#none_identification').change( function () {
         if (this.checked){
             $('#identification').val('');
