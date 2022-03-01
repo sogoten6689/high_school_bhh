@@ -10,9 +10,7 @@ class BasicInformationsController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-    @provinces = Province.all
-    @ethnicities = Ethnicity.all
+    redirect_to  edit_basic_information_path(params[:id])
   end
 
   def edit
@@ -22,23 +20,18 @@ class BasicInformationsController < ApplicationController
   end
 
   def update
-
     @user = User.find(params[:id])
     puts edit_user_params[:full_name]
     puts edit_user_params[:gender]
     puts edit_user_params[:gender]
     if @user.update(edit_user_params)
-
-        redirect_to  edit_basic_information_path(params[:id])
-
-
+      redirect_to  edit_basic_information_path(params[:id])
       # if current_user.role == 4
       #   redirect_to  basic_informations_path
       # else
       #   redirect_to  basic_information_path(params[:id])
       # end
     else
-      @user = User.find(params[:id])
       @provinces = Province.all
       @ethnicities = Ethnicity.all
       render :edit, status: :unprocessable_entity

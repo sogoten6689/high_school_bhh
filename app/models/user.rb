@@ -4,8 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :full_name, presence: true, uniqueness: true
-  validates :identification, presence: true, uniqueness: true
+  validates :full_name, presence: true
+  validates :identification, numericality: { only_integer: true },
+            length: { in: 9..12}, allow_blank: true
+
+  # validates :birthday, presence: true
+
 
   enum roles: [:undefine, :student, :teacher, :supervisor, :admin]
 end
