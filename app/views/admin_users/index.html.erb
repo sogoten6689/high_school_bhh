@@ -1,0 +1,101 @@
+
+<div class="content container-fluid">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <%= 'Danh sách người dùng' %>
+            </h3>
+            <div class="card-tools">
+              <%= link_to 'Excel mẫu', new_admin_user_path, class: "btn btn-info"%>
+              <%= link_to 'Nhập Excel', new_admin_user_path, class: "btn btn-warning"%>
+              <%= link_to 'Tạo tài khoản', new_admin_user_path, class: "btn btn-primary"%>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>
+                  <%= 'Họ và tên' %>
+                </th>
+                <th>
+                  <%= 'Tên' %>
+                </th>
+                <th>
+                  <%= 'Ngày sinh' %>
+                </th>
+                <th>
+                  <%= 'Nơi sinh' %>
+                </th>
+                <th>
+                  <%= 'Dân tộc' %>
+                </th>
+                <th>
+                  <%= 'Email' %>
+                </th>
+                <th>
+                  <%= 'Thao tác' %>
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @users.each do |user| %>
+                <tr>
+                  <td>
+                    <%= user.id %>
+                  </td>
+                  <td>
+                    <%= user.full_name %>
+                  </td>
+                  <td>
+                    <%= user.name %>
+                  </td>
+                  <td>
+                    <%= user.birthday %>
+                  </td>
+                  <td>
+                    <%= user.province %>
+                  </td>
+                  <td>
+                    <%= user.ethnicity %>
+                  </td>
+                  <td>
+                      <%= user.email %>
+                  </td>
+                  <td>
+                    <%#= link_to "Show", book %>
+                    <%= link_to admin_user_path(user), class: "btn btn-warning btn-sm" do %>
+                      <i class="fas fa-edit"></i>
+                    <% end %>
+                    <%= link_to admin_user_path(user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm"  do %>
+                      <i class="fas fa-trash"></i>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+          <!--          <div class="card-footer clearfix">-->
+          <!--            <ul class="pagination pagination-sm m-0 float-right">-->
+          <!--              <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>-->
+          <!--              <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+          <!--              <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+          <!--              <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+          <!--              <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>-->
+          <!--            </ul>-->
+          <!--          </div>-->
+        </div>
+        <!-- /.card -->
+
+      </div>
+    </div>
+
+  </div>
+</div>

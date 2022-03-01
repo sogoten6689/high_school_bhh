@@ -1,0 +1,135 @@
+<%= form_for(@user, :url =>  basic_information_path(@user)) do |f| %>
+
+  <div class="card-body">
+<!--    full_name, name-->
+    <div class="row">
+      <div class="col-sm-7">
+        <div class="form-group">
+          <label for="full_name">Họ và tên </label>
+          <%= f.text_field :full_name, class: "form-control", id: "full_name", placeholder: 'HỌ VÀ TÊN', :readonly => true %>
+          <% @user.errors.full_messages_for(:full_name).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+
+      </div>
+
+      <div class="col-sm-5">
+        <div class="form-group">
+          <label for="name">Tên</label>
+          <%= f.text_field :name, class: "form-control", id: "name", placeholder: 'Tên', :readonly => true %>
+          <% @user.errors.full_messages_for(:name).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
+<!--    birthday, gender, province-->
+    <div class="row">
+      <div class="col-sm-4">
+
+        <div class="form-group">
+          <label for="full_name">
+            <%= 'Ngày tháng năm sinh' %>
+          </label>
+          <%= f.date_field :birthday, class: "form-control datepicker",
+                           id: "birthday", placeholder: 'dd/MM/yyyy' %>
+          <% @user.errors.full_messages_for(:birthday).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label for="gender">
+            <%= 'Giới tính'%>
+          </label>
+          <%= f.select(:gender, options_for_select([['Nam', 1], ['Nữ', 0]]),{} , {:class => "form-control select2"})%>
+          <% @user.errors.full_messages_for(:gender).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label for="provide">
+            <%= 'Nơi sinh' %>
+          </label>
+          <%= f.select(:province, @provinces.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2'}) %>
+          <% @user.errors.full_messages_for(:province).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
+    <!--    ethnicity, another ethnicity, identification-->
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="ethnicity">
+            <%= 'Dân tộc' %>
+          </label>
+          <%= f.select(:ethnicity, @ethnicities.collect {|u| [u.name, u.code]},{ },
+                       { :class => 'form-control select2', :id => "ethnicity"}) %>
+          <% @user.errors.full_messages_for(:ethnicity).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="another_ethnicity">
+            <%= 'Dân tộc khác' %>
+          </label>
+          <%= f.text_field :another_ethnicity, class: "form-control", id: "another_ethnicity", placeholder: 'Dân tộc khác',  readonly: @user.ethnicity != 0  %>
+          <% @user.errors.full_messages_for(:another_ethnicity).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="identification">
+            <%= 'Số CMND/CCCD' %>
+          </label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <input type="checkbox" id="none_identification" class="m-1" <%= @user.identification.blank? ? 'checked' : '' %>> Chưa có
+              </span>
+            </div>
+            <%= f.text_field :identification, class: "form-control", id: "identification", placeholder: 'Số CMND/CCCD', readonly: @user.identification.blank? %>
+            <% @user.errors.full_messages_for(:identification).each do |message| %>
+              <div class="text-danger"><%= message %></div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card-footer text-center">
+    <button type="submit" class="btn btn-primary">
+      <%= 'Cập nhật' %>
+    </button>
+    <%= link_to 'Huỷ', basic_informations_path, class: "btn btn-danger"%>
+  </div>
+
+<% end %>
+
+<%= javascript_pack_tag 'basic_informations' %>
+
+<script type="text/javascript">
+
+</script>

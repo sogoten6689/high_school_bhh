@@ -13,10 +13,10 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 <!--      <div class="image">-->
-        <%= image_tag("/assets/avatar.png") %>
+        <%#= image_tag("/assets/avatar.png") %>
 <!--      </div>-->
-      <div class="info">
-        <a href="#" class="d-block">
+      <div class="info text-center">
+        <a href="#">
           <%= current_user.email %>
         </a>
         <%= form_for(:user, url: destroy_user_session_path, :method => :delete) do |f| %>
@@ -31,11 +31,46 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
+        <% if (current_user.role == 4) %>
+          <li class="nav-item <%= menu_open_class?([])%> ">
+            <%= link_to admin_users_path, :class => "nav-link  #{current_class?(admin_users_path)}" do %>
+              <i class="fa fa-user-alt nav-icon"></i>
+              <p>
+                <%= 'Quản lý người dùng' %>
+              </p>
+            <% end %>
+          </li>
+        <% end %>
+
         <li class="nav-item <%= menu_open_class?([])%> ">
           <%= link_to basic_informations_url, :class => "nav-link  #{current_class?(basic_informations_path)}" do %>
             <i class="fa fa-user-alt nav-icon"></i>
             <p>
               <%= 'Thông tin cá nhân' %>
+            </p>
+          <% end %>
+        </li>
+        <li class="nav-item <%= menu_open_class?([])%> ">
+          <%= link_to user_contacts_path, :class => "nav-link  #{current_class?(user_contacts_path)}" do %>
+            <i class="fa fa-user-alt nav-icon"></i>
+            <p>
+              <%= 'Thông tin liên lạc' %>
+            </p>
+          <% end %>
+        </li>
+        <li class="nav-item <%= menu_open_class?([])%> ">
+          <%= link_to student_classes_path, :class => "nav-link  #{current_class?(student_classes_path)}" do %>
+            <i class="fa fa-user-alt nav-icon"></i>
+            <p>
+              <%= 'Thông tin lớp học' %>
+            </p>
+          <% end %>
+        </li>
+        <li class="nav-item <%= menu_open_class?([])%> ">
+          <%= link_to relationships_path, :class => "nav-link  #{current_class?(relationships_path)}" do %>
+            <i class="fa fa-user-alt nav-icon"></i>
+            <p>
+              <%= 'Thông tin gia đình'%>
             </p>
           <% end %>
         </li>
