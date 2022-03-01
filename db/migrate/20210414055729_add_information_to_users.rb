@@ -9,6 +9,7 @@ class AddInformationToUsers < ActiveRecord::Migration[6.1]
     add_column :users, :another_ethnicity, :string
     add_column :users, :identification, :string
     add_column :users, :identification_image, :string
+    add_column :users, :student_code, :string
     add_column :users, :role, :integer, default: 0
 
   end

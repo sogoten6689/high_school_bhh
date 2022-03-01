@@ -7,15 +7,43 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 users = [
   {email:'admin@gmail.com', password: '123456', role: 4, full_name: 'Admin', identification: '123456789'},
+  {email:'123456ngoclam@gmail.com', password: '123456', role: 1, full_name: 'Nguyen Ngoc Lam', identification: '426421642'},
 ]
 
 users.each do |user|
-  User.where(email: user[:email]).first_or_create(user)
+  new_user = User.where(email: user[:email]).first_or_create(user).save!
 end
 
 provines = [
-    { name: 'HỒ CHÍ MINH', code: 79, province_slug: 'ho_chi_minh' },
+    { name: 'HỒ CHÍ MINH', code: 79, province_slug: 'ho_chi_minh',
+      # districts: [
+      #   { name: 'Quận 1', code: 1, district_slug: 'quan_1',
+      #     wards: [
+      #       { name: 'Phường 1', code: 1, ward_slug: 'phuong_1'},
+      #       { name: 'Phường 2', code: 2, ward_slug: 'phuong_1'}
+      #         ]
+      #   },
+      #   { name: 'Quận 2', code: 2, district_slug: 'quan_2'  },
+      # ]
+    },
     { name: 'HÀ NỘI', code: 1, province_slug: 'ha_noi' },
+]
+
+provines.each do |province|
+  new_province = Province.where(code: province[:code]).first_or_create(province)
+  # if (provine['districts'])
+  #   provine['districts'].each do |district|
+  #     province = Province.where(code: province[:code]).first_or_create(province)
+  #
+  #     end
+  #
+  #   end
+
+end
+
+
+districts = [
+  { name: 'HÀ NỘI', code: 1, province_slug: 'ha_noi' },
 ]
 
 provines.each do |province|

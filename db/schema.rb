@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_30_152054) do
+ActiveRecord::Schema.define(version: 2021_11_30_152054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,56 @@ ActiveRecord::Schema.define(version: 2021_05_30_152054) do
     t.string "province_slug"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "relationships", force: :cascade do |t|
+    t.string "father_name"
+    t.integer "father_year"
+    t.string "father_career"
+    t.string "father_phone"
+    t.string "father_address"
+    t.string "mother_name"
+    t.integer "mother_year"
+    t.string "mother_career"
+    t.string "mother_phone"
+    t.string "mother_address"
+    t.string "guardian_name"
+    t.integer "guardian_year"
+    t.string "guardian_career"
+    t.string "guardian_phone"
+    t.string "guardian_address"
+    t.string "vietschool_connect_phone"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_relationships_on_user_id"
+  end
+
+  create_table "student_classes", force: :cascade do |t|
+    t.string "class_name"
+    t.integer "student_class_code"
+    t.integer "grade"
+    t.integer "year"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_student_classes_on_user_id"
+  end
+
+  create_table "user_contacts", force: :cascade do |t|
+    t.integer "household_province"
+    t.integer "household_district"
+    t.integer "household_ward"
+    t.string "household_address"
+    t.integer "contact_province"
+    t.integer "contact_district"
+    t.integer "contact_ward"
+    t.string "contact_address"
+    t.string "phone_number"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_contacts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -67,4 +117,7 @@ ActiveRecord::Schema.define(version: 2021_05_30_152054) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "relationships", "users"
+  add_foreign_key "student_classes", "users"
+  add_foreign_key "user_contacts", "users"
 end
