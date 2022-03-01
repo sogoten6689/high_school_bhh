@@ -14,9 +14,9 @@ class User < ApplicationRecord
   enum roles: [:undefine, :student, :teacher, :supervisor, :admin]
 
   after_create do
-    UserContact.create([user_id: self.id]).save(:validate => false)
-    StudentClass.create([user_id: self.id]).save(:validate => false)
-    Relationship.create([user_id: self.id]).save(:validate => false)
+    UserContact.create([user_id: self.id])
+    StudentClass.create([user_id: self.id])
+    Relationship.create([user_id: self.id])
   end
 
 end

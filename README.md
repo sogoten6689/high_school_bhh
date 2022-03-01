@@ -35,6 +35,9 @@ Things you may want to cover:
 * rails db:create
 * rails db:migrate
 * rails db:seed
+roll back
+* rails db:migrate Version=0
+* rake db:migrate VERSION=0.
 
 # reset db
 * rails db:reset db:migrate db:seed
