@@ -5,7 +5,15 @@ class BasicInformationsController < ApplicationController
 
   def index
     @user = User.find(current_user.id)
+
+    if (@user.province.nil? || @user.birthday.nil?)
+      redirect_to edit_user_path(current_user.id), {alert: 'Vui lòng cập nhật thong tin cơ bản để truy cập!'}
+    end
+
     @user_contact = UserContact.where(:user_id => current_user.id).first()
+    if (@user_contact.nil? || @user_contact.household_province.nil? || @user_contact.household_ward.nil? || @user_contact.household_district.nil? || @user_contact.contact_province.nil? || @user_contact.contact_district.nil? || @user_contact.contact_address.nil?)
+      redirect_to edit_user_contact_path(current_user.id), {alert: 'Vui lòng cập nhật thông tin liên hệ để được phép truy cập'}
+    end
     @province = Province.where(:code => @user.province).first()
 
     @household_province = Province.where(:code => @user_contact.household_province).first()

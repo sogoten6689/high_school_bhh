@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <label for="contact_district">Quận/Huyện <%= @user_contact.contact_province %></label>
+                    <label for="contact_district">Quận/Huyện</label>
                     <%= f.select(:contact_district, @contact_districts.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_district'}) %>
                     <% @user.errors.full_messages_for(:contact_district).each do |message| %>
                       <div class="text-danger"><%= message %></div>
@@ -134,4 +134,82 @@
 <%= javascript_pack_tag 'edit_user_contact' %>
 
 <script type="text/javascript">
+    $('#household_province').on('change', function () {
+        $('#household_district').empty();
+        $.ajax({
+            url : '/provinces/'+this.value+'/districts',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                $.each(data, function(key, value) {
+                    $('#household_district').append(`<option value="${value.code}">${value.name}</option>`);
+                });
+                $('#household_district').change();
+            },
+            error : function(request,error)
+            {
+                console.log(request);
+                console.log(error);
+            }
+        });
+    });
+
+    $('#household_district').on('change', function () {
+        $('#household_ward').empty();
+        $.ajax({
+            url : '/districts/'+this.value+'/wards',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                $.each(data, function(key, value) {
+                    $('#household_ward').append(`<option value="${value.code}">${value.name}</option>`);
+                });
+            },
+            error : function(request,error)
+            {
+                console.log(request);
+                console.log(error);
+            }
+        });
+    });
+
+    $('#contact_province').on('change', function () {
+        $('#contact_district').empty();
+        $.ajax({
+            url : '/provinces/'+this.value+'/districts',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                $.each(data, function(key, value) {
+                    $('#contact_district').append(`<option value="${value.code}">${value.name}</option>`);
+                });
+                $('#contact_district').change();
+            },
+            error : function(request,error)
+            {
+                console.log(request);
+                console.log(error);
+            }
+        });
+    });
+
+    $('#contact_district').on('change', function () {
+        $('#contact_ward').empty();
+        $.ajax({
+            url : '/districts/'+this.value+'/wards',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                $.each(data, function(key, value) {
+                    $('#contact_ward').append(`<option value="${value.code}">${value.name}</option>`);
+                });
+            },
+            error : function(request,error)
+            {
+                console.log(request);
+                console.log(error);
+            }
+        });
+    });
+
 </script>
