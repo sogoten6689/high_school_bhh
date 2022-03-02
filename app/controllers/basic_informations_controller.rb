@@ -12,7 +12,7 @@ class BasicInformationsController < ApplicationController
 
     @user_contact = UserContact.where(:user_id => current_user.id).first()
     if (@user_contact.nil? || @user_contact.household_province.nil? || @user_contact.household_ward.nil? || @user_contact.household_district.nil? || @user_contact.contact_province.nil? || @user_contact.contact_district.nil? || @user_contact.contact_address.nil?)
-      redirect_to edit_user_contact_path(current_user.id), {alert: 'Vui lòng cập nhật thông tin liên hệ để được phép truy cập'}
+      redirect_to edit_user_contact_path(current_user.id)
     end
     @province = Province.where(:code => @user.province).first()
 
