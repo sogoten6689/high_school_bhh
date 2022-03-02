@@ -5,8 +5,28 @@ class BasicInformationsController < ApplicationController
 
   def index
     @user = User.find(current_user.id)
-    @provinces = Province.all
-    @ethnicities = Ethnicity.all
+    @user_contact = UserContact.where(:user_id => current_user.id).first()
+    @province = Province.where(:code => @user.province).first()
+
+    @household_province = Province.where(:code => @user_contact.household_province).first()
+    @contact_province = Province.where(:code => @user_contact.contact_province).first()
+
+    @household_district = District.where(:code => @user_contact.household_district).first()
+    @contact_district = District.where(:code => @user_contact.contact_district).first()
+
+    @household_ward = Ward.where(:code => @user_contact.household_ward).first()
+    @contact_ward = Ward.where(:code => @user_contact.contact_ward).first()
+    if (@user.ethnicity == 0)
+      @ethnicity_name = @user.another_ethnicity
+    else
+      @ethnicity = Ethnicity.where(:id => @user.ethnicity).first()
+      @ethnicity_name = @ethnicity.nil? ? '' : @ethnicity.name
+    end
+
+    @title_page = 'Thông tin cá nhân'
+    @breadcrumbs = [
+      ['Thông tin cá nhân', basic_informations_path],
+    ]
   end
 
   def show
@@ -21,11 +41,10 @@ class BasicInformationsController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    puts edit_user_params[:full_name]
-    puts edit_user_params[:gender]
-    puts edit_user_params[:gender]
     if @user.update(edit_user_params)
-      redirect_to  edit_basic_information_path(params[:id])
+      redirect_to  basic_informations_path
+
+      # redirect_to  edit_basic_information_path(params[:id])
       # if current_user.role == 4
       #   redirect_to  basic_informations_path
       # else
@@ -38,9 +57,55 @@ class BasicInformationsController < ApplicationController
     end
   end
 
+  def edit_user_contact
+    @user = User.find(params[:id])
+    @user_contact = UserContact.where(:user_id => params[:id]).first()
+    @provinces = Province.all
+
+    @household_districts = District.where(:province_code => @user_contact.household_province)
+    @household_wards = Ward.where(:district_code => @user_contact.household_district)
+
+    @contact_districts = District.where(:province_code => @user_contact.contact_province)
+    @contact_wards = Ward.where(:district_code => @user_contact.contact_district)
+
+    @title_page = 'Cập nhật thông tin liên lạc'
+    @breadcrumbs = [
+      ['Thông tin cá nhân', basic_informations_path],
+      ['Cập nhật thông tin liên lạc', edit_user_contact_path]
+    ]
+  end
+
+
+  def update_user_contact
+    @user = User.find(params[:id])
+    @user_contact = UserContact.where(:user_id => params[:id]).first()
+    if @user_contact.update(edit_user_contact_params)
+      redirect_to  basic_informations_path
+
+      # redirect_to  edit_basic_information_path(params[:id])
+      # if current_user.role == 4
+      #   redirect_to  basic_informations_path
+      # else
+      #   redirect_to  basic_information_path(params[:id])
+      # end
+    else
+      @provinces = Province.all
+      @title_page = 'Cập nhật thông tin liên lạc'
+      @breadcrumbs = [
+        ['Thông tin cá nhân', basic_informations_path],
+        ['Cập nhật thông tin liên lạc', edit_user_contact_path]
+      ]
+      render :edit, status: :unprocessable_entity
+    end
+  end
   private
 
   def edit_user_params
     params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity, :identification)
+  end
+
+  def edit_user_contact_params
+    params.require(:user_contact).permit( :household_province, :household_district, :household_ward, :household_address,
+                                          :contact_province, :contact_district, :contact_ward, :contact_address, :phone_number)
   end
 end

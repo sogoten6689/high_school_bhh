@@ -34,7 +34,7 @@
         <% if (current_user.role == 4) %>
           <li class="nav-item <%= menu_open_class?([])%> ">
             <%= link_to admin_users_path, :class => "nav-link  #{current_class?(admin_users_path)}" do %>
-              <i class="fa fa-user-alt nav-icon"></i>
+              <i class="fa fa-tasks nav-icon"></i>
               <p>
                 <%= 'Quản lý người dùng' %>
               </p>
@@ -47,30 +47,6 @@
             <i class="fa fa-user-alt nav-icon"></i>
             <p>
               <%= 'Thông tin cá nhân' %>
-            </p>
-          <% end %>
-        </li>
-        <li class="nav-item <%= menu_open_class?([])%> ">
-          <%= link_to user_contacts_path, :class => "nav-link  #{current_class?(user_contacts_path)}" do %>
-            <i class="fa fa-user-alt nav-icon"></i>
-            <p>
-              <%= 'Thông tin liên lạc' %>
-            </p>
-          <% end %>
-        </li>
-        <li class="nav-item <%= menu_open_class?([])%> ">
-          <%= link_to student_classes_path, :class => "nav-link  #{current_class?(student_classes_path)}" do %>
-            <i class="fa fa-user-alt nav-icon"></i>
-            <p>
-              <%= 'Thông tin lớp học' %>
-            </p>
-          <% end %>
-        </li>
-        <li class="nav-item <%= menu_open_class?([])%> ">
-          <%= link_to relationships_path, :class => "nav-link  #{current_class?(relationships_path)}" do %>
-            <i class="fa fa-user-alt nav-icon"></i>
-            <p>
-              <%= 'Thông tin gia đình'%>
             </p>
           <% end %>
         </li>

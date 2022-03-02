@@ -1,12 +1,12 @@
 <div class="container-fluid">
   <div class="row mb-2">
     <div class="col-sm-6">
-      <!--              <h1 class="m-0 text-dark">Starter Page</h1>-->
+                    <h1 class="m-0 text-dark"><%= @title_page %></h1>
     </div>
     <div class="col-sm-6">
       <ol class="breadcrumb float-sm-right">
         <li class="breadcrumb-item">
-          <%#= link_to t('home'), admin_path, class: "breadcrumb-item #{!defined?(breadcrumbs) ? 'active' : nil}" %>
+          <%= link_to 'Trang chủ', root_path, class: "breadcrumb-item #{!defined?(breadcrumbs) ? 'active' : nil}" %>
         </li>
 
         <% if (defined?(breadcrumbs) && !breadcrumbs.nil? && breadcrumbs.size > 0)  %>

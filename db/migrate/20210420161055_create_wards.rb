@@ -4,7 +4,7 @@ class CreateWards < ActiveRecord::Migration[6.1]
       t.string :name
       t.integer :code
       t.string :ward_slug
-      t.references :district, null: false, foreign_key: true
+      t.integer :district_code
       t.timestamps
     end
   end

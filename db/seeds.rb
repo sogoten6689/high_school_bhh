@@ -20,39 +20,33 @@ users.each do |user|
 end
 
 provines = [
-    { name: 'HỒ CHÍ MINH', code: 79, province_slug: 'ho_chi_minh',
-      # districts: [
-      #   { name: 'Quận 1', code: 1, district_slug: 'quan_1',
-      #     wards: [
-      #       { name: 'Phường 1', code: 1, ward_slug: 'phuong_1'},
-      #       { name: 'Phường 2', code: 2, ward_slug: 'phuong_1'}
-      #         ]
-      #   },
-      #   { name: 'Quận 2', code: 2, district_slug: 'quan_2'  },
-      # ]
-    },
+    { name: 'HỒ CHÍ MINH', code: 79, province_slug: 'ho_chi_minh', },
     { name: 'HÀ NỘI', code: 1, province_slug: 'ha_noi' },
 ]
 
 provines.each do |province|
   new_province = Province.where(code: province[:code]).first_or_create(province)
-  # if (provine['districts'])
-  #   provine['districts'].each do |district|
-  #     province = Province.where(code: province[:code]).first_or_create(province)
-  #
-  #     end
-  #
-  #   end
 
 end
 
-
 districts = [
-  { name: 'HÀ NỘI', code: 1, province_slug: 'ha_noi' },
+  { name: 'Bình Tân', code: 1, district_slug: 'binh_tan', province_code: 79 },
+  { name: 'Tân Phú', code: 2, district_slug: 'tan_phu', province_code: 79 },
+  { name: 'Thanh Xuân', code: 3, district_slug: 'thanh_xuan', province_code: 1 },
+  { name: 'Cầu Giấy', code: 4, district_slug: 'cau_giay', province_code: 1 },
 ]
+districts.each do |district|
+  new_district = District.where(code: district[:code]).first_or_create(district)
+end
 
-provines.each do |province|
-  Province.where(code: province[:code]).first_or_create(province)
+wards = [
+  { name: 'Bình Hưng Hoà A', code: 1, ward_slug: 'binh_hung_hoa_a', district_code: 1 },
+  { name: 'Vĩnh Lộc', code: 2, ward_slug: 'vinh_loc', district_code: 1 },
+  { name: 'Hàng Bồ', code: 3, ward_slug: 'hang_bo', district_code: 3 },
+  { name: 'Hàng Bạc', code: 4, ward_slug: 'hang_bac', district_code: 3 },
+]
+wards.each do |ward|
+  new_ward = Ward.where(code: ward[:code]).first_or_create(ward)
 end
 
 ethnicities = [

@@ -4,8 +4,7 @@ class CreateDistricts < ActiveRecord::Migration[6.1]
       t.string :name
       t.integer :code
       t.string :district_slug
-      t.references :province, null: false, foreign_key: true
-
+      t.integer :province_code
       t.timestamps
     end
   end
