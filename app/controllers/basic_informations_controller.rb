@@ -38,13 +38,18 @@ class BasicInformationsController < ApplicationController
   end
 
   def show
-    redirect_to  edit_basic_information_path(params[:id])
+    redirect_to  basic_informations_path
   end
 
   def edit
     @user = User.find(params[:id])
     @provinces = Province.all
     @ethnicities = Ethnicity.all
+
+    @title_page = 'Cập nhật thông tin cơ bản'
+    @breadcrumbs = [
+      ['Cập nhật thông tin cơ bản', basic_informations_path],
+    ]
   end
 
   def update
