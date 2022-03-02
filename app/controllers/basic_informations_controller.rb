@@ -7,7 +7,7 @@ class BasicInformationsController < ApplicationController
     @user = User.find(current_user.id)
 
     if (@user.province.nil? || @user.birthday.nil?)
-      redirect_to basic_information_path(current_user.id), {alert: 'Vui lòng cập nhật thong tin cơ bản để truy cập!'}
+      redirect_to edit_basic_information_path(current_user.id), {alert: 'Vui lòng cập nhật thong tin cơ bản để truy cập!'}
     end
 
     @user_contact = UserContact.where(:user_id => current_user.id).first()
