@@ -16,8 +16,6 @@ import 'select2'
 import '../stylesheets/dropify.min.css'
 import './dropify.min.js'
 
-
-
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
@@ -30,3 +28,7 @@ global.toastr = require("toastr")
 
 window.jQuery = $
 window.$ = $
+
+$(document).ready(function() {
+    $('.select2').select2();
+});

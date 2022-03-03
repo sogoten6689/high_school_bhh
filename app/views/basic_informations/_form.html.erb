@@ -131,5 +131,14 @@
 <%= javascript_pack_tag 'basic_informations' %>
 
 <script type="text/javascript">
-
+    $(document).ready(function() {
+        $('#ethnicity').on('change', function () {
+            if (this.value == 0) {
+                $('#another_ethnicity').val('');
+                $('#another_ethnicity').attr('readonly', false);
+            } else {
+                $('#another_ethnicity').attr('readonly', true);
+            }
+        });
+    });
 </script>

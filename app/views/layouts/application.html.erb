@@ -6,7 +6,7 @@
   <title>
     <%= 'THPT BHH' %>
   </title>
-  <%= favicon_link_tag 'LinkLabIco.ico' %>
+  <%= favicon_link_tag 'BHHICO.ico' %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
@@ -14,7 +14,6 @@
 
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-
   <style>
   </style>
 </head>
@@ -39,11 +38,7 @@
 </div>
 </body>
 <%= yield :javascript %>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.select2').select2();
-        $('.dropify').dropify();
-    });
 
+<script type="text/javascript">
 </script>
 </html>

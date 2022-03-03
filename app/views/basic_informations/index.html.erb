@@ -27,7 +27,7 @@
               </li>
               <li class="list-group-item">
                 <b>Nơi sinh</b> <a class="float-right">
-                <%= @province.name %>
+                <%= @province.name if !@province.nil? %>
               </a>
               </li>
             </ul>
