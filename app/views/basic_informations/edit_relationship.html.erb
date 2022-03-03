@@ -1,0 +1,203 @@
+<div class="content container-fluid">
+  <div class="container-fluid">
+    <%= form_for(@relatioship, :url =>  update_relationship_path(@user.id)) do |f| %>
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Thông tin Bố/Cha' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <label for="father_name">Họ và tên</label>
+                  <%= f.text_field :father_name, class: "form-control", id: "father_name", placeholder: 'Họ và tên'%>
+                  <% @relatioship.errors.full_messages_for(:father_name).each do |message| %>
+                    <div class="text-danger"><%= message %></div>
+                  <% end %>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="father_year">Năm sinh</label>
+                    <%= f.text_field :father_year, class: "form-control", id: "father_year", placeholder: 'Năm sinh'%>
+                    <% @relatioship.errors.full_messages_for(:father_year).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="father_career">Nghề nghiệp</label>
+                    <%= f.text_field :father_career, class: "form-control", id: "father_career", placeholder: 'Nghề nghiệp'%>
+                    <% @relatioship.errors.full_messages_for(:father_career).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="father_phone">Số điện thoại</label>
+                    <%= f.text_field :father_phone, class: "form-control", id: "father_phone", placeholder: 'Số điện thoại'%>
+                    <% @relatioship.errors.full_messages_for(:father_phone).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="father_address">Địa chỉ liên hệ</label>
+                    <%= f.text_field :father_address, class: "form-control", id: "father_address", placeholder: 'Địa chỉ liên hệ'%>
+                    <% @relatioship.errors.full_messages_for(:father_address).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--          <div class="card-footer">-->
+            <!--          </div>-->
+          </div>
+
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Thông tin Mẹ' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <label for="mother_name">Họ và tên</label>
+                  <%= f.text_field :mother_name, class: "form-control", id: "mother_name", placeholder: 'Họ và tên'%>
+                  <% @relatioship.errors.full_messages_for(:mother_name).each do |message| %>
+                    <div class="text-danger"><%= message %></div>
+                  <% end %>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="mother_year">Năm sinh</label>
+                    <%= f.text_field :mother_year, class: "form-control", id: "mother_year", placeholder: 'Năm sinh'%>
+                    <% @relatioship.errors.full_messages_for(:mother_year).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="mother_career">Nghề nghiệp</label>
+                    <%= f.text_field :mother_career, class: "form-control", id: "mother_career", placeholder: 'Nghề nghiệp'%>
+                    <% @relatioship.errors.full_messages_for(:mother_career).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="mother_phone">Số điện thoại</label>
+                    <%= f.text_field :mother_phone, class: "form-control", id: "mother_phone", placeholder: 'Số điện thoại'%>
+                    <% @relatioship.errors.full_messages_for(:mother_phone).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="mother_address">Địa chỉ liên hệ</label>
+                    <%= f.text_field :mother_address, class: "form-control", id: "mother_address", placeholder: 'Địa chỉ liên hệ'%>
+                    <% @relatioship.errors.full_messages_for(:mother_address).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--          <div class="card-footer">-->
+            <!--          </div>-->
+          </div>
+
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Thông tin Người giám hộ' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <label for="guardian_name">Họ và tên</label>
+                  <%= f.text_field :guardian_name, class: "form-control", id: "guardian_name", placeholder: 'Họ và tên'%>
+                  <% @relatioship.errors.full_messages_for(:guardian_name).each do |message| %>
+                    <div class="text-danger"><%= message %></div>
+                  <% end %>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="guardian_year">Năm sinh</label>
+                    <%= f.text_field :guardian_year, class: "form-control", id: "guardian_year", placeholder: 'Năm sinh'%>
+                    <% @relatioship.errors.full_messages_for(:guardian_year).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="guardian_career">Nghề nghiệp</label>
+                    <%= f.text_field :guardian_career, class: "form-control", id: "guardian_career", placeholder: 'Nghề nghiệp'%>
+                    <% @relatioship.errors.full_messages_for(:guardian_career).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="guardian_phone">Số điện thoại</label>
+                    <%= f.text_field :guardian_phone, class: "form-control", id: "guardian_phone", placeholder: 'Số điện thoại'%>
+                    <% @relatioship.errors.full_messages_for(:guardian_phone).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="guardian_address">Địa chỉ liên hệ</label>
+                    <%= f.text_field :guardian_address, class: "form-control", id: "guardian_address", placeholder: 'Địa chỉ liên hệ'%>
+                    <% @relatioship.errors.full_messages_for(:guardian_address).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="card-footer text-center">
+              <button type="submit" class="btn btn-primary">
+                <%= 'Cập nhật' %>
+              </button>
+              <%= link_to 'Huỷ', basic_informations_path, class: "btn btn-danger"%>
+            </div>
+
+            <!--          <div class="card-footer">-->
+            <!--          </div>-->
+          </div>
+
+
+        </div>
+      </div>
+
+
+
+    <% end %>
+  </div>
+ </div>
+
+<%#= javascript_pack_tag 'edit_user_contact' %>
+
+<script type="text/javascript">
+</script>

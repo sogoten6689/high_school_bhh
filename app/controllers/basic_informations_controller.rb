@@ -84,7 +84,6 @@ class BasicInformationsController < ApplicationController
     ]
   end
 
-
   def update_user_contact
     @user = User.find(params[:id])
     @user_contact = UserContact.where(:user_id => params[:id]).first()
@@ -107,6 +106,43 @@ class BasicInformationsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
+
+  def edit_relationship
+    @user = User.find(params[:id])
+    @relatioship = Relationship.where(:user_id => params[:id]).first()
+    if @relatioship.nil?
+      @relatioship = Relationship.create([:user_id => params[:id]]).first()
+    end
+
+    @title_page = 'Cập nhật thông tin gia đình'
+    @breadcrumbs = [
+      ['Thông tin cá nhân', basic_informations_path],
+      ['Cập nhật thông tin gia đình', edit_relationship_path]
+    ]
+  end
+
+  def update_relationship
+    @user = User.find(params[:id])
+    @relatioship = Relationship.where(:user_id => params[:id]).first()
+    if @relatioship.update(edit_relationship_params)
+      redirect_to  basic_informations_path
+
+      # redirect_to  edit_basic_information_path(params[:id])
+      # if current_user.role == 4
+      #   redirect_to  basic_informations_path
+      # else
+      #   redirect_to  basic_information_path(params[:id])
+      # end
+    else
+      @title_page = 'Cập nhật thông tin gia đình'
+      @breadcrumbs = [
+        ['Thông tin cá nhân', basic_informations_path],
+        ['Cập nhật thông tin gia đình', edit_relationship_path]
+      ]
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def edit_user_params
@@ -116,5 +152,11 @@ class BasicInformationsController < ApplicationController
   def edit_user_contact_params
     params.require(:user_contact).permit( :household_province, :household_district, :household_ward, :household_address,
                                           :contact_province, :contact_district, :contact_ward, :contact_address, :phone_number)
+  end
+
+  def edit_relationship_params
+    params.require(:relationship).permit( :father_name, :father_year, :father_career, :father_phone, :father_address,
+                                          :mother_name, :mother_year, :mother_career, :mother_phone, :mother_address,
+                                          :guardian_name, :guardian_year, :guardian_career, :guardian_phone, :guardian_address)
   end
 end
