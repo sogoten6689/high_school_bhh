@@ -13,7 +13,13 @@
             <h3 class="profile-username text-center">
               <%= @user.full_name %>
             </h3>
-            <p class="text-muted text-center">Lớp 12A1 - 18</p>
+            <p class="text-muted text-center">
+              <%= @user.student_code %>
+            </p>
+            <p class="text-muted text-center">
+              <%= @student_classess.last.class_name %>
+            </p>
+            <p class="text-muted text-center"></p>
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item">
                 <b>Ngày sinh:</b> <a class="float-right">
@@ -97,56 +103,21 @@
 
                   </div>
 
-
-
-
                 </div>
 
               </div>
 
               <div class="tab-pane" id="timeline">
 
-                <div class="timeline timeline-inverse">
-
-                  <div class="time-label">
-                              <span class="bg-danger">
-                              10 Feb. 2014
-                              </span>
-                  </div>
-
-                  <div>
-                    <i class="fas fa-envelope bg-primary"></i>
-                    <div class="timeline-item">
-                      <!--                                <span class="time"><i class="far fa-clock"></i> 12A1</span>-->
-                      <!--                                <h3 class="timeline-header"><a href="#"></a> </h3>-->
-                      <div class="timeline-body">
-                      </div>
-                      <div class="timeline-footer">
-                        <!--                                  <a href="#" class="btn btn-primary btn-sm">Read more</a>-->
-                        <!--                                  <a href="#" class="btn btn-danger btn-sm">Delete</a>-->
+                <div class="row">
+                  <% @student_classess.each do |student_class| %>
+                    <div class="col-sm-12 text-center">
+                      <div class="form-group">
+                        <label for="full_name">Năm: <%= student_class.year %></label>
+                        <div><%= student_class.class_name %> - <%= student_class.student_class_code %></div>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="time-label">
-                              <span class="bg-success">
-                              3 Jan. 2014
-                              </span>
-                  </div>
-
-                  <div>
-                    <i class="fas fa-camera bg-purple"></i>
-                    <div class="timeline-item">
-                      <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-                      <!--                                <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>-->
-                      <div class="timeline-body">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <i class="far fa-clock bg-gray"></i>
-                  </div>
+                  <% end %>
                 </div>
               </div>
 

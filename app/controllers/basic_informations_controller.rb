@@ -27,6 +27,8 @@ class BasicInformationsController < ApplicationController
       @ethnicity_name = @ethnicity.nil? ? '' : @ethnicity.name
     end
 
+    @student_classess = StudentClass.where(:user_id => @user.id)
+
     @title_page = 'Thông tin cá nhân'
     @breadcrumbs = [
       ['Thông tin cá nhân', basic_informations_path],
@@ -34,7 +36,36 @@ class BasicInformationsController < ApplicationController
   end
 
   def show
-    redirect_to  basic_informations_path
+
+    @user = User.find(current_user.id)
+
+    @user_contact = UserContact.where(:user_id => current_user.id).first()
+    if (@user_contact.nil? || @user_contact.household_province.nil? || @user_contact.household_ward.nil? || @user_contact.household_district.nil? || @user_contact.contact_province.nil? || @user_contact.contact_district.nil? || @user_contact.contact_address.nil?)
+      redirect_to edit_user_contact_url(current_user.id), {alert: 'Vui lòng cập nhật thông tin liên hệ để được phép truy cập'}
+    end
+    @province = Province.where(:code => @user.province).first()
+
+    @household_province = Province.where(:code => @user_contact.household_province).first()
+    @contact_province = Province.where(:code => @user_contact.contact_province).first()
+
+    @household_district = District.where(:code => @user_contact.household_district).first()
+    @contact_district = District.where(:code => @user_contact.contact_district).first()
+
+    @household_ward = Ward.where(:code => @user_contact.household_ward).first()
+    @contact_ward = Ward.where(:code => @user_contact.contact_ward).first()
+    if (@user.ethnicity == 0)
+      @ethnicity_name = @user.another_ethnicity
+    else
+      @ethnicity = Ethnicity.where(:id => @user.ethnicity).first()
+      @ethnicity_name = @ethnicity.nil? ? '' : @ethnicity.name
+    end
+
+    @student_classess = StudentClass.where(:user_id => @user.id)
+
+    @title_page = 'Thông tin cá nhân'
+    @breadcrumbs = [
+      ['Thông tin cá nhân', basic_informations_path],
+    ]
   end
 
   def edit

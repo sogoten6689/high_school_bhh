@@ -6,6 +6,12 @@ module ApplicationHelper
     end
   end
 
+  def is_admin?
+    if current_user.role != 4
+      redirect_to root_path
+    end
+  end
+
   def current_class?(test_path)
     return 'active' if request.path.include? test_path
   end

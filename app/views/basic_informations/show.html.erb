@@ -1,132 +1,143 @@
-<section class="content">
+
+<div class="content container-fluid">
   <div class="container-fluid">
+
     <div class="row">
       <div class="col-md-3">
 
-        <!-- Profile Image -->
         <div class="card card-primary card-outline">
           <div class="card-body box-profile">
             <div class="text-center">
-              <%#= image_tag(@lab.image.url, alt: 'User profile picture', class: "profile-user-img img-fluid img-circle") if @lab.image? %>
+              <!--                        <img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">-->
             </div>
-
-<!--            <h3 class="profile-username text-center"><%#= @lab.name %></h3>-->
-
-<!--            <p class="text-muted text-center"><%#= @lab.user_id %></p>-->
-
+            <p class="text-muted text-center">
+              <%= @user.student_code %>
+            </p>
+            <h3 class="profile-username text-center">
+              <%= @user.full_name %>
+            </h3>
+            <p class="text-muted text-center">Lớp 12A1 - 18</p>
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item">
-                <b>Bác sĩ</b> <a class="float-right">1,322</a>
+                <b>Ngày sinh:</b> <a class="float-right">
+                <%= @user.birthday %>
+              </a>
               </li>
               <li class="list-group-item">
-                <b>Đang điều trị</b> <a class="float-right">543</a>
+                <b>Dân tộc</b> <a class="float-right">
+                <%= @ethnicity_name %>
+              </a>
               </li>
               <li class="list-group-item">
-                <b>Thành viên</b> <a class="float-right">13,287</a>
+                <b>Nơi sinh</b> <a class="float-right">
+                <%= @province.name if !@province.nil? %>
+              </a>
               </li>
             </ul>
+            <div class="text-center">
+              <%= link_to "Chỉnh sửa", edit_basic_information_path(current_user.id), class: "btn btn-primary"%>
 
-<!--            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>-->
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-
-        <!-- About Me Box -->
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Thông tin</h3>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-<!--            <strong><i class="fas fa-book mr-1"></i> Education</strong>-->
-
-<!--            <p class="text-muted">-->
-<!--              B.S. in Computer Science from the University of Tennessee at Knoxville-->
-<!--            </p>-->
-
-<!--            <hr>-->
-
-            <strong><i class="fas fa-map-marker-alt mr-1"></i> <%= t("user_tests.fields.full_name") %></strong>
-
-            <p class="text-muted"><%= @user.full_name %></p>
-
-            <hr>
-
-            <strong><i class="fas fa-full_name mr-1"></i> <%= t("user_tests.fields.full_name") %></strong>
-
-            <p class="text-muted">
-              <span class="tag tag-primary"><%= @user.full_name %></span>
-            </p>
-
-            <hr>
-
-            <strong><i class="far fa-file-alt mr-1"></i> <%= t("user_tests.fields.full_name") %></strong>
-
-            <p class="text-muted"><%= @user.full_name %></p>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col -->
-      <!-- /.col -->
-    </div>
-    <!-- /.row -->
-  </div><!-- /.container-fluid -->
-</section>
-
-<div class="modal fade show" id="modal-lg" aria-modal="true" role="dialog">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"><%= t('result_tests.fields.update_result_test') %></h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <form id="result_test_id" method="post" accept-charset="UTF-8" class="edit_result_test">
-        <input type="hidden" name="_method" value="patch">
-        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-        <div class="modal-body">
-            <div class="card-body">
-              <div class="form-group">
-                <label for="result"><%= t('result_tests.fields.result') %></label>
-                <textarea type="text" class="form-control" id="result_test_result" name="result_test[result]"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="full_name"><%= t('result_tests.fields.full_name') %></label>
-                <input type="text" class="form-control" id="result_test_full_name" name="result_test[full_name]">
-              </div>
-<!--              <div class="form-group">-->
-<!--                <label for="exampleInputFile">File input</label>-->
-<!--                <div class="input-group">-->
-<!--                  <div class="custom-file">-->
-<!--                    <input type="file" class="custom-file-input" name="result_test[file]">-->
-<!--                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>-->
-<!--                  </div>-->
-<!--                  <div class="input-group-append">-->
-<!--                    <span class="input-group-text">Upload</span>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
             </div>
-            <!-- /.card-body -->
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">
-            <%= t('button.cancel_btn') %>
-          </button>
-          <button type="submit" class="btn btn-primary">
-            <%= t('button.update_btn') %>
-          </button>
-        </div>
-      </form>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
 
-<script type="text/javascript">
-</script>
+            <!--                      <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>-->
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+              <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin liên lạc</a></li>
+              <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Thông tin học tập</a></li>
+              <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Thông tin gia đình</a></li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="active tab-pane" id="activity">
+
+                <div class="post">
+                  <div class="user-block">
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label for="contact_province">Hộ khẩu thường trú</label>
+                          <div>
+                            <%= @user_contact.household_address %>,
+                            <%= @household_ward.name %>,
+                            <%= @household_district.name %>,
+                            <%= @household_province.name %>,
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label for="contact_province">Địa chỉ liên hệ</label>
+                          <div>
+                            <%= @user_contact.contact_address %>,
+                            <%= @contact_ward.name %>,
+                            <%= @contact_district.name %>,
+                            <%= @contact_province.name %>,
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label for="contact_province">Số điện thoại liên lạc</label>
+                          <div>
+                            <%= @user_contact.phone_number %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 text-center">
+                        <%= link_to "Chỉnh sửa thông tin liên lạc", edit_user_contact_path(current_user.id), class: "btn btn-primary"%>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+
+                </div>
+
+              </div>
+
+              <div class="tab-pane" id="timeline">
+
+                <div class="row">
+                  <% @student_classess.each do |student_class| %>
+                    <div class="col-sm-12 text-center">
+                      <div class="form-group">
+                        <label for="full_name">Năm: <%= student_class.year %></label>
+                        <div><%= student_class.class_name %> - <%= student_class.student_class_code %></div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="tab-pane" id="settings">
+
+                <div class="row">
+                  <div class="col-sm-12 text-center">
+                    <%= link_to "Chỉnh sửa thông tin gia đình", edit_relationship_path(current_user.id), class: "btn btn-primary"%>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -9,6 +9,13 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :admin_users
+  get '/import_student', to: 'admin_users#import_student', as: 'import_student'
+  get '/student_sample', to: 'admin_users#student_sample', as: 'student_sample'
+  post '/update_import_student', to: 'admin_users#update_import_student', as: 'update_import_student'
+  get '/import_student_class', to: 'admin_users#import_student_class', as: 'import_student_class'
+  post '/update_import_student_class', to: 'admin_users#update_import_student_class', as: 'update_import_student_class'
+  get '/student_classes_sample', to: 'admin_users#student_classes_sample', as: 'student_classes_sample'
+
   resources :basic_informations
   get '/basic_informations/:id/edit_user_contact', to: 'basic_informations#edit_user_contact', as: 'edit_user_contact'
   patch '/basic_informations/:id/update_user_contact', to: 'basic_informations#update_user_contact', as: 'update_user_contact'
