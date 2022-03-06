@@ -28,6 +28,7 @@ class BasicInformationsController < ApplicationController
     end
 
     @student_classess = StudentClass.where(:user_id => @user.id)
+    @relationship = Relationship.where(:user_id => @user.id).first()
 
     @title_page = 'Thông tin cá nhân'
     @breadcrumbs = [
