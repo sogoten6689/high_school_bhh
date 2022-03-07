@@ -95,12 +95,12 @@ class AdminUsersController < ApplicationController
     redirect_to admin_users_path
   end
   
-  def student_classes_sample
-
+  def students_sample
+    send_file Rails.root.join("app/assets/files/students.csv"), type: 'csv'
   end
 
   def student_classes_sample
-
+    send_file Rails.root.join("app/assets/files/classes.csv"), type: 'csv'
   end
 
   def edit
