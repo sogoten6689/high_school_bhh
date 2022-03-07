@@ -17,7 +17,7 @@
               <%= @user.student_code %>
             </p>
             <p class="text-muted text-center">
-              <%= @student_classess.last.class_name %>
+              <%= @student_classess.last.class_name if @student_classess.size > 0 %>
             </p>
             <p class="text-muted text-center"></p>
             <ul class="list-group list-group-unbordered mb-3">
