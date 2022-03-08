@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_one :user_contact, dependent: :destroy
   has_one :student_class, dependent: :destroy
   has_one :relationship, dependent: :destroy
+  has_one :ethnicities, through: :ethnicity
 
   enum roles: [:undefine, :student, :teacher, :supervisor, :admin]
 
@@ -22,4 +23,22 @@ class User < ApplicationRecord
     Relationship.create([user_id: self.id])
   end
 
+  def ethnicity_name
+    ethnicity = Ethnicity.where(:code => self.ethnicity).first
+    if !ethnicity.nil?
+      return ethnicity.name
+    else
+      return "Chưa có"
+    end
+  end
+
+
+  def province_name
+    province = Province.where(:code => self.province).first
+    if !province.nil?
+      return province.name
+    else
+      return "Chưa có"
+    end
+  end
 end

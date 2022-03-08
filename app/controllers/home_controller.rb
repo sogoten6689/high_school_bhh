@@ -15,13 +15,13 @@ class HomeController < ApplicationController
 
   def districts
     province = Province.where(:code => params[:code]).first()
-    districts = District.where(:province_code => province.code)
+    districts = District.where(:parent_code => province.code).order(:code)
     render json: districts
   end
 
   def wards
     district = District.where(:code => params[:code]).first()
-    wards = Ward.where(:district_code => district.code)
+    wards = Ward.where(:parent_code => district.code).order(:code)
     render json: wards
   end
 end

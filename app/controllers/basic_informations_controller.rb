@@ -101,13 +101,13 @@ class BasicInformationsController < ApplicationController
   def edit_user_contact
     @user = User.find(params[:id])
     @user_contact = UserContact.where(:user_id => params[:id]).first()
-    @provinces = Province.all
+    @provinces = Province.order(:code).all
 
-    @household_districts = District.where(:province_code => @user_contact.household_province)
-    @household_wards = Ward.where(:district_code => @user_contact.household_district)
+    @household_districts = District.where(:code => @user_contact.household_province).order(:code)
+    @household_wards = Ward.where(:code => @user_contact.household_district).order(:code)
 
-    @contact_districts = District.where(:province_code => @user_contact.contact_province)
-    @contact_wards = Ward.where(:district_code => @user_contact.contact_district)
+    @contact_districts = District.where(:code => @user_contact.contact_province).order(:code)
+    @contact_wards = Ward.where(:code => @user_contact.contact_district).order(:code)
 
     @title_page = 'Cập nhật thông tin liên lạc'
     @breadcrumbs = [
