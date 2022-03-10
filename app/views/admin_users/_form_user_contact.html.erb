@@ -1,0 +1,211 @@
+    <%= form_for(@user_contact, :url =>  update_user_contact_path(@user.id)) do |f| %>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Hộ khẩu thường trú' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="household_province">Tỉnh/Thành phố</label>
+                    <%= f.select(:household_province, @provinces.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'household_province'}) %>
+                    <% @user.errors.full_messages_for(:household_province).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="household_district">Quận/Huyện</label>
+                    <%= f.select(:household_district, @household_districts.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'household_district'}) %>
+                    <% @user.errors.full_messages_for(:household_district).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="household_ward">Phường/Xã</label>
+                    <%= f.select(:household_ward, @household_wards.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'household_ward'}) %>
+                    <% @user.errors.full_messages_for(:household_ward).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="household_address">Địa chỉ</label>
+                    <%= f.text_field :household_address, class: "form-control", id: "household_address", placeholder: 'Địa chỉ thường trú'%>
+                    <% @user.errors.full_messages_for(:household_address).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--          <div class="card-footer">-->
+            <!--          </div>-->
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Địa chỉ liên hệ' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="contact_province">Tỉnh/Thành phố</label>
+                    <%= f.select(:contact_province, @provinces.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_province'}) %>
+                    <% @user.errors.full_messages_for(:contact_province).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="contact_district">Quận/Huyện</label>
+                    <%= f.select(:contact_district, @contact_districts.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_district'}) %>
+                    <% @user.errors.full_messages_for(:contact_district).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="contact_ward">Phường/Xã</label>
+                    <%= f.select(:contact_ward, @contact_wards.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_ward'}) %>
+                    <% @user.errors.full_messages_for(:contact_ward).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="contact_address">Địa chỉ</label>
+                    <%= f.text_field :contact_address, class: "form-control", id: "contact_address", placeholder: 'Địa chỉ liên hệ'%>
+                    <% @user.errors.full_messages_for(:contact_address).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="phone_number">Số điện thoại liên lạc</label>
+                    <%= f.text_field :phone_number, class: "form-control", id: "phone_number", placeholder: 'Số điện thoại liên lạc'%>
+                    <% @user.errors.full_messages_for(:phone_number).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="card-footer text-center">
+              <button type="submit" class="btn btn-primary">
+                <%= 'Cập nhật' %>
+              </button>
+              <%= link_to 'Huỷ', admin_users_path, class: "btn btn-danger"%>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    <% end %>
+
+<%= javascript_pack_tag 'edit_user_contact' %>
+
+<script type="text/javascript">
+    $('#household_province').on('change', function () {
+        $('#household_district').empty();
+        $.ajax({
+            url : '/provinces/'+this.value+'/districts',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                $.each(data, function(key, value) {
+                    $('#household_district').append(`<option value="${value.code}">${value.name}</option>`);
+                });
+                $('#household_district').change();
+            },
+            error : function(request,error)
+            {
+                console.log(request);
+                console.log(error);
+            }
+        });
+    });
+
+    $('#household_district').on('change', function () {
+        $('#household_ward').empty();
+        $.ajax({
+            url : '/districts/'+this.value+'/wards',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                $.each(data, function(key, value) {
+                    $('#household_ward').append(`<option value="${value.code}">${value.name}</option>`);
+                });
+            },
+            error : function(request,error)
+            {
+                console.log(request);
+                console.log(error);
+            }
+        });
+    });
+
+    $('#contact_province').on('change', function () {
+        $('#contact_district').empty();
+        $.ajax({
+            url : '/provinces/'+this.value+'/districts',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                $.each(data, function(key, value) {
+                    $('#contact_district').append(`<option value="${value.code}">${value.name}</option>`);
+                });
+                $('#contact_district').change();
+            },
+            error : function(request,error)
+            {
+                console.log(request);
+                console.log(error);
+            }
+        });
+    });
+
+    $('#contact_district').on('change', function () {
+        $('#contact_ward').empty();
+        $.ajax({
+            url : '/districts/'+this.value+'/wards',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {
+                $.each(data, function(key, value) {
+                    $('#contact_ward').append(`<option value="${value.code}">${value.name}</option>`);
+                });
+            },
+            error : function(request,error)
+            {
+                console.log(request);
+                console.log(error);
+            }
+        });
+    });
+
+</script>

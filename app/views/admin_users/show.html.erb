@@ -34,7 +34,7 @@
               </li>
             </ul>
             <div class="text-center">
-              <%= link_to "Chỉnh sửa", edit_basic_information_path(current_user.id), class: "btn btn-primary"%>
+              <%= link_to "Chỉnh sửa", edit_admin_user_path(@user.id), class: "btn btn-primary"%>
 
             </div>
 
@@ -66,10 +66,7 @@
                         <div class="form-group">
                           <label for="contact_province">Hộ khẩu thường trú</label>
                           <div>
-                            <%= @user_contact.household_address %>,
-                            <%= @household_ward.name %>,
-                            <%= @household_district.name %>,
-                            <%= @household_province.name %>,
+                            <%= @user_contact.household_full_address %>
                           </div>
                         </div>
                       </div>
@@ -77,10 +74,7 @@
                         <div class="form-group">
                           <label for="contact_province">Địa chỉ liên hệ</label>
                           <div>
-                            <%= @user_contact.contact_address %>,
-                            <%= @contact_ward.name %>,
-                            <%= @contact_district.name %>,
-                            <%= @contact_province.name %>,
+                            <%= @user_contact.contact_full_address %>
                           </div>
                         </div>
                       </div>
@@ -88,7 +82,7 @@
                         <div class="form-group">
                           <label for="contact_province">Số điện thoại liên lạc</label>
                           <div>
-                            <%= @user_contact.phone_number %>
+                            <%= @user_contact.show_phone_number %>
                           </div>
                         </div>
                       </div>

@@ -6,37 +6,22 @@ class AdminUsersController < ApplicationController
 
   def index
     @users = User.all
+
+
+    @title_page = 'Danh Sách Tài khoản'
+    @breadcrumbs = [
+      ['Danh Sách Tài khoản', admin_users_path],
+    ]
   end
 
   def show
     @user = User.find(params[:id])
-
     @user_contact = UserContact.where(:user_id => params[:id]).first()
-    if (@user_contact.nil? || @user_contact.household_province.nil? || @user_contact.household_ward.nil? || @user_contact.household_district.nil? || @user_contact.contact_province.nil? || @user_contact.contact_district.nil? || @user_contact.contact_address.nil?)
-      redirect_to edit_user_contact_url(params[:id]), {alert: 'Vui lòng cập nhật thông tin liên hệ để được phép truy cập'}
-    end
-    @province = Province.where(:code => @user.province).first()
-
-    @household_province = Province.where(:code => @user_contact.household_province).first()
-    @contact_province = Province.where(:code => @user_contact.contact_province).first()
-
-    @household_district = District.where(:code => @user_contact.household_district).first()
-    @contact_district = District.where(:code => @user_contact.contact_district).first()
-
-    @household_ward = Ward.where(:code => @user_contact.household_ward).first()
-    @contact_ward = Ward.where(:code => @user_contact.contact_ward).first()
-    if (@user.ethnicity == 0)
-      @ethnicity_name = @user.another_ethnicity
-    else
-      @ethnicity = Ethnicity.where(:id => @user.ethnicity).first()
-      @ethnicity_name = @ethnicity.nil? ? '' : @ethnicity.name
-    end
-
     @student_classess = StudentClass.where(:user_id => @user.id)
-
-    @title_page = 'Thông tin cá nhân'
+    @title_page = @user.name
     @breadcrumbs = [
-      ['Thông tin cá nhân', basic_informations_path],
+      ['Danh Sách Tài khoản', admin_users_path],
+      [@user.name, admin_user_path(@user.id)]
     ]
   end
 
@@ -107,6 +92,22 @@ class AdminUsersController < ApplicationController
     @user = User.find(params[:id])
     @provinces = Province.all
     @ethnicities = Ethnicity.all
+
+    @relatioship = Relationship.where(:user_id => params[:id]).first()
+    @user_contact = UserContact.where(:user_id => params[:id]).first()
+
+    @household_districts = District.where(:parent_code => @user_contact.household_province).order(:code)
+    @household_wards = Ward.where(:parent_code => @user_contact.household_district).order(:code)
+
+    @contact_districts = District.where(:parent_code => @user_contact.contact_province).order(:code)
+    @contact_wards = Ward.where(:parent_code => @user_contact.contact_district).order(:code)
+
+
+    @title_page = @user.name
+    @breadcrumbs = [
+      ['Danh Sách Tài Khoản', admin_users_path],
+      [@user.name, edit_admin_user_path(@user.id)]
+    ]
   end
 
   def update
@@ -115,12 +116,7 @@ class AdminUsersController < ApplicationController
     puts edit_user_params[:gender]
     puts edit_user_params[:gender]
     if @user.update(edit_user_params)
-      redirect_to  edit_basic_information_path(params[:id])
-      # if current_user.role == 4
-      #   redirect_to  basic_informations_path
-      # else
-      #   redirect_to  basic_information_path(params[:id])
-      # end
+      redirect_to  edit_admin_user_path(params[:id])
     else
       @provinces = Province.all
       @ethnicities = Ethnicity.all

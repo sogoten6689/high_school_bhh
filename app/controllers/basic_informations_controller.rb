@@ -7,32 +7,13 @@ class BasicInformationsController < ApplicationController
     @user = User.find(current_user.id)
     
     @user_contact = UserContact.where(:user_id => current_user.id).first()
-    if (@user_contact.nil? || @user_contact.household_province.nil? || @user_contact.household_ward.nil? || @user_contact.household_district.nil? || @user_contact.contact_province.nil? || @user_contact.contact_district.nil? || @user_contact.contact_address.nil?)
-      redirect_to edit_user_contact_url(current_user.id), {alert: 'Vui lòng cập nhật thông tin liên hệ để được phép truy cập'}
-    end
-    @province = Province.where(:code => @user.province).first()
-
-    @household_province = Province.where(:code => @user_contact.household_province).first()
-    @contact_province = Province.where(:code => @user_contact.contact_province).first()
-
-    @household_district = District.where(:code => @user_contact.household_district).first()
-    @contact_district = District.where(:code => @user_contact.contact_district).first()
-
-    @household_ward = Ward.where(:code => @user_contact.household_ward).first()
-    @contact_ward = Ward.where(:code => @user_contact.contact_ward).first()
-    if (@user.ethnicity == 0)
-      @ethnicity_name = @user.another_ethnicity
-    else
-      @ethnicity = Ethnicity.where(:id => @user.ethnicity).first()
-      @ethnicity_name = @ethnicity.nil? ? '' : @ethnicity.name
-    end
 
     @student_classess = StudentClass.where(:user_id => @user.id)
     @relationship = Relationship.where(:user_id => @user.id).first()
 
-    @title_page = 'Thông tin cá nhân'
+    @title_page = 'Thông tin cá nhân của tôi'
     @breadcrumbs = [
-      ['Thông tin cá nhân', basic_informations_path],
+      ['Thông tin cá nhân của tôi', basic_informations_path],
     ]
   end
 
@@ -41,31 +22,12 @@ class BasicInformationsController < ApplicationController
     @user = User.find(current_user.id)
 
     @user_contact = UserContact.where(:user_id => current_user.id).first()
-    if (@user_contact.nil? || @user_contact.household_province.nil? || @user_contact.household_ward.nil? || @user_contact.household_district.nil? || @user_contact.contact_province.nil? || @user_contact.contact_district.nil? || @user_contact.contact_address.nil?)
-      redirect_to edit_user_contact_url(current_user.id), {alert: 'Vui lòng cập nhật thông tin liên hệ để được phép truy cập'}
-    end
-    @province = Province.where(:code => @user.province).first()
-
-    @household_province = Province.where(:code => @user_contact.household_province).first()
-    @contact_province = Province.where(:code => @user_contact.contact_province).first()
-
-    @household_district = District.where(:code => @user_contact.household_district).first()
-    @contact_district = District.where(:code => @user_contact.contact_district).first()
-
-    @household_ward = Ward.where(:code => @user_contact.household_ward).first()
-    @contact_ward = Ward.where(:code => @user_contact.contact_ward).first()
-    if (@user.ethnicity == 0)
-      @ethnicity_name = @user.another_ethnicity
-    else
-      @ethnicity = Ethnicity.where(:id => @user.ethnicity).first()
-      @ethnicity_name = @ethnicity.nil? ? '' : @ethnicity.name
-    end
 
     @student_classess = StudentClass.where(:user_id => @user.id)
 
-    @title_page = 'Thông tin cá nhân'
+    @title_page = 'Thông tin cá nhân của tôi'
     @breadcrumbs = [
-      ['Thông tin cá nhân', basic_informations_path],
+      ['Thông tin cá nhân của tôi', basic_informations_path],
     ]
   end
 
@@ -84,13 +46,6 @@ class BasicInformationsController < ApplicationController
     @user = User.find(params[:id])
     if @user.update(edit_user_params)
       redirect_to  basic_informations_path
-
-      # redirect_to  edit_basic_information_path(params[:id])
-      # if current_user.role == 4
-      #   redirect_to  basic_informations_path
-      # else
-      #   redirect_to  basic_information_path(params[:id])
-      # end
     else
       @provinces = Province.all
       @ethnicities = Ethnicity.all
@@ -103,11 +58,11 @@ class BasicInformationsController < ApplicationController
     @user_contact = UserContact.where(:user_id => params[:id]).first()
     @provinces = Province.order(:code).all
 
-    @household_districts = District.where(:code => @user_contact.household_province).order(:code)
-    @household_wards = Ward.where(:code => @user_contact.household_district).order(:code)
+    @household_districts = District.where(:parent_code => @user_contact.household_province).order(:code)
+    @household_wards = Ward.where(:parent_code => @user_contact.household_district).order(:code)
 
-    @contact_districts = District.where(:code => @user_contact.contact_province).order(:code)
-    @contact_wards = Ward.where(:code => @user_contact.contact_district).order(:code)
+    @contact_districts = District.where(:parent_code => @user_contact.contact_province).order(:code)
+    @contact_wards = Ward.where(:parent_code => @user_contact.contact_district).order(:code)
 
     @title_page = 'Cập nhật thông tin liên lạc'
     @breadcrumbs = [
@@ -120,14 +75,7 @@ class BasicInformationsController < ApplicationController
     @user = User.find(params[:id])
     @user_contact = UserContact.where(:user_id => params[:id]).first()
     if @user_contact.update(edit_user_contact_params)
-      redirect_to  basic_informations_path
-
-      # redirect_to  edit_basic_information_path(params[:id])
-      # if current_user.role == 4
-      #   redirect_to  basic_informations_path
-      # else
-      #   redirect_to  basic_information_path(params[:id])
-      # end
+      redirect_to  edit_admin_user_path(params[:id])
     else
       @provinces = Province.all
       @title_page = 'Cập nhật thông tin liên lạc'
@@ -157,14 +105,7 @@ class BasicInformationsController < ApplicationController
     @user = User.find(params[:id])
     @relatioship = Relationship.where(:user_id => params[:id]).first()
     if @relatioship.update(edit_relationship_params)
-      redirect_to  basic_informations_path
-
-      # redirect_to  edit_basic_information_path(params[:id])
-      # if current_user.role == 4
-      #   redirect_to  basic_informations_path
-      # else
-      #   redirect_to  basic_information_path(params[:id])
-      # end
+      redirect_to  edit_admin_user_path(params[:id])
     else
       @title_page = 'Cập nhật thông tin gia đình'
       @breadcrumbs = [

@@ -7,9 +7,9 @@ $(document).ready(function() {
 
     $('#ethnicity').on('change', function () {
         if (this.value == 0) {
-            $('#another_ethnicity').val('');
             $('#another_ethnicity').attr('readonly', false);
         } else {
+            $('#another_ethnicity').val('');
             $('#another_ethnicity').attr('readonly', true);
         }
     });

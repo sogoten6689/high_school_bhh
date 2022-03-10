@@ -24,6 +24,9 @@ class User < ApplicationRecord
   end
 
   def ethnicity_name
+    if self.ethnicity == 0
+      return self.another_ethnicity
+    end
     ethnicity = Ethnicity.where(:code => self.ethnicity).first
     if !ethnicity.nil?
       return ethnicity.name
