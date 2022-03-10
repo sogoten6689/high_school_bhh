@@ -4,6 +4,12 @@
 // that code so it'll be compiled.
 
 require('admin-lte')
+require('datatables.net-bs4')
+require('datatables.net-buttons')
+require('datatables.net-buttons-bs4')
+require('jszip')
+require( 'datatables.net-buttons')
+
 
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
@@ -15,6 +21,7 @@ import "@fortawesome/fontawesome-free/css/all.css"
 import 'select2'
 import '../stylesheets/dropify.min.css'
 import './dropify.min.js'
+
 
 Rails.start()
 Turbolinks.start()
