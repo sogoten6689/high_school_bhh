@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   post '/update_import_student_class', to: 'admin_users#update_import_student_class', as: 'update_import_student_class'
   get '/student_classes_sample', to: 'admin_users#student_classes_sample', as: 'student_classes_sample'
   get '/students_sample', to: 'admin_users#students_sample', as: 'students_sample'
+  post '/delete_student', to: 'admin_users#delete_student', as: 'delete_student'
+
 
   resources :basic_informations
   get '/basic_informations/:id/edit_user_contact', to: 'basic_informations#edit_user_contact', as: 'edit_user_contact'

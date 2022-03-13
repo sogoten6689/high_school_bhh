@@ -112,9 +112,6 @@ class AdminUsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    puts edit_user_params[:full_name]
-    puts edit_user_params[:gender]
-    puts edit_user_params[:gender]
     if @user.update(edit_user_params)
       redirect_to  edit_admin_user_path(params[:id])
     else
@@ -122,6 +119,15 @@ class AdminUsersController < ApplicationController
       @ethnicities = Ethnicity.all
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def delete_student
+    student_codes = params[:student_codes]
+    user_ids = User.where(:student_code => student_codes).select(:id).to_a
+    UserContact.where(:user_id =>  user_ids).delete_all
+    Relationship.where(:user_id =>  user_ids).delete_all
+    User.where(:student_code => student_codes).delete_all
+    redirect_to  admin_users_path
   end
 
   def destroy

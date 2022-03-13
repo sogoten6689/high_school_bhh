@@ -9,8 +9,19 @@
               <%= 'Danh sách người dùng' %>
             </h3>
             <div class="card-tools">
-              <%= link_to 'Nhập Lớp học Excel', import_student_class_path, class: "btn btn-info"%>
-              <%= link_to 'Nhập Tài khoản Excel', import_student_path, class: "btn btn-warning"%>
+              <form action="<%= delete_student_path %>" method="post" id="user_delete_form">
+                <%= csrf_meta_tags %>
+                <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                <div id="user_delete">
+                </div>
+
+                <button type="submit" id="delete_btn_id" class="btn btn-danger d-none" >
+                  <%= 'Xoá HS đã chọn' %>
+                </button>
+                <%= link_to 'Nhập Lớp học Excel', import_student_class_path, class: "btn btn-info"%>
+                <%= link_to 'Nhập Tài khoản Excel', import_student_path, class: "btn btn-warning"%>
+
+              </form>
               <%#= link_to 'Tạo tài khoản', new_admin_user_path, class: "btn btn-primary"%>
             </div>
           </div>
@@ -24,6 +35,9 @@
                   <%= 'Mã học sinh' %>
                 </th>
                 <th>
+                  <%= 'Lớp' %>
+                </th>
+                <th>
                   <%= 'Họ và tên' %>
                 </th>
                 <th>
@@ -31,12 +45,6 @@
                 </th>
                 <th>
                   <%= 'Ngày sinh' %>
-                </th>
-                <th>
-                  <%= 'Nơi sinh' %>
-                </th>
-                <th>
-                  <%= 'Dân tộc' %>
                 </th>
                 <th>
                   <%= 'Email' %>
@@ -50,7 +58,19 @@
               <% @users.each_with_index do |user, index| %>
                 <tr>
                   <td>
-                    <%= index + 1 %>
+                    <%#= index + 1 %>
+                    <% if user.student_code  %>
+                        <div class="form-group clearfix">
+                          <div class="icheck-success d-inline">
+                            <input type="checkbox" name="check_box_delete" id="checkboxUser_<%= user.student_code %>" value="<%= user.student_code %>">
+                            <label for="checkboxUser_<%= user.student_code %>">
+                            </label>
+                          </div>
+                        </div>
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= user.student_code %>
                   </td>
                   <td>
                     <%= user.student_code %>
@@ -63,12 +83,6 @@
                   </td>
                   <td>
                     <%= user.birthday %>
-                  </td>
-                  <td>
-                    <%= user.province_name %>
-                  </td>
-                  <td>
-                    <%= user.ethnicity_name %>
                   </td>
                   <td>
                       <%= user.email %>
@@ -92,16 +106,6 @@
               </tbody>
             </table>
           </div>
-          <!-- /.card-body -->
-          <!--          <div class="card-footer clearfix">-->
-          <!--            <ul class="pagination pagination-sm m-0 float-right">-->
-          <!--              <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>-->
-          <!--              <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-          <!--              <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-          <!--              <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-          <!--              <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>-->
-          <!--            </ul>-->
-          <!--          </div>-->
         </div>
         <!-- /.card -->
 
@@ -112,6 +116,34 @@
 </div>
 
 <script type="text/javascript">
+    let selected = [];
+    $(document).ready(function() {
+        $('input[type=checkbox]').change(function() {
+            if (this.checked) {
+                selected.push(this.value);
+            } else {
+                selected.splice(selected.indexOf(this.value),1);
+            }
+            $html_delete_user = "";
+            selected.forEach(function(item) {
+                $html_delete_user += "<input type='hidden' name='student_codes[]' value='"+item+"' />";
+
+            });
+            $("#user_delete").html($html_delete_user);
+
+            if (selected.length > 0) {
+                $("#delete_btn_id").removeClass('d-none');
+            } else {
+                $("#delete_btn_id").addClass('d-none');
+            }
+        });
+
+        $("#user_delete_form").submit(function() {
+            if( !confirm('Vui lòng xác nhận xoá '+ selected.length + ' học sinh!') )
+                event.preventDefault();
+        });
+    });
+
     $(document).ready(function() {
         $('#table_users').DataTable({
             dom: 'Bfrtip',
