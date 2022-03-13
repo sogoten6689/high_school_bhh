@@ -44,4 +44,13 @@ class User < ApplicationRecord
       return "Chưa có"
     end
   end
+
+  def last_class_name
+    student_class = StudentClass.where(:user_id => self.id).order(created_at: :desc).first
+    if !student_class.nil?
+      return student_class.class_name
+    else
+      return "Chưa có"
+    end
+  end
 end

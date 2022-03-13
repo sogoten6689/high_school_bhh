@@ -1,0 +1,130 @@
+    <%= form_for(@student_class, :url =>  student_classes_path) do |f| %>
+
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered" id="table_users">
+            <thead>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>
+                <%= 'Lớp' %>
+              </th>
+              <th>
+                <%= 'Khối' %>
+              </th>
+              <th>
+                <%= 'Mã số' %>
+              </th>
+              <th>
+                <%= 'Năm' %>
+              </th>
+              <th>
+                <%= 'Thao tác' %>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @user_classes.each_with_index do |user_class, index| %>
+              <tr>
+                <td>
+                  <%= index + 1 %>
+                </td>
+                <td>
+                  <%= user_class.class_name %>
+                </td>
+                <td>
+                  <%= user_class.grade %>
+                </td>
+                <td>
+                  <%= user_class.student_class_code %>
+                </td>
+                <td>
+                  <%= user_class.year %>
+                </td>
+                <td class="text-center">
+                    <%= link_to student_class_path(user_class.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm"  do %>
+                      <i class="fas fa-trash"></i>
+                    <% end %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Thêm lớp mới' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="class_name">
+                      <%= 'Lớp' %>
+                    </label>
+                    <%= f.hidden_field :user_id, id: "user_id", class: "form-control", value: @user.id %>
+                    <%= f.text_field :class_name, id: "class_name", class: "form-control", placeholder: 'Tên lớp' %>
+                    <% @student_class.errors.full_messages_for(:class_name).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="class_name">
+                      <%= 'Khối' %>
+                    </label>
+
+                    <%= f.text_field :grade, id: "grade", class: "form-control", placeholder: 'Tên khối' %>
+                    <% @student_class.errors.full_messages_for(:grade).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="class_name">
+                      <%= 'Mã số' %>
+                    </label>
+
+                    <%= f.text_field :student_class_code, id: "student_class_code", class: "form-control", placeholder: 'Tên mã số' %>
+                    <% @student_class.errors.full_messages_for(:student_class_code).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="class_name">
+                      <%= 'Năm học' %>
+                    </label>
+                    <%= f.text_field :year, id: "year", class: "form-control", placeholder: 'Năm học' %>
+                    <% @student_class.errors.full_messages_for(:year).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card-footer text-center">
+              <button type="submit" class="btn btn-primary">
+                <%= 'Thêm mới' %>
+              </button>
+              <%= link_to 'Huỷ', admin_users_path, class: "btn btn-danger"%>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    <% end %>
+
+<%#= javascript_pack_tag 'edit_user_contact' %>
+
+<script type="text/javascript">
+</script>

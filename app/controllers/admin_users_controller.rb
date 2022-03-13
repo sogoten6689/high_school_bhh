@@ -101,7 +101,8 @@ class AdminUsersController < ApplicationController
 
     @contact_districts = District.where(:parent_code => @user_contact.contact_province).order(:code)
     @contact_wards = Ward.where(:parent_code => @user_contact.contact_district).order(:code)
-
+    @user_classes = StudentClass.where(:user_id => @user.id).order(created_at: :desc)
+    @student_class = StudentClass.new
 
     @title_page = @user.name
     @breadcrumbs = [

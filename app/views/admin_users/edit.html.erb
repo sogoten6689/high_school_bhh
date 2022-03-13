@@ -14,17 +14,20 @@
         </div>
       </div>
 
-      <div class="col-md-12">
-        <!-- general form elements -->
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">
-              Thông tin gia đình
-            </h3>
+
+      <% if @user.role != 4 %>
+        <div class="col-md-12">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">
+                Thông tin lớp học
+              </h3>
+            </div>
+            <%= render "form_class" %>
           </div>
-          <%= render "form_relationship" %>
         </div>
-      </div>
+        <% end %>
 
       <div class="col-md-12">
         <!-- general form elements -->
@@ -37,6 +40,20 @@
           <%= render "form_user_contact" %>
         </div>
       </div>
+
+
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">
+              Thông tin gia đình
+            </h3>
+          </div>
+          <%= render "form_relationship" %>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
