@@ -146,7 +146,7 @@ class AdminUsersController < ApplicationController
 
 
   def edit_user_params
-    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity, :identification)
+    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity, :identification, :role)
   end
 
   def edit_user_contact_params

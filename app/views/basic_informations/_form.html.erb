@@ -47,7 +47,7 @@
           <label for="gender">
             <%= 'Giới tính'%>
           </label>
-          <%= f.select(:gender, options_for_select([['Nam', 1], ['Nữ', 0]]),{} , {:class => "form-control select2"})%>
+          <%= f.select(:gender, options_for_select([['Nam', 1], ['Nữ', 0]], @user.gender),{} , {:class => "form-control select2"})%>
           <% @user.errors.full_messages_for(:gender).each do |message| %>
             <div class="text-danger"><%= message %></div>
           <% end %>

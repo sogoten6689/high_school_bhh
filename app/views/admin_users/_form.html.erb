@@ -3,7 +3,7 @@
   <div class="card-body">
 <!--    full_name, name-->
     <div class="row">
-      <div class="col-sm-7">
+      <div class="col-sm-4">
         <div class="form-group">
           <label for="full_name">Họ và tên </label>
           <%= f.text_field :full_name, class: "form-control", id: "full_name", placeholder: 'HỌ VÀ TÊN' %>
@@ -14,11 +14,21 @@
 
       </div>
 
-      <div class="col-sm-5">
+      <div class="col-sm-4">
         <div class="form-group">
           <label for="name">Tên</label>
           <%= f.text_field :name, class: "form-control", id: "name", placeholder: 'Tên', :readonly => true %>
           <% @user.errors.full_messages_for(:name).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label for="name">Quyền</label>
+          <%= f.select(:role, options_for_select([['Học sinh', 1], ['Admin', 4]], @user.role),{} , {:class => "form-control select2"})%>
+          <% @user.errors.full_messages_for(:role).each do |message| %>
             <div class="text-danger"><%= message %></div>
           <% end %>
         </div>
@@ -47,7 +57,7 @@
           <label for="gender">
             <%= 'Giới tính'%>
           </label>
-          <%= f.select(:gender, options_for_select([['Nam', 1], ['Nữ', 0]]),{} , {:class => "form-control select2"})%>
+          <%= f.select(:gender, options_for_select([['Nam', 1], ['Nữ', 0]], @user.gender),{} , {:class => "form-control select2"})%>
           <% @user.errors.full_messages_for(:gender).each do |message| %>
             <div class="text-danger"><%= message %></div>
           <% end %>
