@@ -47,6 +47,7 @@ roll back
 * bundle exec rake rails:update:bin
 
 # webpack
+* heroku buildpacks
 * rake assets:precompile RAILS_ENV=production
 * bundle exec bin/webpack-dev-server
 * rake assets:precompile

@@ -11,19 +11,19 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <!-- Sidebar user panel (optional) -->
-    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+<!--    <div class="user-panel mt-3 pb-3 mb-3 d-flex">-->
 <!--      <div class="image">-->
         <%#= image_tag("/assets/avatar.png") %>
 <!--      </div>-->
-      <div class="info text-center">
-        <a href="#">
-          <%= current_user.email %>
-        </a>
-        <%= form_for(:user, url: destroy_user_session_path, :method => :delete) do |f| %>
-          <%= f.submit "Log out",  class: "btn btn-danger btn-xs text-center" %>
-        <% end %>
-      </div>
-    </div>
+<!--      <div class="info text-center">-->
+<!--        <a href="#">-->
+          <%#= current_user.email %>
+<!--        </a>-->
+        <%#= form_for(:user, url: destroy_user_session_path, :method => :delete) do |f| %>
+          <%#= f.submit "Log out",  class: "btn btn-danger btn-xs text-center" %>
+        <%# end %>
+<!--      </div>-->
+<!--    </div>-->
 
     <!-- Sidebar Menu -->
 

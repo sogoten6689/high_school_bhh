@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/districts/:code/wards', to: 'home#wards'
 
   devise_for :users
+
   resources :admin_users
   get '/import_student', to: 'admin_users#import_student', as: 'import_student'
   get '/student_sample', to: 'admin_users#student_sample', as: 'student_sample'
@@ -19,7 +20,13 @@ Rails.application.routes.draw do
   post '/delete_student', to: 'admin_users#delete_student', as: 'delete_student'
 
 
-  resources :basic_informations
+  resources :basic_informations do
+    collection do
+      patch 'update_password', to: 'basic_informations#update_password', as: 'update_password'
+      get 'edit_password', to: 'basic_informations#edit_password', as: 'edit_password'
+    end
+  end
+
   get '/basic_informations/:id/edit_user_contact', to: 'basic_informations#edit_user_contact', as: 'edit_user_contact'
   patch '/basic_informations/:id/update_user_contact', to: 'basic_informations#update_user_contact', as: 'update_user_contact'
   get '/basic_informations/:id/edit_relationship', to: 'basic_informations#edit_relationship', as: 'edit_relationship'
