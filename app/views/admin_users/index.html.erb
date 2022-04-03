@@ -1,4 +1,6 @@
+<div ng-controller="AdminUsersCtrl">
 
+</div>
 <div class="content container-fluid">
   <div class="container-fluid">
     <div class="row">
@@ -373,6 +375,15 @@
                     "renameTitle": "Đổi tên trạng thái"
                 }
             }
+        });
+    });
+</script>
+<script>
+    $(function () {
+        var globalScope = angular.element($('body')).scope();
+        var ctrl = '[ng-controller=AdminUsersCtrl]';
+        WebApp.AngularUtils.applyData(ctrl, 'init', function (scope) {
+
         });
     });
 </script>

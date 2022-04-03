@@ -18,13 +18,19 @@
     "popper.js": "^1.16.1",
     "sass": "^1.49.9",
     "toastr": "^2.1.4",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "angular": "^1.8.0",
+    "angular-route": "^1.8.0",
+    "bootbox": "^5.4.0",
+    "bootstrap-datepicker": "^1.9.0",
+    "bootstrap-slider": "^11.0.2",
+    "bootstrap-timepicker": "^0.5.2",
+    "ckeditor5-build-classic-all-plugin": "^16.0.5",
+    "inputmask": "^5.0.5",
+    "moment": "^2.27.0",
+    "select2": "^4.0.13"
   },
   "version": "0.1.0",
-  "engines": {
-    "node": "14.13.1",
-    "yarn": "1.22.17"
-  },
   "devDependencies": {
     "webpack-dev-server": "^3.11.2"
   }
