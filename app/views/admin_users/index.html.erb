@@ -114,7 +114,6 @@
         var globalScope = angular.element($('body')).scope();
         var ctrl = '[ng-controller=AdminUsersCtrl]';
         WebApp.AngularUtils.applyData(ctrl, 'init', function (scope) {
-          scope.users = <% raw(@users.to_json) %>
           scope.execute_users_admin_users_path = '<%= execute_users_admin_users_path %>'
           scope.getData();
         });

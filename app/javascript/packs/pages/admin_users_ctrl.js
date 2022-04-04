@@ -48,10 +48,6 @@
                 $scope.page = page;
                 $scope.executeUsers();
             }
-
-            $scope.range = function(n) {
-                return new Array(n);
-            };
         }
 	]);
 }).call(this);
