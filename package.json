@@ -31,6 +31,10 @@
     "select2": "^4.0.13"
   },
   "version": "0.1.0",
+  "engines": {
+    "node": "14.13.1",
+    "yarn": "1.22.17"
+  },
   "devDependencies": {
     "webpack-dev-server": "^3.11.2"
   }
