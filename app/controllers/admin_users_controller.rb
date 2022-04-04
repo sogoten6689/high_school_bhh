@@ -142,6 +142,22 @@ class AdminUsersController < ApplicationController
     redirect_to  admin_users_path
   end
 
+  def execute_users
+    rs = {succeed: false, data: {}}
+    page = params[:page]
+    page_size = params[:page_size]
+
+    if page.blank? || page_size.blank?
+			rs[:message] = "Missing page or page size"
+			return render json: rs
+		end
+    rs[:succeed] = true
+    rs[:data] = User.order(:id).paginate(page: page, per_page: page_size)
+    rs[:total] = rs[:data].total_entries
+
+    return render json: rs
+  end
+
   private
 
 
