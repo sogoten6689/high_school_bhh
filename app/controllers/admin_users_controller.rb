@@ -1,3 +1,5 @@
+require 'app_utils'
+
 class AdminUsersController < ApplicationController
   include ApplicationHelper
   before_action :is_signed_in?
@@ -146,14 +148,31 @@ class AdminUsersController < ApplicationController
     rs = {succeed: false, data: {}}
     page = params[:page]
     page_size = params[:page_size]
+    search = AppUtils.escape_search_query(params[:search])
+    search = AppUtils.quote_string(search)
 
     if page.blank? || page_size.blank?
 			rs[:message] = "Missing page or page size"
 			return render json: rs
 		end
+
+    users = User.left_joins(:student_class).order(:id)
+    users = users.where("student_code ILIKE '%#{search}%' OR student_classes.class_name ILIKE '%#{search}%' OR full_name ILIKE '%#{search}%' OR email ILIKE '%#{search}%'") if search.present?
+    users = users.paginate(page: page, per_page: page_size)
+    data = []
+    users.each do |u|
+      data << {
+        :student_code => u.student_code,
+        :last_class_name => u.last_class_name,
+        :full_name => u.full_name,
+        :name => u.name,
+        :email => u.email,
+        :id => u.id
+      }
+    end
     rs[:succeed] = true
-    rs[:data] = User.order(:id).paginate(page: page, per_page: page_size)
-    rs[:total] = rs[:data].total_entries
+    rs[:data] = data
+    rs[:total] = users.total_entries
 
     return render json: rs
   end

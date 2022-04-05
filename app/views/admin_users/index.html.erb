@@ -26,16 +26,38 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <h5 class="d-flex justify-content-end">
-              <span> Kích thước: 
-                <select class="form-control w-auto d-inline" ng-model="page_size" ng-change="getData()">
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-                </select>
-              </span>
-            </h5>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="input-group col-md-8">
+                    <input class="form-control" name="search" ng-model="search" placeholder="Tìm kiếm" ng-keyup="$event.keyCode == 13 && search && getData()">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" ng-click="getData()"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <form class="row" action="<%=  %>" method="get">
+                      <input value={{search}} name="search" class="d-none">
+                      <input value={{search}} name="search" class="d-none">
+                      <button class="btn btn btn-success" type="button">
+                        <i class="fas fa-external-link-alt mr-1"></i>
+                        CSV
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <h5 class="col-md-4 text-right">
+                <span> Kích thước: 
+                  <select class="form-control w-auto d-inline" ng-model="page_size" ng-change="getData()">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </span>
+              </h5>
+            </div>
             <div class="table-responsive">
               <table class="table table-bordered">
                 <thead>
@@ -50,12 +72,12 @@
                     <th>Thao tác</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody ng-if="data.length > 0">
                   <tr ng-repeat="user in data track by $index">
                     <td>
                       <div class="form-group clearfix" ng-if="user.student_code">
                         <div class="icheck-success d-inline">
-                          <input type="checkbox" name="check_box_delete" id="checkboxUser_{{user.student_code}}" value="{{user.student_code}}">
+                          <input type="checkbox" name="check_box_{{$index}}" id="checkboxUser_{{user.id}}" value="{{user.id}}" ng-model="user.check">
                           <label for="checkboxUser_{{user.student_code}}"></label>
                         </div>
                       </div>
@@ -114,6 +136,7 @@
         var globalScope = angular.element($('body')).scope();
         var ctrl = '[ng-controller=AdminUsersCtrl]';
         WebApp.AngularUtils.applyData(ctrl, 'init', function (scope) {
+          scope.data = [];
           scope.execute_users_admin_users_path = '<%= execute_users_admin_users_path %>'
           scope.getData();
         });

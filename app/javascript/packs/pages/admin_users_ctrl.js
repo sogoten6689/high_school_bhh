@@ -3,6 +3,8 @@
         "$scope", '$timeout', function ($scope, $timeout) {
             $scope.page = 1;
             $scope.page_size = '10';
+            $scope.data = [];
+            $scope.search = "";
             
             $scope.init = function() {
 
@@ -16,7 +18,8 @@
             $scope.executeUsers = function() {
                 var params = {
                     page: $scope.page,
-                    page_size: $scope.page_size
+                    page_size: $scope.page_size,
+                    search: $scope.search
                 }
                 $.get($scope.execute_users_admin_users_path, params, function (rs) {
                     $timeout(function() {
