@@ -9,7 +9,11 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :admin_users
+  resources :admin_users do
+    collection do
+      get :execute_users
+    end
+  end
   get '/import_student', to: 'admin_users#import_student', as: 'import_student'
   get '/student_sample', to: 'admin_users#student_sample', as: 'student_sample'
   post '/update_import_student', to: 'admin_users#update_import_student', as: 'update_import_student'

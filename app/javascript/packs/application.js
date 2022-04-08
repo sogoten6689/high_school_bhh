@@ -33,9 +33,41 @@ document.addEventListener("turbolinks:load", () => {
 
 global.toastr = require("toastr")
 
-window.jQuery = $
-window.$ = $
-
 $(document).ready(function() {
     $('.select2').select2();
 });
+
+// Jquery
+import jquery from 'jquery';
+
+window.$ = window.jquery = jquery;
+window.jQuery = window.jquery = jquery;
+
+
+//Theme
+require('admin-lte');
+require.context('admin-lte/dist/img', true);
+
+// Common Lib
+import 'bootstrap';
+import '@fortawesome/fontawesome-free/js/all';
+global.toastr = require('toastr');
+global.bootbox = require('bootbox');
+global.moment = require('moment');
+require('inputmask');
+require('select2');
+require('bootstrap-datepicker');
+require('bootstrap-timepicker');
+require('bootstrap-slider');
+
+// AngularJs
+global.angular = require('angular');
+require('angular-route');
+require('packs/base/init');
+require('packs/base/angular_app');
+require('packs/base/angular_utils');
+require('packs/lib/combodate');
+
+// AngularJs Controllers
+global.app = angular.module('app');
+require("packs/pages/admin_users_ctrl");

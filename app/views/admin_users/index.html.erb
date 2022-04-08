@@ -1,5 +1,4 @@
-
-<div class="content container-fluid">
+<div class="content container-fluid" ng-controller="AdminUsersCtrl">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -27,82 +26,102 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <table class="table table-bordered" id="table_users">
-              <thead>
-              <tr>
-                <th style="width: 10px"></th>
-                <th style="width: 10px">#</th>
-                <th>
-                  <%= 'Mã học sinh' %>
-                </th>
-                <th>
-                  <%= 'Lớp' %>
-                </th>
-                <th>
-                  <%= 'Họ và tên' %>
-                </th>
-                <th>
-                  <%= 'Tên' %>
-                </th>
-                <th>
-                  <%= 'Email' %>
-                </th>
-                <th>
-                  <%= 'Thao tác' %>
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <% @users.each_with_index do |user, index| %>
-                <tr>
-                  <td>
-                    <%#= index + 1 %>
-                    <% if user.student_code  %>
-                        <div class="form-group clearfix">
-                          <div class="icheck-success d-inline">
-                            <input type="checkbox" name="check_box_delete" id="checkboxUser_<%= user.student_code %>" value="<%= user.student_code %>">
-                            <label for="checkboxUser_<%= user.student_code %>">
-                            </label>
-                          </div>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="input-group col-md-8">
+                    <input class="form-control" name="search" ng-model="search" placeholder="Tìm kiếm" ng-keyup="$event.keyCode == 13 && search && getData()">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" ng-click="getData()"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <form class="row" action="<%=  %>" method="get">
+                      <input value={{search}} name="search" class="d-none">
+                      <input value={{search}} name="search" class="d-none">
+                      <button class="btn btn btn-success" type="button">
+                        <i class="fas fa-external-link-alt mr-1"></i>
+                        CSV
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <h5 class="col-md-4 text-right">
+                <span> Kích thước: 
+                  <select class="form-control w-auto d-inline" ng-model="page_size" ng-change="getData()">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </span>
+              </h5>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width: 10px"></th>
+                    <th style="width: 10px">#</th>
+                    <th> Mã học sinh</th>
+                    <th>Lớp</th>
+                    <th>Họ và tên</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody ng-if="data.length > 0">
+                  <tr ng-repeat="user in data track by $index">
+                    <td>
+                      <div class="form-group clearfix" ng-if="user.student_code">
+                        <div class="icheck-success d-inline">
+                          <input type="checkbox" name="check_box_{{$index}}" id="checkboxUser_{{user.id}}" value="{{user.id}}" ng-model="user.check">
+                          <label for="checkboxUser_{{user.student_code}}"></label>
                         </div>
-                    <% end %>
-                  </td>
-                  <td>
-                    <%= index + 1 %>
-                  </td>
-                  <td>
-                    <%= user.student_code %>
-                  </td>
-                  <td>
-                    <%= user.last_class_name %>
-                  </td>
-                  <td>
-                    <%= user.full_name %>
-                  </td>
-                  <td>
-                    <%= user.name %>
-                  </td>
-                  <td>
-                      <%= user.email %>
-                  </td>
-                  <td class="text-center">
-                    <%= link_to admin_user_path(user), class: "btn btn-info btn-sm" do %>
-                      <i class="fas fa-eye"></i>
-                    <% end %>
-
-                    <%= link_to edit_admin_user_path(user), class: "btn btn-warning btn-sm" do %>
-                      <i class="fas fa-edit"></i>
-                    <% end %>
-                    <% if user.role != 4 %>
-                      <%= link_to admin_user_path(user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm"  do %>
+                      </div>
+                    </td>
+                    <td>{{$index + 1 + page*page_size - page_size}}</td>
+                    <td>{{user.student_code}}</td>
+                    <td>{{user.last_class_name}}</td>
+                    <td>{{user.full_name}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td class="text-left" width="132px">
+                      <a href="/admin_users/{{user.id}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                      <a href="/admin_users/{{user.id}}/edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                      <a ng-if="user.role != 4" 
+                        data-confirm="Are you sure?" 
+                        href="/admin_users/{{user.id}}" 
+                        class="btn btn-danger btn-sm"
+                        rel="nofollow"
+                        data-method="delete"
+                      >
                         <i class="fas fa-trash"></i>
-                      <% end %>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-              </tbody>
-            </table>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item" ng-click="previous()" ng-class="{'disabled': page == 1}">
+                  <a class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <li class="page-item" ng-repeat="p in [].constructor(total_pages) track by $index" ng-class="{'active': $index + 1 == page}" ng-click="change_page($index + 1)"><a class="page-link">{{$index + 1}}</a></li>
+                <li class="page-item" ng-click="next()" ng-class="{'disabled': page == total_pages}">
+                  <a class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
         <!-- /.card -->
@@ -112,267 +131,14 @@
 
   </div>
 </div>
-
-<script type="text/javascript">
-    let selected = [];
-    $(document).ready(function() {
-        $('input[type=checkbox]').change(function() {
-            if (this.checked) {
-                selected.push(this.value);
-            } else {
-                selected.splice(selected.indexOf(this.value),1);
-            }
-            $html_delete_user = "";
-            selected.forEach(function(item) {
-                $html_delete_user += "<input type='hidden' name='student_codes[]' value='"+item+"' />";
-
-            });
-            $("#user_delete").html($html_delete_user);
-
-            if (selected.length > 0) {
-                $("#delete_btn_id").removeClass('d-none');
-            } else {
-                $("#delete_btn_id").addClass('d-none');
-            }
-        });
-
-        $("#user_delete_form").submit(function() {
-            if( !confirm('Vui lòng xác nhận xoá '+ selected.length + ' học sinh!') )
-                event.preventDefault();
-        });
-    });
-
-    $(document).ready(function() {
-        $('#table_users').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
-            language: {
-                "processing": "Đang xử lý...",
-                "aria": {
-                    "sortAscending": ": Sắp xếp thứ tự tăng dần",
-                    "sortDescending": ": Sắp xếp thứ tự giảm dần"
-                },
-                "autoFill": {
-                    "cancel": "Hủy",
-                    "fill": "Điền tất cả ô với <i>%d<\/i>",
-                    "fillHorizontal": "Điền theo hàng ngang",
-                    "fillVertical": "Điền theo hàng dọc"
-                },
-                "buttons": {
-                    "collection": "Chọn lọc <span class=\"ui-button-icon-primary ui-icon ui-icon-triangle-1-s\"><\/span>",
-                    "colvis": "Hiển thị theo cột",
-                    "colvisRestore": "Khôi phục hiển thị",
-                    "copy": "Sao chép",
-                    "copyKeys": "Nhấn Ctrl hoặc u2318 + C để sao chép bảng dữ liệu vào clipboard.<br \/><br \/>Để hủy, click vào thông báo này hoặc nhấn ESC",
-                    "copySuccess": {
-                        "1": "Đã sao chép 1 dòng dữ liệu vào clipboard",
-                        "_": "Đã sao chép %d dòng vào clipboard"
-                    },
-                    "copyTitle": "Sao chép vào clipboard",
-                    "pageLength": {
-                        "-1": "Xem tất cả các dòng",
-                        "_": "Hiển thị %d dòng"
-                    },
-                    "print": "In ấn",
-                    "createState": "Tạo trạng thái",
-                    "csv": "CSV",
-                    "excel": "Excel",
-                    "pdf": "PDF",
-                    "removeAllStates": "Xóa hết trạng thái",
-                    "removeState": "Xóa",
-                    "renameState": "Đổi tên",
-                    "savedStates": "Trạng thái đã lưu",
-                    "stateRestore": "Trạng thái %d",
-                    "updateState": "Cập nhật"
-                },
-                "infoThousands": "`",
-                "select": {
-                    "cells": {
-                        "1": "1 ô đang được chọn",
-                        "_": "%d ô đang được chọn"
-                    },
-                    "columns": {
-                        "1": "1 cột đang được chọn",
-                        "_": "%d cột đang được được chọn"
-                    },
-                    "rows": {
-                        "1": "1 dòng đang được chọn",
-                        "_": "%d dòng đang được chọn"
-                    }
-                },
-                "thousands": "`",
-                "searchBuilder": {
-                    "title": {
-                        "_": "Thiết lập tìm kiếm (%d)",
-                        "0": "Thiết lập tìm kiếm"
-                    },
-                    "button": {
-                        "0": "Thiết lập tìm kiếm",
-                        "_": "Thiết lập tìm kiếm (%d)"
-                    },
-                    "value": "Giá trị",
-                    "clearAll": "Xóa hết",
-                    "condition": "Điều kiện",
-                    "conditions": {
-                        "date": {
-                            "after": "Sau",
-                            "before": "Trước",
-                            "between": "Nằm giữa",
-                            "empty": "Rỗng",
-                            "equals": "Bằng với",
-                            "not": "Không phải",
-                            "notBetween": "Không nằm giữa",
-                            "notEmpty": "Không rỗng"
-                        },
-                        "number": {
-                            "between": "Nằm giữa",
-                            "empty": "Rỗng",
-                            "equals": "Bằng với",
-                            "gt": "Lớn hơn",
-                            "gte": "Lớn hơn hoặc bằng",
-                            "lt": "Nhỏ hơn",
-                            "lte": "Nhỏ hơn hoặc bằng",
-                            "not": "Không phải",
-                            "notBetween": "Không nằm giữa",
-                            "notEmpty": "Không rỗng"
-                        },
-                        "string": {
-                            "contains": "Chứa",
-                            "empty": "Rỗng",
-                            "endsWith": "Kết thúc bằng",
-                            "equals": "Bằng",
-                            "not": "Không phải",
-                            "notEmpty": "Không rỗng",
-                            "startsWith": "Bắt đầu với",
-                            "notContains": "Không chứa",
-                            "notEnds": "Không kết thúc với",
-                            "notStarts": "Không bắt đầu với"
-                        },
-                        "array": {
-                            "equals": "Bằng",
-                            "empty": "Trống",
-                            "contains": "Chứa",
-                            "not": "Không",
-                            "notEmpty": "Không được rỗng",
-                            "without": "không chứa"
-                        }
-                    },
-                    "logicAnd": "Và",
-                    "logicOr": "Hoặc",
-                    "add": "Thêm điều kiện",
-                    "data": "Dữ liệu",
-                    "deleteTitle": "Xóa quy tắc lọc",
-                    "leftTitle": "Giảm thụt lề",
-                    "rightTitle": "Tăng thụt lề"
-                },
-                "searchPanes": {
-                    "countFiltered": "{shown} ({total})",
-                    "emptyPanes": "Không có phần tìm kiếm",
-                    "clearMessage": "Xóa hết",
-                    "loadMessage": "Đang load phần tìm kiếm",
-                    "collapse": {
-                        "0": "Phần tìm kiếm",
-                        "_": "Phần tìm kiếm (%d)"
-                    },
-                    "title": "Bộ lọc đang hoạt động - %d",
-                    "count": "{total}",
-                    "collapseMessage": "Thu gọn tất cả",
-                    "showMessage": "Hiện tất cả"
-                },
-                "datetime": {
-                    "hours": "Giờ",
-                    "minutes": "Phút",
-                    "next": "Sau",
-                    "previous": "Trước",
-                    "seconds": "Giây",
-                    "amPm": [
-                        "am",
-                        "pm"
-                    ],
-                    "unknown": "-",
-                    "weekdays": [
-                        "Chủ nhật"
-                    ]
-                },
-                "emptyTable": "Không có dữ liệu",
-                "info": "Hiển thị _START_ tới _END_ của _TOTAL_ dữ liệu",
-                "infoEmpty": "Hiển thị 0 tới 0 của 0 dữ liệu",
-                "lengthMenu": "Hiển thị _MENU_ dữ liệu",
-                "loadingRecords": "Đang tải...",
-                "paginate": {
-                    "first": "Đầu tiên",
-                    "last": "Cuối cùng",
-                    "next": "Sau",
-                    "previous": "Trước"
-                },
-                "search": "Tìm kiếm:",
-                "zeroRecords": "Không tìm thấy kết quả",
-                "decimal": ",",
-                "editor": {
-                    "close": "Đóng",
-                    "create": {
-                        "button": "Thêm",
-                        "submit": "Thêm",
-                        "title": "Thêm mục mới"
-                    },
-                    "edit": {
-                        "button": "Sửa",
-                        "submit": "Cập nhật",
-                        "title": "Sửa mục"
-                    },
-                    "error": {
-                        "system": "Đã xảy ra lỗi hệ thống (&lt;a target=\"\\\" rel=\"nofollow\" href=\"\\\"&gt;Thêm thông tin&lt;\/a&gt;)."
-                    },
-                    "multi": {
-                        "info": "Các mục đã chọn chứa các giá trị khác nhau cho đầu vào này. Để chỉnh sửa và đặt tất cả các mục cho đầu vào này thành cùng một giá trị, hãy nhấp hoặc nhấn vào đây, nếu không chúng sẽ giữ lại các giá trị riêng lẻ của chúng.",
-                        "noMulti": "Đầu vào này có thể được chỉnh sửa riêng lẻ, nhưng không phải là một phần của một nhóm.",
-                        "restore": "Hoàn tác thay đổi",
-                        "title": "Nhiều giá trị"
-                    },
-                    "remove": {
-                        "button": "Xóa",
-                        "confirm": {
-                            "_": "Bạn có chắc chắn muốn xóa %d hàng không?",
-                            "1": "Bạn có chắc chắn muốn xóa 1 hàng không?"
-                        },
-                        "submit": "Xóa",
-                        "title": "Xóa"
-                    }
-                },
-                "infoFiltered": "(được lọc từ _MAX_ dữ liệu)",
-                "searchPlaceholder": "Nhập tìm kiếm...",
-                "stateRestore": {
-                    "creationModal": {
-                        "button": "Thêm",
-                        "columns": {
-                            "search": "Tìm kiếm cột",
-                            "visible": "Khả năng hiển thị cột"
-                        },
-                        "name": "Tên:",
-                        "order": "Sắp xếp",
-                        "paging": "Phân trang",
-                        "scroller": "Cuộn vị trí",
-                        "search": "Tìm kiếm",
-                        "searchBuilder": "Trình tạo tìm kiếm",
-                        "select": "Chọn",
-                        "title": "Thêm trạng thái",
-                        "toggleLabel": "Bao gồm:"
-                    },
-                    "duplicateError": "Trạng thái có tên này đã tồn tại.",
-                    "emptyError": "Tên không được để trống.",
-                    "emptyStates": "Không có trạng thái đã lưu",
-                    "removeConfirm": "Bạn có chắc chắn muốn xóa %s không?",
-                    "removeError": "Không xóa được trạng thái.",
-                    "removeJoiner": "và",
-                    "removeSubmit": "Xóa",
-                    "removeTitle": "Xóa trạng thái",
-                    "renameButton": "Đổi tên",
-                    "renameLabel": "Tên mới cho %s:",
-                    "renameTitle": "Đổi tên trạng thái"
-                }
-            }
+<script>
+    $(function () {
+        var globalScope = angular.element($('body')).scope();
+        var ctrl = '[ng-controller=AdminUsersCtrl]';
+        WebApp.AngularUtils.applyData(ctrl, 'init', function (scope) {
+          scope.data = [];
+          scope.execute_users_admin_users_path = '<%= execute_users_admin_users_path %>'
+          scope.getData();
         });
     });
 </script>
