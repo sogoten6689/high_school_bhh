@@ -36,10 +36,10 @@
                     </div>
                   </div>
                   <div class="col-auto">
-                    <form class="row" action="<%=  %>" method="get">
+                    <form class="row" action="<%= download_csv_admin_users_path %>" method="get">
                       <input value={{search}} name="search" class="d-none">
-                      <input value={{search}} name="search" class="d-none">
-                      <button class="btn btn btn-success" type="button">
+                      <input value={{user_ids}} name="user_ids" class="d-none">
+                      <button class="btn btn btn-success" type="submit">
                         <i class="fas fa-external-link-alt mr-1"></i>
                         CSV
                       </button>
@@ -62,7 +62,12 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th style="width: 10px"></th>
+                    <th style="width: 50px" class="text-center">
+                      <div class="icheck-success d-inline">
+                        <input type="checkbox" name="check_all" id="check_all" ng-model="is_check_all" ng-change="check_all()">
+                        <label for="check_all"></label>
+                      </div>
+                    </th>
                     <th style="width: 10px">#</th>
                     <th> Mã học sinh</th>
                     <th>Lớp</th>
@@ -74,10 +79,10 @@
                 </thead>
                 <tbody ng-if="data.length > 0">
                   <tr ng-repeat="user in data track by $index">
-                    <td>
+                    <td class="text-center">
                       <div class="form-group clearfix" ng-if="user.student_code">
                         <div class="icheck-success d-inline">
-                          <input type="checkbox" name="check_box_{{$index}}" id="checkboxUser_{{user.id}}" value="{{user.id}}" ng-model="user.check">
+                          <input type="checkbox" name="check_box_{{$index}}" id="checkboxUser_{{user.id}}" value="{{user.id}}" ng-model="user.check" ng-change="check_user()">
                           <label for="checkboxUser_{{user.student_code}}"></label>
                         </div>
                       </div>

@@ -1,4 +1,5 @@
 require 'app_utils'
+require 'excel_utils'
 
 class AdminUsersController < ApplicationController
   include ApplicationHelper
@@ -175,6 +176,37 @@ class AdminUsersController < ApplicationController
     rs[:total] = users.total_entries
 
     return render json: rs
+  end
+
+  def download_csv
+    search = AppUtils.escape_search_query(params[:search])
+    search = AppUtils.quote_string(search)
+    user_ids = params[:user_ids].split(',')
+    user_ids = user_ids.reject(&:blank?) if user_ids.present? && user_ids.kind_of?(Array)
+    users = User.left_joins(:student_class).order(:id)
+    users = users.where(:id => user_ids) if user_ids.present?
+    users = users.where("student_code ILIKE '%#{search}%' OR student_classes.class_name ILIKE '%#{search}%' OR full_name ILIKE '%#{search}%' OR email ILIKE '%#{search}%'") if search.present?
+    users = users.where(:id => user_ids) if user_ids.present?
+    file_name = 'Danh sach nguoi dung.xls'
+
+    header = ['Mã học sinh', 'Lớp', 'Họ và tên', 'Tên', 'Email']
+
+    excel_book = Spreadsheet::Workbook.new
+    sheet_page = excel_book.create_worksheet :name => 'Danh sach nguoi dung'
+    # Header row
+    sheet_page.insert_row(0, header)
+    ExcelUtils.format_rows_header(sheet_page, [0])
+
+    row_index = 1
+    users.each do |u|
+      row_data = [u.student_code, u.last_class_name, u.full_name, u.name, u.email]
+      sheet_page.insert_row(row_index, row_data)
+      row_index += 1
+    end
+    excel_data = StringIO.new
+		excel_book.write excel_data
+
+    send_data excel_data.string, :filename => file_name, :disposition => 'inline'
   end
 
   private
