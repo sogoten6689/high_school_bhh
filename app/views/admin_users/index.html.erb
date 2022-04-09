@@ -8,13 +8,16 @@
               <%= 'Danh sách người dùng' %>
             </h3>
             <div class="card-tools">
-              <form action="<%= delete_student_path %>" method="post" id="user_delete_form">
-                <%= csrf_meta_tags %>
-                <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-                <div id="user_delete">
-                </div>
-
-                <button type="submit" id="delete_btn_id" class="btn btn-danger d-none" >
+              <form>
+                <button 
+                  type="button" 
+                  class="btn btn-danger" 
+                  ng-click="delete_student()" 
+                  ng-class="{'disabled': !is_check_all && !user_ids}"
+                  data-confirm="Are you sure?" 
+                  rel="nofollow"
+                  data-method="delete"
+                >
                   <%= 'Xoá HS đã chọn' %>
                 </button>
                 <%= link_to 'Nhập Lớp học Excel', import_student_class_path, class: "btn btn-info"%>
@@ -40,7 +43,7 @@
                       <input value={{search}} name="search" class="d-none">
                       <input value={{user_ids}} name="user_ids" class="d-none">
                       <button class="btn btn btn-success" type="submit">
-                        <i class="fas fa-external-link-alt mr-1"></i>
+                        <i class="fas fa-download mr-1"></i>
                         CSV
                       </button>
                     </form>
@@ -143,6 +146,7 @@
         WebApp.AngularUtils.applyData(ctrl, 'init', function (scope) {
           scope.data = [];
           scope.execute_users_admin_users_path = '<%= execute_users_admin_users_path %>'
+          scope.delete_student_path = '<%= delete_student_path %>'
           scope.getData();
         });
     });

@@ -8,9 +8,8 @@ class AdminUsersController < ApplicationController
   rescue_from ActiveRecord::InvalidForeignKey, with: :invalid_foreign_key
 
   def index
+
     @users = User.all
-
-
     @title_page = 'Danh Sách Tài khoản'
     @breadcrumbs = [
       ['Danh Sách Tài khoản', admin_users_path],
@@ -126,12 +125,34 @@ class AdminUsersController < ApplicationController
   end
 
   def delete_student
-    student_codes = params[:student_codes]
-    user_ids = User.where(:student_code => student_codes).select(:id).to_a
-    UserContact.where(:user_id =>  user_ids).delete_all
-    Relationship.where(:user_id =>  user_ids).delete_all
-    User.where(:student_code => student_codes).delete_all
-    redirect_to  admin_users_path
+    begin 
+      rs = {succeed: false, data: {}}
+      search = AppUtils.escape_search_query(params[:search])
+      search = AppUtils.quote_string(search)
+      user_ids = params[:user_ids].split(',')
+      user_ids = user_ids.reject(&:blank?) if user_ids.present? && user_ids.kind_of?(Array)
+      users = User.left_joins(:student_class).where.not(:role => 4)
+      users = users.where("student_code ILIKE '%#{search}%' OR student_classes.class_name ILIKE '%#{search}%' OR full_name ILIKE '%#{search}%' OR email ILIKE '%#{search}%'") if search.present?
+      users = users.where(:id => user_ids) if user_ids.present?
+      delete_user_ids = users.pluck('users.id')
+
+      ActiveRecord::Base.transaction do
+        StudentClass.where(:user_id =>  delete_user_ids).delete_all
+        UserContact.where(:user_id =>  delete_user_ids).delete_all
+        Relationship.where(:user_id =>  delete_user_ids).delete_all
+        User.where(:id => delete_user_ids).delete_all
+      end
+
+      rs[:succeed] = true
+      return render json: rs
+    rescue Exception => ex
+      Rails.logger.info(ex.message)
+      return render json: {
+        :succeed => false,
+        :data => nil,
+        :message => ex.message
+      }
+    end
   end
 
   def destroy
@@ -184,7 +205,6 @@ class AdminUsersController < ApplicationController
     user_ids = params[:user_ids].split(',')
     user_ids = user_ids.reject(&:blank?) if user_ids.present? && user_ids.kind_of?(Array)
     users = User.left_joins(:student_class).order(:id)
-    users = users.where(:id => user_ids) if user_ids.present?
     users = users.where("student_code ILIKE '%#{search}%' OR student_classes.class_name ILIKE '%#{search}%' OR full_name ILIKE '%#{search}%' OR email ILIKE '%#{search}%'") if search.present?
     users = users.where(:id => user_ids) if user_ids.present?
     file_name = 'Danh sach nguoi dung.xls'

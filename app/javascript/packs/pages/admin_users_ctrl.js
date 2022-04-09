@@ -23,6 +23,8 @@
                     page_size: $scope.page_size,
                     search: $scope.search
                 }
+                $scope.is_check_all = false;
+                $scope.user_ids = "";
                 $.get($scope.execute_users_admin_users_path, params, function (rs) {
                     $timeout(function() {
                         if (rs && rs.succeed) {
@@ -65,8 +67,30 @@
                 $scope.data.forEach(d => {
                     d.check = $scope.is_check_all;
                 });
-            if ($scope.is_check_all)  $scope.user_ids = "";
-            
+                if ($scope.is_check_all)  $scope.user_ids = "";
+            }
+
+            $scope.delete_student = function() {
+                if (confirm('Are you sure?')) {
+                    if (!$scope.is_check_all && !$scope.user_ids) return;
+    
+                    var opt = {
+                        user_ids: $scope.user_ids,
+                        search: $scope.search
+                    }
+    
+                    $.post($scope.delete_student_path, opt, function(rs) {
+                        $timeout(function() {
+                            if (rs && rs.succeed) {
+                                toastr.success('Successed');
+                                $scope.search = "";
+                                $scope.getData();
+                            } else {
+                                toastr.error(rs.message);
+                            }
+                        })
+                    })
+               }
             }
         }
 	]);
