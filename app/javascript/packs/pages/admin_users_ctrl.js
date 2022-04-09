@@ -5,6 +5,8 @@
             $scope.page_size = '10';
             $scope.data = [];
             $scope.search = "";
+            $scope.user_ids = "";
+            $scope.is_check_all = false;
             
             $scope.init = function() {
 
@@ -26,7 +28,6 @@
                         if (rs && rs.succeed) {
                             $scope.data = rs.data;
                             $scope.total_pages = Math.ceil(rs.total / $scope.page_size)
-                            console.log(rs.data);
                         } else {
                             $scope.data = [];
                         }
@@ -50,6 +51,20 @@
                 if($scope.page == page) return;
                 $scope.page = page;
                 $scope.executeUsers();
+            }
+
+            $scope.check_user = function() {
+                let user_check = $scope.data.filter((u) => u.check);
+                $scope.user_ids = user_check.map(u => u.id).join(',');
+                if ($scope.is_check_all) {
+                    $scope.is_check_all = $scope.data.every(h => !h.check)
+                }
+            }
+
+            $scope.check_all = function() {
+                $scope.data.forEach(d => {
+                    d.check = $scope.is_check_all;
+                });
             }
         }
 	]);

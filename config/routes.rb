@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :admin_users do
     collection do
       get :execute_users
+      get :download_csv
     end
   end
   get '/import_student', to: 'admin_users#import_student', as: 'import_student'
