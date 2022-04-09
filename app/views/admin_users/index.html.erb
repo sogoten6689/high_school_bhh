@@ -62,7 +62,7 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th style="width: 10px">
+                    <th style="width: 50px" class="text-center">
                       <div class="icheck-success d-inline">
                         <input type="checkbox" name="check_all" id="check_all" ng-model="is_check_all" ng-change="check_all()">
                         <label for="check_all"></label>
@@ -79,7 +79,7 @@
                 </thead>
                 <tbody ng-if="data.length > 0">
                   <tr ng-repeat="user in data track by $index">
-                    <td>
+                    <td class="text-center">
                       <div class="form-group clearfix" ng-if="user.student_code">
                         <div class="icheck-success d-inline">
                           <input type="checkbox" name="check_box_{{$index}}" id="checkboxUser_{{user.id}}" value="{{user.id}}" ng-model="user.check" ng-change="check_user()">

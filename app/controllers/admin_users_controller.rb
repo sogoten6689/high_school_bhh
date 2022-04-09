@@ -183,10 +183,10 @@ class AdminUsersController < ApplicationController
     search = AppUtils.quote_string(search)
     user_ids = params[:user_ids].split(',')
     user_ids = user_ids.reject(&:blank?) if user_ids.present? && user_ids.kind_of?(Array)
-    byebug
     users = User.left_joins(:student_class).order(:id)
     users = users.where(:id => user_ids) if user_ids.present?
-    users = users.where("student_code ILIKE '%#{search}%' OR student_classes.class_name ILIKE '%#{search}%' OR full_name ILIKE '%#{search}%' OR email ILIKE '%#{search}%'") if search.present? && user_ids.blank?
+    users = users.where("student_code ILIKE '%#{search}%' OR student_classes.class_name ILIKE '%#{search}%' OR full_name ILIKE '%#{search}%' OR email ILIKE '%#{search}%'") if search.present?
+    users = users.where(:id => user_ids) if user_ids.present?
     file_name = 'Danh sach nguoi dung.xls'
 
     header = ['Mã học sinh', 'Lớp', 'Họ và tên', 'Tên', 'Email']
@@ -198,7 +198,6 @@ class AdminUsersController < ApplicationController
     ExcelUtils.format_rows_header(sheet_page, [0])
 
     row_index = 1
-    byebug
     users.each do |u|
       row_data = [u.student_code, u.last_class_name, u.full_name, u.name, u.email]
       sheet_page.insert_row(row_index, row_data)

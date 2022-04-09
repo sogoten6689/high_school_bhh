@@ -65,6 +65,8 @@
                 $scope.data.forEach(d => {
                     d.check = $scope.is_check_all;
                 });
+            if ($scope.is_check_all)  $scope.user_ids = "";
+            
             }
         }
 	]);
