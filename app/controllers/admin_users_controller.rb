@@ -8,9 +8,8 @@ class AdminUsersController < ApplicationController
   rescue_from ActiveRecord::InvalidForeignKey, with: :invalid_foreign_key
 
   def index
+
     @users = User.all
-
-
     @title_page = 'Danh Sách Tài khoản'
     @breadcrumbs = [
       ['Danh Sách Tài khoản', admin_users_path],
@@ -138,6 +137,7 @@ class AdminUsersController < ApplicationController
       delete_user_ids = users.pluck('users.id')
 
       ActiveRecord::Base.transaction do
+        StudentClass.where(:user_id =>  delete_user_ids).delete_all
         UserContact.where(:user_id =>  delete_user_ids).delete_all
         Relationship.where(:user_id =>  delete_user_ids).delete_all
         User.where(:id => delete_user_ids).delete_all
