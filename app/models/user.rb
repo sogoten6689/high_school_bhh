@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_one :user_contact, dependent: :destroy
   has_one :student_class, dependent: :destroy
   has_one :relationship, dependent: :destroy
-  has_one :ethnicities, through: :ethnicity
+  has_one :ethnicity, foreign_key: 'code'
 
   enum roles: [:undefine, :student, :teacher, :supervisor, :admin]
 

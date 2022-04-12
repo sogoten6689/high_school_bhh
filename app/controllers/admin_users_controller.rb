@@ -202,24 +202,38 @@ class AdminUsersController < ApplicationController
   def download_csv
     search = AppUtils.escape_search_query(params[:search])
     search = AppUtils.quote_string(search)
-    user_ids = params[:user_ids].split(',')
-    user_ids = user_ids.reject(&:blank?) if user_ids.present? && user_ids.kind_of?(Array)
-    users = User.left_joins(:student_class).order(:id)
+    param_user_ids = params[:user_ids].split(',')
+    param_user_ids = param_user_ids.reject(&:blank?) if param_user_ids.present? && param_user_ids.kind_of?(Array)
+    users = User.left_joins(:student_class)
     users = users.where("student_code ILIKE '%#{search}%' OR student_classes.class_name ILIKE '%#{search}%' OR full_name ILIKE '%#{search}%' OR email ILIKE '%#{search}%'") if search.present?
-    users = users.where(:id => user_ids) if user_ids.present?
+    users = users.where(:id => param_user_ids) if param_user_ids.present?
+    user_ids = users.group('users.id').pluck('users.id')
     file_name = 'Danh sach nguoi dung.xls'
-
-    header = ['Mã học sinh', 'Lớp', 'Họ và tên', 'Tên', 'Email']
+    
+    header = ['Mã học sinh', 'Lớp', 'Họ và tên', 'Tên', 'Email', 'Giới tính']
+    header += ['Ngày tháng năm sinh', 'Dân tộc', 'Số CMND/CCCD']
+    data_users = User.eager_load(:user_contact, :student_class, :relationship, :ethnicity).where(:id => user_ids)
+    ethnicities = Ethnicity.all
 
     excel_book = Spreadsheet::Workbook.new
     sheet_page = excel_book.create_worksheet :name => 'Danh sach nguoi dung'
     # Header row
     sheet_page.insert_row(0, header)
     ExcelUtils.format_rows_header(sheet_page, [0])
-
     row_index = 1
-    users.each do |u|
-      row_data = [u.student_code, u.last_class_name, u.full_name, u.name, u.email]
+    data_users.each do |u|
+      user_contact = u.user_contact
+      relationship = u.relationship
+      student_class = u.student_class
+      ethnicities = u.ethnicity
+      gender_name = ethnicity = ""
+
+      gender_name = u.gender == 1 ? 'Nam' : 'Nữ' if u.gender.present?
+      ethnicity = u.ethnicity == 1 ? u.another_ethnicity : ethnicities.name if u.ethnicity.present?
+      identification = u.identification.present? ? u.identification : 'Chưa có'
+
+      row_data = [u.student_code, u.last_class_name, u.full_name, u.name, u.email, gender_name]
+      row_data += [u.birthday, ethnicity, identification]
       sheet_page.insert_row(row_index, row_data)
       row_index += 1
     end
