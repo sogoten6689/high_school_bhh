@@ -130,21 +130,22 @@ class BasicInformationsController < ApplicationController
     # current_password = params[:user][:current_password]
     # user = User.authentication_keys(@user.email, current_password)
 
-    if @user.update_with_password(user_password_params)
-      # Add an error stating that the current password is incorrect
 
-      sign_in @user, bypass: true
-      redirect_to basic_informations_path, {notice: 'Cập nhật mật khẩu thành công!'}
+
+    if params[:user][:password_confirmation] == params[:user][:password]
+
+      if @user.update_with_password(user_password_params)
+        # Add an error stating that the current password is incorrect
+        sign_in(current_user, :bypass => true)
+        # sign_in @user, :bypass => true
+        redirect_to basic_informations_path, {notice: 'Cập nhật mật khẩu thành công!'}
+      else
+        redirect_to edit_password_basic_informations_path(current_user), {alert: 'Mật khẩu hiện tại không đúng!'}
+      end
+
     else
-      redirect_to edit_password_basic_informations_path(current_user), {alert: 'Mật khẩu hiện tại không đúng!'}
+      redirect_to edit_password_basic_informations_path(current_user), {alert: 'Mật khẩu xác nhận không đúng!'}
     end
-    # if user.update_with_password(user_password_params)
-    #   # Sign in the user by passing validation in case their password changed
-    #   sign_in @user, :bypass => true
-    #   redirect_to basic_informations_path, {alert: 'ok'}
-    # else
-    #   render "edit_password"
-    # end
   end
 
   private
@@ -167,5 +168,6 @@ class BasicInformationsController < ApplicationController
   def user_password_params
     params.require(:user).permit(:current_password, :password, :password_confirmation)
   end
+
 
 end
