@@ -10,6 +10,6 @@ class ApplicationMailer < ActionMailer::Base
     @password = "Your password: " + password
 
     @login_text = t('login')
-    mail(to: user.email, subject: "Welcome to LinkLab!")
+    mail(to: user.email, subject: "Welcome to BHHH!")
   end
 end

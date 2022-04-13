@@ -15,7 +15,7 @@
 #AWS_SECRET_ACCESS_KEY: "mOYbC5r4NVyX08Y9B+0dYWBR8wvpcl7b5AD/QpdS"
 #AWS_REGION: "us-east-2"
 GMAIL_USERNAME: "lamnguyen04.97@gmail.com"
-GMAIL_PASSWORD: "wzdefmyghmbgkztn"
+GMAIL_PASSWORD: "bmnmezvmkkjmfxwh"
 
 DATABASE_NAME: high_school_development
 MYSQL_USER: postgres
