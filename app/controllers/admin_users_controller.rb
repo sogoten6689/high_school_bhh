@@ -83,11 +83,11 @@ class AdminUsersController < ApplicationController
   end
   
   def students_sample
-    send_file Rails.root.join("app/assets/files/students.csv"), type: 'csv'
+    send_file Rails.root.join('app/assets/files/students.csv'), type: 'csv'
   end
 
   def student_classes_sample
-    send_file Rails.root.join("app/assets/files/classes.csv"), type: 'csv'
+    send_file Rails.root.join('app/assets/files/classes.csv'), type: 'csv'
   end
 
   def edit
@@ -174,7 +174,7 @@ class AdminUsersController < ApplicationController
     search = AppUtils.quote_string(search)
 
     if page.blank? || page_size.blank?
-			rs[:message] = "Missing page or page size"
+			rs[:message] = 'Missing page or page size'
 			return render json: rs
 		end
 
@@ -209,10 +209,13 @@ class AdminUsersController < ApplicationController
     users = users.where(:id => param_user_ids) if param_user_ids.present?
     user_ids = users.group('users.id').pluck('users.id')
     file_name = 'Danh sach nguoi dung.xls'
-    
+
     header = ['Mã học sinh', 'Lớp', 'Khối', 'Mã số lớp', 'Năm', 'Họ và tên', 'Tên', 'Email', 'Giới tính']
     header += ['Ngày tháng năm sinh', 'Dân tộc', 'Số CMND/CCCD', 'Hộ khẩu thường trú', 'Địa chỉ liên hệ']
-    data_users = User.eager_load(:user_contact, :relationship).where(:id => user_ids)
+    header += ['Họ tên cha', 'Năm sinh của cha', 'Nghề nghiệp của cha', 'Địa chỉ liên hệ của cha', 'Số điện thoại của cha']
+    header += ['Họ tên mẹ', 'Năm sinh của mẹ', 'Nghề nghiệp của mẹ', 'Địa chỉ liên hệ của mẹ', 'Số điện thoại của mẹ']
+    # header += ['Họ tên người giám hộ', 'Năm sinh của người giám hộ', 'Nghề nghiệp của người giám hộ', 'Địa chỉ liên hệ của người giám hộ', 'Số điện thoại của người giám hộ']
+    data_users = User.eager_load(:user_contact, :relationship).where(id: user_ids)
     ethnicities = Ethnicity.all
 
     excel_book = Spreadsheet::Workbook.new
@@ -225,7 +228,7 @@ class AdminUsersController < ApplicationController
       user_contact = u.user_contact
       relationship = u.relationship
       student_class = u.last_class
-      gender_name = ethnicity = student_class_code = grade = year = class_name = ""
+      gender_name = ethnicity = student_class_code = grade = year = class_name = ''
 
       if student_class.present?
         student_class_code = student_class.student_class_code
@@ -234,13 +237,19 @@ class AdminUsersController < ApplicationController
         class_name = student_class.class_name
       end
 
+      # gender
       gender_name = u.gender == 1 ? 'Nam' : 'Nữ' if u.gender.present?
+      # ethnicity
       t_ethnicity = ethnicities.select{|e| e.code == u.ethnicity}.first if u.ethnicity.present?
-      ethnicity = u.ethnicity == 1 ? u.another_ethnicity : t_ethnicity.name if u.ethnicity.present?
+      ethnicity = u.ethnicity == 0 ? u.another_ethnicity : t_ethnicity.name if u.ethnicity.present?
+      # identification
       identification = u.identification.present? ? u.identification : 'Chưa có'
 
       row_data = [u.student_code, class_name.present? ? class_name : 'Chưa có', grade, student_class_code, year, u.full_name, u.name, u.email, gender_name]
       row_data += [u.birthday, ethnicity, identification, user_contact.household_full_address, user_contact.contact_full_address]
+      row_data += [relationship.father_name, relationship.father_year, relationship.father_career, relationship.father_address, relationship.father_phone]
+      row_data += [relationship.mother_name, relationship.mother_year, relationship.mother_career, relationship.mother_address, relationship.mother_phone]
+      row_data += [relationship.guardian_name, relationship.guardian_year, relationship.guardian_career, relationship.guardian_address, relationship.guardian_phone]
       sheet_page.insert_row(row_index, row_data)
       row_index += 1
     end
