@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_one :user_contact, dependent: :destroy
   has_one :student_class, dependent: :destroy
   has_one :relationship, dependent: :destroy
-  has_one :ethnicity, foreign_key: 'code'
+  # has_one :ethnicity, foreign_key: 'code'
 
   enum roles: [:undefine, :student, :teacher, :supervisor, :admin]
 
@@ -51,6 +51,15 @@ class User < ApplicationRecord
       return student_class.class_name
     else
       return "Chưa có"
+    end
+  end
+
+  def last_class
+    student_class = StudentClass.where(:user_id => self.id).order(created_at: :desc).first
+    if !student_class.nil?
+      return student_class
+    else
+      return nil
     end
   end
 end
