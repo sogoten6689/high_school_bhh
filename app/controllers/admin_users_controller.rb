@@ -211,7 +211,7 @@ class AdminUsersController < ApplicationController
     file_name = 'Danh sach nguoi dung.xls'
 
     header = ['Mã học sinh', 'Lớp', 'Khối', 'Mã số lớp', 'Năm', 'Họ và tên', 'Tên', 'Email', 'Giới tính']
-    header += ['Ngày tháng năm sinh', 'Dân tộc', 'Số CMND/CCCD', 'Hộ khẩu thường trú', 'Địa chỉ liên hệ']
+    header += ['Ngày tháng năm sinh', 'Dân tộc', 'Số CMND/CCCD', 'Hộ khẩu thường trú', 'Địa chỉ liên hệ', 'Số điện thoại liên lạc']
     header += ['Họ tên cha', 'Năm sinh của cha', 'Nghề nghiệp của cha', 'Địa chỉ liên hệ của cha', 'Số điện thoại của cha']
     header += ['Họ tên mẹ', 'Năm sinh của mẹ', 'Nghề nghiệp của mẹ', 'Địa chỉ liên hệ của mẹ', 'Số điện thoại của mẹ']
     # header += ['Họ tên người giám hộ', 'Năm sinh của người giám hộ', 'Nghề nghiệp của người giám hộ', 'Địa chỉ liên hệ của người giám hộ', 'Số điện thoại của người giám hộ']
@@ -246,7 +246,7 @@ class AdminUsersController < ApplicationController
       identification = u.identification.present? ? u.identification : 'Chưa có'
 
       row_data = [u.student_code, class_name.present? ? class_name : 'Chưa có', grade, student_class_code, year, u.full_name, u.name, u.email, gender_name]
-      row_data += [u.birthday, ethnicity, identification, user_contact.household_full_address, user_contact.contact_full_address]
+      row_data += [u.birthday, ethnicity, identification, user_contact.household_full_address, user_contact.contact_full_address, user_contact.phone_number]
       row_data += [relationship.father_name, relationship.father_year, relationship.father_career, relationship.father_address, relationship.father_phone]
       row_data += [relationship.mother_name, relationship.mother_year, relationship.mother_career, relationship.mother_address, relationship.mother_phone]
       row_data += [relationship.guardian_name, relationship.guardian_year, relationship.guardian_career, relationship.guardian_address, relationship.guardian_phone]
