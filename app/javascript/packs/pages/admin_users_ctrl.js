@@ -2,7 +2,7 @@
     app.controller('AdminUsersCtrl', [
         "$scope", '$timeout', function ($scope, $timeout) {
             $scope.page = 1;
-            $scope.page_size = '10';
+            $scope.page_size = '50';
             $scope.data = [];
             $scope.search = "";
             $scope.user_ids = "";
