@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'lamnguyen04.97@gmail.com'
+  default from: 'Phòng tham vấn học đường'
   layout 'mailer'
 
   def send_password(user, password)
