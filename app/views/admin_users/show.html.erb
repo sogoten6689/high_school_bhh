@@ -27,6 +27,13 @@
                 <%= @ethnicity_name %>
               </a>
               </li>
+
+
+              <li class="list-group-item">
+                <b>Tôn giáo</b> <a class="float-right">
+                <%= @user.religion_name %>
+              </a>
+              </li>
               <li class="list-group-item">
                 <b>Nơi sinh</b> <a class="float-right">
                 <%= @province.name if !@province.nil? %>

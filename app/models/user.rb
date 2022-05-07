@@ -35,6 +35,21 @@ class User < ApplicationRecord
     end
   end
 
+  def religion_name
+    if self.religion == 6
+      return self.another_religion
+    end
+    religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
+
+    religion = religions.select {|religion| religion[1] == self.religion}.first
+
+    if !religion.nil?
+      return religion[0]
+    else
+      return "Chưa có"
+    end
+  end
+
 
   def province_name
     province = Province.where(:code => self.province).first

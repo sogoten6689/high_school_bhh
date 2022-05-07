@@ -278,6 +278,6 @@ class AdminUsersController < ApplicationController
   def edit_relationship_params
     params.require(:relationship).permit( :father_name, :father_year, :father_career, :father_phone, :father_address,
                                           :mother_name, :mother_year, :mother_career, :mother_phone, :mother_address,
-                                          :guardian_name, :guardian_year, :guardian_career, :guardian_phone, :guardian_address)
+                                          :guardian_name, :guardian_year, :guardian_career, :guardian_phone, :guardian_address, :vietschool_connect_phone)
   end
 end

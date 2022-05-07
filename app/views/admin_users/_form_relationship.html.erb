@@ -173,16 +173,44 @@
               </div>
             </div>
 
-
-            <div class="card-footer text-center">
-              <button type="submit" class="btn btn-primary">
-                <%= 'Cập nhật' %>
-              </button>
-              <%= link_to 'Huỷ', admin_users_path, class: "btn btn-danger"%>
-            </div>
-
             <!--          <div class="card-footer">-->
             <!--          </div>-->
+          </div>
+
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Số điện thoại nhận thông báo từ nhà trường (vietschool)' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <label for="guardian_name">Số điện thoại nhận thông báo từ nhà trường (vietschool)</label>
+                  <select class="form-control" id="vietschool_option" name="vietschool_option">
+                    <option <%= @relatioship.isAnotherVietSchoolPhoneNumber ? 'selected' : '' %> value="0">Lấy theo SĐT của Khác</option>
+                    <option <%= @relatioship.vietschool_connect_phone == @relatioship.father_phone ? 'selected' : '' %> value="1">Lấy theo SĐT của Cha</option>
+                    <option <%= @relatioship.vietschool_connect_phone == @relatioship.mother_phone ? 'selected' : '' %> value="2">Lấy theo SĐT của Mẹ</option>
+                  </select>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="guardian_year">Số điện thoại</label>
+                    <%= f.text_field :vietschool_connect_phone, class: "form-control", id: "vietschool_connect_phone", placeholder: 'Số điện thoại', readonly: !@relatioship.isAnotherVietSchoolPhoneNumber %>
+                    <% @relatioship.errors.full_messages_for(:vietschool_connect_phone).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">
+                  <%= 'Cập nhật' %>
+                </button>
+                <%= link_to 'Huỷ', basic_informations_path, class: "btn btn-danger"%>
+              </div>
+            </div>
           </div>
 
 
@@ -194,4 +222,20 @@
 <%#= javascript_pack_tag 'edit_user_contact' %>
 
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('#vietschool_option').on('change', function () {
+            $('#vietschool_connect_phone').val('');
+            if (this.value == 0) {
+                $('#vietschool_connect_phone').attr('readonly', false);
+            } else if (this.value == 1) {
+                $('#vietschool_connect_phone').val($("#father_phone").val());
+
+                $('#vietschool_connect_phone').attr('readonly', true);
+            } else if (this.value == 2) {
+                $('#vietschool_connect_phone').val($("#mother_phone").val());
+
+                $('#vietschool_connect_phone').attr('readonly', true);
+            }
+        });
+    });
 </script>

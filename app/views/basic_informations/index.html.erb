@@ -31,6 +31,14 @@
                 <%= @user.ethnicity_name %>
               </a>
               </li>
+
+
+              <li class="list-group-item">
+                <b>Tôn giáo</b> <a class="float-right">
+                <%= @user.religion_name %>
+              </a>
+              </li>
+
               <li class="list-group-item">
                 <b>Nơi sinh</b> <a class="float-right">
                 <%= @province.name if !@province.nil? %>
@@ -204,6 +212,17 @@
                         </div>
                         <hr />
                       <% end %>
+
+                      <div class="post">
+                        <div><a href="#" class="text-bold">Số điện thoại nhận thông báo từ nhà trường (vietschool)</a></div>
+                        <div class="row">
+                          <div class="col-sm-12">
+<!--                            <label for="guardian_name">Số điện thoại nhận thông báo từ nhà trường (vietschool)</label>-->
+                            <p><%= @relationship.vietschool_connect_phone %></p>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
 
                     </div>
                   </div>
