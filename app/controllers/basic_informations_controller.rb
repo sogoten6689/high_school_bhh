@@ -35,6 +35,8 @@ class BasicInformationsController < ApplicationController
     @user = User.find(params[:id])
     @provinces = Province.all
     @ethnicities = Ethnicity.all
+    # Công Giáo, Phật Giáo, Hòa Hảo, Tin Lành, Hồi Giáo, Khác
+    @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
 
     @title_page = 'Cập nhật thông tin cơ bản'
     @breadcrumbs = [
@@ -49,6 +51,8 @@ class BasicInformationsController < ApplicationController
     else
       @provinces = Province.all
       @ethnicities = Ethnicity.all
+      @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
+
       render :edit, status: :unprocessable_entity
     end
   end
@@ -151,7 +155,7 @@ class BasicInformationsController < ApplicationController
   private
 
   def edit_user_params
-    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity, :identification)
+    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity, :identification, :religion, :another_religion)
   end
 
   def edit_user_contact_params

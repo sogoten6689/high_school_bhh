@@ -15,7 +15,7 @@ class User < ApplicationRecord
   has_one :relationship, dependent: :destroy
   # has_one :ethnicity, foreign_key: 'code'
 
-  enum roles: [:undefine, :student, :teacher, :supervisor, :admin]
+  enum roles: [:undefine, :student, :teacher, :teacher_class, :bod, :admin] # supervisor
 
   after_create do
     UserContact.create([user_id: self.id])

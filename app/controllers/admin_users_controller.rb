@@ -106,6 +106,8 @@ class AdminUsersController < ApplicationController
     @user_classes = StudentClass.where(:user_id => @user.id).order(created_at: :desc)
     @student_class = StudentClass.new
 
+    @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
+
     @title_page = @user.name
     @breadcrumbs = [
       ['Danh Sách Tài Khoản', admin_users_path],
@@ -120,6 +122,8 @@ class AdminUsersController < ApplicationController
     else
       @provinces = Province.all
       @ethnicities = Ethnicity.all
+      @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
+
       render :edit, status: :unprocessable_entity
     end
   end
@@ -263,7 +267,7 @@ class AdminUsersController < ApplicationController
 
 
   def edit_user_params
-    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity, :identification, :role)
+    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity, :identification, :role, :religion, :another_religion)
   end
 
   def edit_user_contact_params

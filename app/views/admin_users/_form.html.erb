@@ -127,6 +127,34 @@
 
     </div>
 
+
+    <!--    religion-->
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="ethnicity">
+            <%= 'Tôn giáo' %>
+          </label>
+          <%= f.select(:religion, options_for_select(@religions, @user.religion),{} , {:class => "form-control", :id => "religion"})%>
+
+          <% @user.errors.full_messages_for(:religion).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="another_ethnicity">
+            <%= 'Tôn giáo khác' %>
+          </label>
+          <%= f.text_field :another_religion, class: "form-control", id: "another_religion", placeholder: 'Tôn giáo khác',  readonly: @user.religion != 6  %>
+          <% @user.errors.full_messages_for(:another_religion).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="card-footer text-center">
@@ -142,4 +170,14 @@
 
 <script type="text/javascript">
 
+    $(document).ready(function() {
+        $('#religion').on('change', function () {
+            $('#another_religion').val('');
+            if (this.value == 6) {
+                $('#another_religion').attr('readonly', false);
+            } else {
+                $('#another_religion').attr('readonly', true);
+            }
+        });
+    });
 </script>
