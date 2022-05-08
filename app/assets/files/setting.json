@@ -1,0 +1,38 @@
+[
+  {
+    "key": "update.information.basic.full",
+    "value": false
+  },
+  {
+    "key": "update.information.basic.birthday",
+    "value": false
+  },
+  {
+    "key": "update.information.basic.gender",
+    "value": false
+  },
+  {
+    "key": "update.information.basic.where_born",
+    "value": false
+  },
+  {
+    "key": "update.information.basic.ethnicity",
+    "value": false
+  },
+  {
+    "key": "update.information.basic.identification",
+    "value": false
+  },
+  {
+    "key": "update.information.basic.religion",
+    "value": false
+  },
+  {
+    "key": "update.information.relationship.full",
+    "value": false
+  },
+  {
+    "key": "update.information.relationship.vietschool_connect_phone",
+    "value": false
+  }
+]

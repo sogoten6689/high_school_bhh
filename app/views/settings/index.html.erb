@@ -1,0 +1,92 @@
+
+<div class="content container-fluid">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">
+              Cài đặt
+            </h3>
+          </div>
+          <%= form_for(@basic_information ,:url =>  update_admin_settings_url, method: 'post') do |f| %>
+            <div class="card-body">
+
+              <div class="form-group">
+<!--                <div class="form-check">-->
+<!--                  <input class="form-check-input" id="update.information.basic.full"  name="update.information.basic.full" type="checkbox" <%#= @basic_information.value == 't' ? 'checked' : '' %> >-->
+<!--                  <label class="form-check-label font-weight-bold" for="update.information.basic.full" >Được phép tất sửa thông tin cá nhân</label>-->
+<!--                </div>-->
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-check">
+                      <input class="form-check-input" id="update.information.basic.birthday"  name="update.information.basic.birthday" type="checkbox" <%= @basic_information_birthday.value == 't' ? 'checked' : '' %> >
+                      <label class="form-check-label" for="update.information.basic.birthday" >Được phép sửa ngày sinh</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" id="update.information.basic.gender"  name="update.information.basic.gender" type="checkbox" <%= @basic_information_gender.value == 't' ? 'checked' : '' %> >
+                      <label class="form-check-label" for="update.information.basic.gender" >Được phép sửa giới tính</label>
+                    </div>
+
+                    <div class="form-check">
+                      <input class="form-check-input" id="update.information.basic.where_born"  name="update.information.basic.where_born" type="checkbox" <%= @basic_information_where_born.value == 't' ? 'checked' : '' %> >
+                      <label class="form-check-label" for="update.information.basic.where_born" >Được phép sửa nơi sinh</label>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-check">
+                      <input class="form-check-input" id="update.information.basic.identification"  name="update.information.basic.identification" type="checkbox" <%= @basic_information_identification.value == 't' ? 'checked' : '' %> >
+                      <label class="form-check-label" for="update.information.basic.identification" >Được phép sửa CCCD/CMND</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" id="update.information.basic.ethnicity"  name="update.information.basic.ethnicity" type="checkbox" <%= @basic_information_ethnicity.value == 't' ? 'checked' : '' %> >
+                      <label class="form-check-label" for="update.information.basic.ethnicity" >Được phép sửa dân tộc</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" id="update.information.basic.religion"  name="update.information.basic.religion" type="checkbox" <%= @basic_information_religion.value == 't' ? 'checked' : '' %> >
+                      <label class="form-check-label" for="update.information.basic.religion" >Được phép sửa tôn giáo</label>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <div class="form-group">
+<!--                <div class="form-check">-->
+<!--                  <input class="form-check-input" name="update.information.relationship.full" id="update.information.relationship.full" type="checkbox" <%#= @relationship_information.value == 't' ? 'checked' : '' %> >-->
+<!--                  <label class="form-check-label font-weight-bold" for="update.information.relationship.full" >Được phép tất sửa thông tin gia đình</label>-->
+<!--                </div>-->
+
+                <div class="form-check">
+                  <input class="form-check-input" name="update.information.relationship.vietschool_connect_phone" id="update.information.relationship.vietschool_connect_phone" type="checkbox"
+                         <%= @relationship_information_vietschool_connect_phone.value == 't' ? 'checked' : '' %> >
+                  <label class="form-check-label" for="update.information.relationship.vietschool_connect_phone">Được phép sửa thông tin vietschool</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-footer text-center">
+
+              <button type="submit" class="btn btn-primary">
+                <%= 'Cập nhật' %>
+              </button>
+              <a class="btn btn-danger" href="/">Huỷ</a>
+            </div>
+            </div>
+
+          <% end %>
+
+          </script>
+
+        </div>
+        <!-- /.card -->
+
+      </div>
+    </div>
+
+  </div>
+</div>

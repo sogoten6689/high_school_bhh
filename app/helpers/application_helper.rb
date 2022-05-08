@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def is_admin?
-    if current_user.role != 4
+    if current_user.role != 5
       redirect_to root_path
     end
   end

@@ -115,6 +115,70 @@ class AdminUsersController < ApplicationController
     ]
   end
 
+  def update_user_contact
+    @user = User.find(params[:id])
+    @user_contact = UserContact.where(user_id: params[:id]).first()
+    if @user_contact.update(edit_user_contact_params)
+      redirect_to  edit_admin_user_path(params[:id])
+    else
+      @user = User.find(params[:id])
+      @provinces = Province.all
+      @ethnicities = Ethnicity.all
+
+      @relatioship = Relationship.where(:user_id => params[:id]).first()
+      @user_contact = UserContact.where(:user_id => params[:id]).first()
+
+      @household_districts = District.where(:parent_code => @user_contact.household_province).order(:code)
+      @household_wards = Ward.where(:parent_code => @user_contact.household_district).order(:code)
+
+      @contact_districts = District.where(:parent_code => @user_contact.contact_province).order(:code)
+      @contact_wards = Ward.where(:parent_code => @user_contact.contact_district).order(:code)
+      @user_classes = StudentClass.where(:user_id => @user.id).order(created_at: :desc)
+      @student_class = StudentClass.new
+
+      @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
+
+      @title_page = @user.name
+      @breadcrumbs = [
+        ['Danh Sách Tài Khoản', admin_users_path],
+        [@user.name, edit_admin_user_path(@user.id)]
+      ]
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def update_relationship
+    @user = User.find(params[:id])
+    @relatioship = Relationship.where(user_id: params[:id]).first()
+    if @relatioship.update(edit_relationship_params)
+      redirect_to  edit_admin_user_path(params[:id])
+    else
+      @user = User.find(params[:id])
+      @provinces = Province.all
+      @ethnicities = Ethnicity.all
+
+      @relatioship = Relationship.where(:user_id => params[:id]).first()
+      @user_contact = UserContact.where(:user_id => params[:id]).first()
+
+      @household_districts = District.where(:parent_code => @user_contact.household_province).order(:code)
+      @household_wards = Ward.where(:parent_code => @user_contact.household_district).order(:code)
+
+      @contact_districts = District.where(:parent_code => @user_contact.contact_province).order(:code)
+      @contact_wards = Ward.where(:parent_code => @user_contact.contact_district).order(:code)
+      @user_classes = StudentClass.where(:user_id => @user.id).order(created_at: :desc)
+      @student_class = StudentClass.new
+
+      @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
+
+      @title_page = @user.name
+      @breadcrumbs = [
+        ['Danh Sách Tài Khoản', admin_users_path],
+        [@user.name, edit_admin_user_path(@user.id)]
+      ]
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def update
     @user = User.find(params[:id])
     if @user.update(edit_user_params)

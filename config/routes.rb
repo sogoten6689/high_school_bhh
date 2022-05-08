@@ -15,6 +15,10 @@ Rails.application.routes.draw do
       get :download_csv
     end
   end
+
+  patch '/admin_users/:id/update_user_contact', to: 'admin_users#update_user_contact', as: 'update_admin_user_contact'
+  patch '/admin_users/:id/update_relationship', to: 'admin_users#update_relationship', as: 'update_admin_user_relationship'
+
   get '/import_student', to: 'admin_users#import_student', as: 'import_student'
   get '/student_sample', to: 'admin_users#student_sample', as: 'student_sample'
   post '/update_import_student', to: 'admin_users#update_import_student', as: 'update_import_student'
@@ -39,4 +43,11 @@ Rails.application.routes.draw do
   resources :user_contacts
   resources :student_classes
   resources :relationships
+
+  resources :settings do
+    collection do
+      post 'update_setting', to: 'settings#update_setting', as: 'update_admin'
+    end
+
+  end
 end

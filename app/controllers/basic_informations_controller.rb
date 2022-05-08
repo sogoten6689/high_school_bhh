@@ -79,7 +79,7 @@ class BasicInformationsController < ApplicationController
     @user = User.find(params[:id])
     @user_contact = UserContact.where(user_id: params[:id]).first()
     if @user_contact.update(edit_user_contact_params)
-      redirect_to  edit_admin_user_path(params[:id])
+      redirect_to  basic_informations_path
     else
       @provinces = Province.all
       @title_page = 'Cập nhật thông tin liên lạc'
@@ -109,7 +109,7 @@ class BasicInformationsController < ApplicationController
     @user = User.find(params[:id])
     @relatioship = Relationship.where(user_id: params[:id]).first()
     if @relatioship.update(edit_relationship_params)
-      redirect_to  edit_admin_user_path(params[:id])
+      redirect_to  basic_informations_path
     else
       @title_page = 'Cập nhật thông tin gia đình'
       @breadcrumbs = [

@@ -31,7 +31,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-        <% if (current_user.role == 4) %>
+        <% if (current_user.role == 5) %>
           <li class="nav-item <%= menu_open_class?([])%> ">
             <%= link_to admin_users_path, :class => "nav-link  #{current_class?(admin_users_path)}" do %>
               <i class="fa fa-tasks nav-icon"></i>
@@ -50,6 +50,17 @@
             </p>
           <% end %>
         </li>
+
+        <% if (current_user.role == 5) %>
+          <li class="nav-item <%= menu_open_class?([])%> ">
+            <%= link_to settings_path, :class => "nav-link  #{current_class?(settings_path)}" do %>
+              <i class="fa fa-cog nav-icon"></i>
+              <p>
+                <%= 'Cài đặt' %>
+              </p>
+            <% end %>
+          </li>
+        <% end %>
 
       </ul>
     </nav>
