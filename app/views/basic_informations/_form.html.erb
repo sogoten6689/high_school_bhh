@@ -35,7 +35,7 @@
             <%= 'Ngày tháng năm sinh' %>
           </label>
           <%= f.date_field :birthday, class: "form-control datepicker",
-                           id: "birthday", placeholder: 'dd/MM/yyyy' %>
+                           id: "birthday", placeholder: 'dd/MM/yyyy', :readonly => @basic_information_birthday.value == 'f' %>
           <% @user.errors.full_messages_for(:birthday).each do |message| %>
             <div class="text-danger"><%= message %></div>
           <% end %>
@@ -47,7 +47,7 @@
           <label for="gender">
             <%= 'Giới tính'%>
           </label>
-          <%= f.select(:gender, options_for_select([['Nam', 1], ['Nữ', 0]], @user.gender),{} , {:class => "form-control select2"})%>
+          <%= f.select(:gender, options_for_select([['Nam', 1], ['Nữ', 0]], @user.gender),{} , {:class => "form-control select2", :disabled => @basic_information_gender.value == 'f'})%>
           <% @user.errors.full_messages_for(:gender).each do |message| %>
             <div class="text-danger"><%= message %></div>
           <% end %>
@@ -60,7 +60,7 @@
           <label for="provide">
             <%= 'Nơi sinh' %>
           </label>
-          <%= f.select(:province, @provinces.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2'}) %>
+          <%= f.select(:province, @provinces.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :disabled => @basic_information_where_born.value == 'f'}) %>
           <% @user.errors.full_messages_for(:province).each do |message| %>
             <div class="text-danger"><%= message %></div>
           <% end %>
@@ -77,7 +77,7 @@
             <%= 'Dân tộc' %>
           </label>
           <%= f.select(:ethnicity, @ethnicities.collect {|u| [u.name, u.code]},{ },
-                       { :class => 'form-control', :id => "ethnicity"}) %>
+                       { :class => 'form-control', :id => "ethnicity", :readonly => @basic_information_ethnicity.value == 'f'}) %>
           <% @user.errors.full_messages_for(:ethnicity).each do |message| %>
             <div class="text-danger"><%= message %></div>
           <% end %>
@@ -88,7 +88,7 @@
           <label for="another_ethnicity">
             <%= 'Dân tộc khác' %>
           </label>
-          <%= f.text_field :another_ethnicity, class: "form-control", id: "another_ethnicity", placeholder: 'Dân tộc khác',  readonly: @user.ethnicity != 0  %>
+          <%= f.text_field :another_ethnicity, class: "form-control", id: "another_ethnicity", placeholder: 'Dân tộc khác',  readonly: @user.ethnicity != 0 || @basic_information_ethnicity.value == 'f'  %>
           <% @user.errors.full_messages_for(:another_ethnicity).each do |message| %>
             <div class="text-danger"><%= message %></div>
           <% end %>
@@ -104,10 +104,10 @@
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <input type="checkbox" id="none_identification" class="m-1" <%= @user.identification.blank? ? 'checked' : '' %>> Chưa có
+                <input type="checkbox" id="none_identification" class="m-1" <%= @user.identification.blank? ? 'checked' : '' %>  <%= @basic_information_identification.value == 'f' ? 'readonly' : '' %> > Chưa có
               </span>
             </div>
-            <%= f.text_field :identification, class: "form-control", id: "identification", placeholder: 'Số CMND/CCCD', readonly: @user.identification.blank? %>
+            <%= f.text_field :identification, class: "form-control", id: "identification", placeholder: 'Số CMND/CCCD', readonly: @user.identification.blank? || @basic_information_identification.value == 'f'  %>
             <% @user.errors.full_messages_for(:identification).each do |message| %>
               <div class="text-danger"><%= message %></div>
             <% end %>
@@ -124,7 +124,7 @@
           <label for="ethnicity">
             <%= 'Tôn giáo' %>
           </label>
-          <%= f.select(:religion, options_for_select(@religions, @user.religion),{} , {:class => "form-control", :id => "religion"})%>
+          <%= f.select(:religion, options_for_select(@religions, @user.religion),{} , {:class => "form-control", :id => "religion", :disabled => @basic_information_religion.value == 'f'})%>
 
           <% @user.errors.full_messages_for(:religion).each do |message| %>
             <div class="text-danger"><%= message %></div>
@@ -136,7 +136,7 @@
           <label for="another_ethnicity">
             <%= 'Tôn giáo khác' %>
           </label>
-          <%= f.text_field :another_religion, class: "form-control", id: "another_religion", placeholder: 'Tôn giáo khác',  readonly: @user.religion != 6  %>
+          <%= f.text_field :another_religion, class: "form-control", id: "another_religion", placeholder: 'Tôn giáo khác',  readonly: @user.religion != 6 || @basic_information_religion.value == 'f'  %>
           <% @user.errors.full_messages_for(:another_religion).each do |message| %>
             <div class="text-danger"><%= message %></div>
           <% end %>

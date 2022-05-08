@@ -38,6 +38,15 @@ class BasicInformationsController < ApplicationController
     # Công Giáo, Phật Giáo, Hòa Hảo, Tin Lành, Hồi Giáo, Khác
     @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
 
+
+    # @basic_information = Setting.where(key: 'update.information.basic.full').first
+    @basic_information_birthday = Setting.where(key: 'update.information.basic.birthday').first
+    @basic_information_gender = Setting.where(key: 'update.information.basic.gender').first
+    @basic_information_where_born = Setting.where(key: 'update.information.basic.where_born').first
+    @basic_information_ethnicity = Setting.where(key: 'update.information.basic.ethnicity').first
+    @basic_information_identification = Setting.where(key: 'update.information.basic.identification').first
+    @basic_information_religion = Setting.where(key: 'update.information.basic.religion').first
+
     @title_page = 'Cập nhật thông tin cơ bản'
     @breadcrumbs = [
       ['Cập nhật thông tin cơ bản', basic_informations_path],
@@ -45,8 +54,40 @@ class BasicInformationsController < ApplicationController
   end
 
   def update
+
+    @basic_information_birthday = Setting.where(key: 'update.information.basic.birthday').first
+    @basic_information_gender = Setting.where(key: 'update.information.basic.gender').first
+    @basic_information_where_born = Setting.where(key: 'update.information.basic.where_born').first
+    @basic_information_ethnicity = Setting.where(key: 'update.information.basic.ethnicity').first
+    @basic_information_identification = Setting.where(key: 'update.information.basic.identification').first
+    @basic_information_religion = Setting.where(key: 'update.information.basic.religion').first
+
     @user = User.find(params[:id])
-    if @user.update(edit_user_params)
+    cus_edit_user_params = edit_user_params
+    cus_edit_user_params.delete('full_name')
+    cus_edit_user_params.delete('name')
+    cus_edit_user_params.delete('student_code')
+
+    if (@basic_information_birthday.value == 'f')
+      cus_edit_user_params.delete('birthday')
+    end
+    if (@basic_information_gender.value == 'f')
+      cus_edit_user_params.delete('gender')
+    end
+    if (@basic_information_where_born.value == 'f')
+      cus_edit_user_params.delete('province')
+    end
+    if (@basic_information_ethnicity.value == 'f')
+      cus_edit_user_params.delete('ethnicity')
+    end
+    if (@basic_information_identification.value == 'f')
+      cus_edit_user_params.delete('identification')
+    end
+    if (@basic_information_religion.value == 'f')
+      cus_edit_user_params.delete('religion')
+    end
+
+    if @user.update(cus_edit_user_params)
       redirect_to  basic_informations_path
     else
       @provinces = Province.all

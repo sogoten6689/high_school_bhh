@@ -20,6 +20,8 @@ class AdminUsersController < ApplicationController
     @user = User.find(params[:id])
     @user_contact = UserContact.where(:user_id => params[:id]).first()
     @student_classess = StudentClass.where(:user_id => @user.id)
+    @relationship = Relationship.where(:user_id =>  params[:id]).first()
+
     @title_page = @user.name
     @breadcrumbs = [
       ['Danh Sách Tài khoản', admin_users_path],

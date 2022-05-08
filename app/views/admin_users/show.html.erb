@@ -40,11 +40,11 @@
               </a>
               </li>
             </ul>
-            <div class="text-center">
-              <%= link_to "Chỉnh sửa", edit_admin_user_path(@user.id), class: "btn btn-primary"%>
-
-            </div>
-
+            <% if current_user.role == 5 %>
+              <div class="text-center">
+                <%= link_to "Chỉnh sửa", edit_admin_user_path(@user.id), class: "btn btn-primary"%>
+              </div>
+            <% end %>
             <!--                      <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>-->
           </div>
 
@@ -93,9 +93,9 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-12 text-center">
-                        <%= link_to "Chỉnh sửa thông tin liên lạc", edit_admin_user_path(current_user.id), class: "btn btn-primary"%>
-                      </div>
+<!--                      <div class="col-sm-12 text-center">-->
+                        <%#= link_to "Chỉnh sửa thông tin liên lạc", edit_admin_user_path(current_user.id), class: "btn btn-primary"%>
+<!--                      </div>-->
                     </div>
 
                   </div>
@@ -122,12 +122,116 @@
               </div>
 
               <div class="tab-pane" id="settings">
+                <% unless @relationship.nil? %>
+                  <div class="tab-content">
+                    <div class="active tab-pane" id="activity">
+                      <% unless @relationship.father_name == '' %>
+                        <div class="post">
+                          <div><a href="#" class="text-bold">Thông tin Cha</a></div>
+                          <div class="row">
+                            <div class="col-3">
+                              <label for="father_name">Họ và tên: </label>
+                              <p><%= @relationship.father_name %></p>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="year">Năm sinh: </label>
+                              <p><%= @relationship.father_year %></p>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="career">Nghề nghiệp: </label>
+                              <p><%= @relationship.father_career %></p>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="phone">Số điện thoại: </label>
+                              <p><%= @relationship.father_phone %></p>
+                            </div>
+                            <div class="col-sm-12">
+                              <label for="address">Địa chỉ: </label>
+                              <p><%= @relationship.father_address %></p>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                      <% end %>
 
-                <div class="row">
-                  <div class="col-sm-12 text-center">
-                    <%= link_to "Chỉnh sửa thông tin gia đình", edit_admin_user_path(current_user.id), class: "btn btn-primary"%>
+                      <% unless @relationship.mother_name == '' %>
+                        <div class="post">
+                          <div><a href="#" class="text-bold">Thông tin Mẹ</a></div>
+                          <div class="row">
+                            <div class="col-3">
+                              <label for="mother_name">Họ và tên: </label>
+                              <p><%= @relationship.mother_name %></p>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="year">Năm sinh: </label>
+                              <p><%= @relationship.mother_year %></p>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="career">Nghề nghiệp: </label>
+                              <p><%= @relationship.mother_career %></p>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="phone">Số điện thoại: </label>
+                              <p><%= @relationship.mother_phone %></p>
+                            </div>
+                            <div class="col-sm-12">
+                              <label for="address">Địa chỉ: </label>
+                              <p><%= @relationship.mother_address %></p>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                      <% end %>
+                      <% unless @relationship.guardian_name == '' %>
+                        <div class="post">
+                          <div><a href="#" class="text-bold">Thông tin người giám hộ</a></div>
+                          <div class="row">
+                            <div class="col-3">
+                              <label for="guardian_name">Họ và tên: </label>
+                              <p><%= @relationship.guardian_name %></p>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="year">Năm sinh: </label>
+                              <p><%= @relationship.guardian_year %></p>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="career">Nghề nghiệp: </label>
+                              <p><%= @relationship.guardian_career %></p>
+                            </div>
+                            <div class="col-sm-3">
+                              <label for="phone">Số điện thoại: </label>
+                              <p><%= @relationship.guardian_phone %></p>
+                            </div>
+                            <div class="col-sm-12">
+                              <label for="address">Địa chỉ: </label>
+                              <p><%= @relationship.guardian_address %></p>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                      <% end %>
+
+                      <div class="post">
+                        <div><a href="#" class="text-bold">Số điện thoại nhận thông báo từ nhà trường (vietschool)</a></div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <!--                            <label for="guardian_name">Số điện thoại nhận thông báo từ nhà trường (vietschool)</label>-->
+                            <p><%= @relationship.vietschool_connect_phone %></p>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+
+                    </div>
                   </div>
-                </div>
+                <% end %>
+
+
+<!--                <div class="row">-->
+<!--                  <div class="col-sm-12 text-center">-->
+                    <%#= link_to "Chỉnh sửa thông tin gia đình", edit_admin_user_path(current_user.id), class: "btn btn-primary"%>
+<!--                  </div>-->
+<!--                </div>-->
               </div>
 
             </div>
