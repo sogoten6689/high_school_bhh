@@ -284,6 +284,8 @@ class AdminUsersController < ApplicationController
     header += ['Ngày tháng năm sinh', 'Dân tộc', 'Số CMND/CCCD', 'Hộ khẩu thường trú', 'Địa chỉ liên hệ', 'Số điện thoại liên lạc']
     header += ['Họ tên cha', 'Năm sinh của cha', 'Nghề nghiệp của cha', 'Địa chỉ liên hệ của cha', 'Số điện thoại của cha']
     header += ['Họ tên mẹ', 'Năm sinh của mẹ', 'Nghề nghiệp của mẹ', 'Địa chỉ liên hệ của mẹ', 'Số điện thoại của mẹ']
+    header += ['Địa chỉ Hộ khẩu', 'Phường Hộ khẩu', 'Quận Hộ khẩu', 'Tỉnh Hộ khẩu']
+    header += ['Địa chỉ Liên hệ', 'Phường Liên hệ', 'Quận Liên hệ', 'Tỉnh Liên hệ']
     # header += ['Họ tên người giám hộ', 'Năm sinh của người giám hộ', 'Nghề nghiệp của người giám hộ', 'Địa chỉ liên hệ của người giám hộ', 'Số điện thoại của người giám hộ']
     data_users = User.eager_load(:user_contact, :relationship).where(id: user_ids)
     ethnicities = Ethnicity.all
@@ -320,6 +322,8 @@ class AdminUsersController < ApplicationController
       row_data += [relationship.father_name, relationship.father_year, relationship.father_career, relationship.father_address, relationship.father_phone]
       row_data += [relationship.mother_name, relationship.mother_year, relationship.mother_career, relationship.mother_address, relationship.mother_phone]
       row_data += [relationship.guardian_name, relationship.guardian_year, relationship.guardian_career, relationship.guardian_address, relationship.guardian_phone]
+      row_data += [user_contact.household_address_array[0], user_contact.household_address_array[1], user_contact.household_address_array[2], user_contact.household_address_array[3]]
+      row_data += [user_contact.contact_full_array[0], user_contact.contact_full_array[1], user_contact.contact_full_array[2], user_contact.contact_full_array[3]]
       sheet_page.insert_row(row_index, row_data)
       row_index += 1
     end

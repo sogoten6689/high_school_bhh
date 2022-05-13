@@ -16,6 +16,21 @@ class UserContact < ApplicationRecord
 
   end
 
+  def household_address_array
+    @household_province = Province.where(:code => self.household_province).first()
+    @household_district = District.where(:code => self.household_district).first()
+    @household_ward = Ward.where(:code => self.household_ward).first()
+
+    full_address = []
+    full_address.push(self.household_address || '')
+    full_address.push(@household_ward.nil? ? '' : @household_ward.name)
+    full_address.push(@household_district.nil? ? '' : @household_district.name)
+    full_address.push(@household_province.nil? ? '' : @household_province.name)
+
+    return full_address
+
+  end
+
   def contact_full_address
     @contact_province = Province.where(:code => self.contact_province).first()
     @contact_district = District.where(:code => self.contact_district).first()
@@ -29,6 +44,21 @@ class UserContact < ApplicationRecord
 
     return full_address.join(', ') if full_address.size > 0
     return 'Chưa cung cấp'
+
+  end
+
+  def contact_full_array
+    @contact_province = Province.where(:code => self.contact_province).first()
+    @contact_district = District.where(:code => self.contact_district).first()
+    @contact_ward = Ward.where(:code => self.contact_ward).first()
+
+    full_address = []
+    full_address.push(self.contact_address || '')
+    full_address.push(@contact_ward.nil? ? '' : @contact_ward.name)
+    full_address.push(@contact_district.nil? ? '' : @contact_district.name)
+    full_address.push(@contact_province.nil? ? '' : @contact_province.name)
+
+    return full_address
 
   end
 
