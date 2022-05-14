@@ -5,7 +5,8 @@ class BasicInformationsController < ApplicationController
 
   def index
     @user = User.find(current_user.id)
-    
+    @province = Province.where(code: @user.province).first()
+
     @user_contact = UserContact.where(user_id: current_user.id).first()
 
     @student_classess = StudentClass.where(user_id: @user.id)
@@ -22,6 +23,7 @@ class BasicInformationsController < ApplicationController
     @user = User.find(current_user.id)
 
     @user_contact = UserContact.where(user_id: current_user.id).first()
+    @province = Province.where(code: @user.province).first()
 
     @student_classess = StudentClass.where(user_id: @user.id)
 
