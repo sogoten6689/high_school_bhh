@@ -39,6 +39,37 @@
                 <%= @province.name if !@province.nil? %>
               </a>
               </li>
+
+              <li class="list-group-item">
+                <b>CCCD/CMND</b> <a class="float-right">
+                <%= @user.identification_type_name %>
+              </a>
+              </li>
+
+              <% if @user.identification? %>
+                <li class="list-group-item">
+                  <b>Mã CCCD/CMND</b> <a class="float-right">
+                  <%= @user.identification %>
+                </a>
+                </li>
+              <% end %>
+
+              <% if @user.identifier_code? %>
+                <li class="list-group-item">
+                  <b>Mã định danh</b> <a class="float-right">
+                  <%= @user.identifier_code %>
+                </a>
+                </li>
+              <% end %>
+
+              <% if @user.identification_type != 3 %>
+                <li class="list-group-item">
+                  <b>CCCD Chíp</b> <a class="float-right">
+                  <%= @user.identification_chip == 1 ? "Đã đăng ký" : "Chưa đăng ký" %>
+                </a>
+                </li>
+
+              <% end %>
             </ul>
             <% if current_user.role == 5 %>
               <div class="text-center">
@@ -217,6 +248,22 @@
                           <div class="col-sm-12">
                             <!--                            <label for="guardian_name">Số điện thoại nhận thông báo từ nhà trường (vietschool)</label>-->
                             <p><%= @relationship.vietschool_connect_phone %></p>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="post">
+                        <div><a href="#" class="text-bold text-warning">*Thông tin mới cập nhật</a></div>
+                        <div class="row">
+                          <div class="col-sm-6">
+
+                            <label for="difficult_area_name">Diện hộ nghèo:</label>
+                            <p><%= @relationship.difficult_area_name %></p>
+                          </div>
+                          <div class="col-sm-6">
+                            <label for="revolutionary_family">Số sổ bảo hiểm y tế:</label>
+                            <p><%= @relationship.revolutionary_family? ? @relationship.revolutionary_family : "Chưa nhập" %></p>
                           </div>
                         </div>
                       </div>

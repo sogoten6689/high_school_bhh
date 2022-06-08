@@ -97,12 +97,13 @@ class BasicInformationsController < ApplicationController
     end
 
     if @user.update(cus_edit_user_params)
-      redirect_to  basic_informations_path
+      redirect_to  basic_informations_path, {notice: 'Cập nhật thành công!'}
     else
       @provinces = Province.all
       @ethnicities = Ethnicity.all
       @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
 
+      @identification_types = [['Chưa có CCCD/CMND', 0], ['Đã có CMND', 1],['Đã có CCCD thường', 2], ['Đã có CCCD gắn chíp', 3]]
       render :edit, status: :unprocessable_entity
     end
   end
@@ -214,7 +215,8 @@ class BasicInformationsController < ApplicationController
   end
 
   def edit_relationship_params
-    params.require(:relationship).permit( :father_name, :father_year, :father_career, :father_phone, :father_address,
+    params.require(:relationship).permit( :difficult_area, :difficult_code, :revolutionary_family,
+                                          :father_name, :father_year, :father_career, :father_phone, :father_address,
                                           :mother_name, :mother_year, :mother_career, :mother_phone, :mother_address,
                                           :guardian_name, :guardian_year, :guardian_career, :guardian_phone, :guardian_address, :vietschool_connect_phone)
   end

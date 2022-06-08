@@ -105,31 +105,6 @@
         </div>
       </div>
 
-
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label for="identification">
-            <%= 'Số CMND/CCCD' %>
-          </label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <input type="checkbox" id="none_identification" class="m-1" <%= @user.identification.blank? ? 'checked' : '' %>> Chưa có
-              </span>
-            </div>
-            <%= f.text_field :identification, class: "form-control", id: "identification", placeholder: 'Số CMND/CCCD', readonly: @user.identification.blank? %>
-            <% @user.errors.full_messages_for(:identification).each do |message| %>
-              <div class="text-danger"><%= message %></div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-
-    <!--    religion-->
-    <div class="row">
       <div class="col-sm-3">
         <div class="form-group">
           <label for="ethnicity">
@@ -142,6 +117,7 @@
           <% end %>
         </div>
       </div>
+
       <div class="col-sm-3">
         <div class="form-group">
           <label for="another_ethnicity">
@@ -153,7 +129,87 @@
           <% end %>
         </div>
       </div>
+
     </div>
+
+
+    <!--    religion-->
+
+    <div class="row">
+      <div class="col-sm-12 alert alert-warning">
+        <strong>*Cập nhật thông tin mới!</strong>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="identification_type">
+            <%= 'CCCD/CMND bạn đang có:' %>
+          </label>
+          <%= f.select(:identification_type, options_for_select(@identification_types, @user.identification_type),{ },
+                       { :class => 'form-control', :id => "identification_type"}) %>
+          <% @user.errors.full_messages_for(:identification_type).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-sm-3 identification">
+        <div class="form-group">
+          <label for="identification" id="identification_label">
+            <%= 'Mã CCCD/CMND' %>
+          </label>
+          <%= f.text_field :identification, class: "form-control", id: "identification", placeholder: 'CCCD/CMND'%>
+          <div class="text-danger" id="identification_error"></div>
+          <% @user.errors.full_messages_for(:identification).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-sm-3 identifier-code">
+        <div class="form-group">
+          <label for="identifier_code" id="identifier_code_label">
+            <%= 'Mã định danh' %>
+          </label>
+          <%= f.text_field :identifier_code, class: "form-control", id: "identifier_code", placeholder: 'Mã định danh'%>
+          <div class="text-danger" id="identifier_code_error"></div>
+          <% @user.errors.full_messages_for(:identifier_code).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-sm-3 identification-chip">
+        <div class="form-group">
+          <label for="identification_chip">
+            <%= 'Đã đi làm CCCD gắn chip chưa ?' %>
+          </label>
+          <%= f.select(:identification_chip, options_for_select([['Đã làm', 1], ['Chưa', 0]], @user.identification_chip),
+                       {}, {:class => "form-control select2", :id => 'identification_chip'})%>
+          <% @user.errors.full_messages_for(:identification_chip).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="health_insurance_code">
+            <%= 'Số bảo hiểm y tế:' %>
+          </label>
+          <%= f.text_field :health_insurance_code, class: "form-control", id: "health_insurance_code", placeholder: 'Mã bảo hiểm y tế'%>
+          <div class="text-danger" id="health_insurance_code_error"></div>
+          <% @user.errors.full_messages_for(:health_insurance_code).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
 
   </div>
 
@@ -177,6 +233,109 @@
                 $('#another_religion').attr('readonly', false);
             } else {
                 $('#another_religion').attr('readonly', true);
+            }
+        });
+    });
+
+    function updateIdefication() {
+        var identificationType = $('#identification_type').val();
+
+        switch (identificationType) {
+
+            case "0":
+                $('.identification-chip').removeClass('d-none');
+                $('.identifier-code').removeClass('d-none');
+                $('.identification').addClass('d-none');
+                $('#identification').val('');
+
+                break;
+            case "1":
+                $('.identification-chip').removeClass('d-none');
+                $('.identification').removeClass('d-none');
+                $('.identifier-code').removeClass('d-none');
+                break;
+            case "2":
+                $('.identification-chip').removeClass('d-none');
+                $('.identification').removeClass('d-none');
+                $('.identifier-code').addClass('d-none');
+                $('#identifier_code').val('');
+                break;
+            case "3":
+                $('.identification').removeClass('d-none');
+                $('#identification_chip').val(1).change();
+                $('#identifier_code').val('');
+                $('.identifier-code').addClass('d-none');
+                $('.identification-chip').addClass('d-none');
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    updateIdefication();
+
+    $(document).ready(function() {
+        $('#identification_type').on('change', function () {
+            updateIdefication();
+        });
+    });
+
+    $(document).ready(function() {
+        $('#submit_form').on('submit', function() {
+            var identificationType = $('#identification_type').val();
+            var identification = $('#identification').val();
+            var identifierCode = $('#identifier_code').val();
+            var health_insurance_code = $('#health_insurance_code').val();
+
+            $('#identifier_code_error').text('');
+            $('#identification_error').text('');
+            $('#health_insurance_code_error').text('');
+            switch (identificationType) {
+                case "0":
+                    let identifier_check = identifierCode.match('[0-9]{12}');
+                    if (identifier_check == null) {
+                        $('#identifier_code_error').text('Vui lòng nhập 12 số!');
+                        return false;
+                    }
+                    break;
+                case "1":
+
+                    let identification_check_2 = identification.match('[0-9]{9}');
+                    if (identification_check_2 == null) {
+                        $('#identification_error').text('Vui lòng nhập 9 số!');
+                        return false;
+                    }
+
+                    let identifier_check_2 = identifierCode.match('[0-9]{12}');
+                    if (identifier_check_2 == null) {
+                        $('#identifier_code_error').text('Vui lòng nhập 12 số!');
+                        return false;
+                    }
+                    break;
+                case "2":
+                    let identification_check_3 = identification.match('[0-9]{12}');
+                    if (identification_check_3 == null) {
+                        $('#identification_error').text('Vui lòng nhập 12 số!');
+                        return false;
+                    }
+                    break;
+                case "3":
+
+                    let identification_check = identification.match('[0-9]{12}');
+                    if (identification_check == null) {
+                        $('#identification_error').text('Vui lòng nhập 12 số!');
+                        return false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            let health_insurance_code_check = health_insurance_code.match('[A-Z]{2}[0-9]{13}');
+            if (health_insurance_code_check == null) {
+                $('#health_insurance_code_error').text('Vui lòng nhập 15 kí tự, 2 kí tự đầu là chữ IN HOA, và 13 kí tự số!');
+                return false;
             }
         });
     });

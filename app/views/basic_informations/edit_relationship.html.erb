@@ -4,6 +4,47 @@
 
       <div class="row">
         <div class="col-md-12">
+          <div class="card card-default">
+            <div class="card-header alert alert-warning">
+              <h3 class="card-title">
+                <%= '*Cập nhật thông tin mới' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-4">
+                  <label for="father_name">Diện khó khăn</label>
+                  <%= f.select(:difficult_area, options_for_select([['Không', 0], ['Hộ cận nghèo', 1], ['Hộ nghèo', 2]], @relatioship.difficult_area),
+                               {}, {:class => "form-control select2", :id => 'difficult_area'})%>
+                  <% @relatioship.errors.full_messages_for(:difficult_area).each do |message| %>
+                    <div class="text-danger"><%= message %></div>
+                  <% end %>
+                </div>
+                <div class="col-sm-4 difficult-code">
+                  <div class="form-group">
+                    <label for="difficult_code">Số sổ hộ nghèo</label>
+                    <%= f.text_field :difficult_code, class: "form-control", id: "difficult_code", placeholder: 'Số hộ nghèo'%>
+                    <% @relatioship.errors.full_messages_for(:difficult_code).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="revolutionary_family">Con liệt sỹ, con thương binh, gia đình có công với cách mạng</label>
+                    <%= f.select(:revolutionary_family, options_for_select([['Không', 0], ['Có', 1]], @relatioship.revolutionary_family),
+                                 {}, {:class => "form-control select2", :id => 'revolutionary_family'})%>
+                    <% @relatioship.errors.full_messages_for(:revolutionary_family).each do |message| %>
+                      <div class="text-danger"><%= message %></div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--          <div class="card-footer">-->
+            <!--          </div>-->
+          </div>
 
           <div class="card card-default">
             <div class="card-header">
@@ -242,6 +283,26 @@
 
                 $('#vietschool_connect_phone').attr('readonly', true);
             }
+        });
+    });
+
+    function updateDifficultArea () {
+
+        var difficultArea = $('#difficult_area').val();
+
+        if (difficultArea == 0){
+            $('.difficult-code').addClass('d-none');
+            $('#difficult_code').val('');
+        } else {
+            $('.difficult-code').removeClass('d-none');
+        }
+    }
+
+    updateDifficultArea();
+
+    $(document).ready(function() {
+        $('#difficult_area').on('change', function () {
+            updateDifficultArea();
         });
     });
 </script>

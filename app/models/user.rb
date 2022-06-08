@@ -77,4 +77,19 @@ class User < ApplicationRecord
       return nil
     end
   end
+
+  def identification_type_name
+    case self.identification_type
+    when 0
+      return "Chưa có"
+    when 1
+      return "CMND"
+    when 2
+      return "CCCD thường"
+    when 3
+      return "CCCD gắn chíp"
+    else
+      return "Chưa cập nhật"
+    end
+  end
 end

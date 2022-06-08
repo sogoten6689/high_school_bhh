@@ -109,6 +109,7 @@ class AdminUsersController < ApplicationController
     @student_class = StudentClass.new
 
     @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
+    @identification_types = [['Chưa có CCCD/CMND', 0], ['Đã có CMND', 1],['Đã có CCCD thường', 2], ['Đã có CCCD gắn chíp', 3]]
 
     @title_page = @user.name
     @breadcrumbs = [
@@ -340,7 +341,9 @@ class AdminUsersController < ApplicationController
 
 
   def edit_user_params
-    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity, :identification, :role, :religion, :another_religion)
+    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity,
+                                  :identifier_code, :identification, :identification_type, :identification_chip,
+                                  :identification, :role, :religion, :another_religion, :health_insurance_code)
   end
 
   def edit_user_contact_params
@@ -349,7 +352,8 @@ class AdminUsersController < ApplicationController
   end
 
   def edit_relationship_params
-    params.require(:relationship).permit( :father_name, :father_year, :father_career, :father_phone, :father_address,
+    params.require(:relationship).permit( :difficult_area, :difficult_code, :revolutionary_family,
+                                          :father_name, :father_year, :father_career, :father_phone, :father_address,
                                           :mother_name, :mother_year, :mother_career, :mother_phone, :mother_address,
                                           :guardian_name, :guardian_year, :guardian_career, :guardian_phone, :guardian_address, :vietschool_connect_phone)
   end
