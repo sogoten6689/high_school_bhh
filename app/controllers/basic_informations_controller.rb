@@ -41,6 +41,13 @@ class BasicInformationsController < ApplicationController
     @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
 
 
+    # 1-Đã làm CCCD gắn chíp
+    # 2-Đã làm CCCD thường
+    # 3-Đã làm CMND
+    # 4-Chưa làm CCCD/CMND
+    @identification_types = [['Chưa có CCCD/CMND', 0], ['Đã có CMND', 1],['Đã có CCCD thường', 2], ['Đã có CCCD gắn chíp', 3]]
+
+
     # @basic_information = Setting.where(key: 'update.information.basic.full').first
     @basic_information_birthday = Setting.where(key: 'update.information.basic.birthday').first
     @basic_information_gender = Setting.where(key: 'update.information.basic.gender').first
@@ -177,8 +184,6 @@ class BasicInformationsController < ApplicationController
     # current_password = params[:user][:current_password]
     # user = User.authentication_keys(@user.email, current_password)
 
-
-
     if params[:user][:password_confirmation] == params[:user][:password]
 
       if @user.update_with_password(user_password_params)
@@ -198,7 +203,9 @@ class BasicInformationsController < ApplicationController
   private
 
   def edit_user_params
-    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity, :identification, :religion, :another_religion)
+    params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :identifier_code,
+                                  :another_ethnicity, :identification, :identification_type, :identification_chip,
+                                  :religion, :another_religion, :health_insurance_code)
   end
 
   def edit_user_contact_params
