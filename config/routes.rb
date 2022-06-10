@@ -48,6 +48,12 @@ Rails.application.routes.draw do
     collection do
       post 'update_setting', to: 'settings#update_setting', as: 'update_admin'
     end
+  end
 
+
+  resources :forms do
+    collection do
+      get 'profile_file', to: 'forms#profile_file', as: 'profile_file'
+    end
   end
 end

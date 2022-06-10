@@ -51,6 +51,16 @@
           <% end %>
         </li>
 
+
+        <li class="nav-item <%= menu_open_class?([])%> ">
+          <%= link_to forms_path, :class => "nav-link  #{current_class?(forms_path)}" do %>
+            <i class="fa fa-file nav-icon"></i>
+            <p>
+              <%= 'Các biểu mẫu' %>
+            </p>
+          <% end %>
+        </li>
+
         <% if (current_user.role == 5) %>
           <li class="nav-item <%= menu_open_class?([])%> ">
             <%= link_to settings_path, :class => "nav-link  #{current_class?(settings_path)}" do %>
