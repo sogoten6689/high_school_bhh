@@ -32,7 +32,7 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label for="household_ward">Phường/Xã</label>
-                    <%= f.select(:household_ward, @household_wards.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'household_ward'}) %>
+                    <%= f.select(:household_ward, @household_wards.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'household_ward', :onchange => "full_address('household')"}) %>
                     <% @user.errors.full_messages_for(:household_ward).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -41,10 +41,11 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="household_address">Địa chỉ</label>
-                    <%= f.text_field :household_address, class: "form-control", id: "household_address", placeholder: 'Địa chỉ thường trú'%>
+                    <%= f.text_field :household_address, class: "form-control", id: "household_address", placeholder: 'Địa chỉ thường trú', onkeyup: "full_address('household')" %>
                     <% @user.errors.full_messages_for(:household_address).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
+                    <label class="mt-2">Địa chỉ Hộ khẩu thường trú: <span class="font-weight-normal" id="household_address_full"></span></label>
                   </div>
                 </div>
               </div>
@@ -88,7 +89,7 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label for="contact_ward">Phường/Xã</label>
-                    <%= f.select(:contact_ward, @contact_wards.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_ward'}) %>
+                    <%= f.select(:contact_ward, @contact_wards.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_ward', :onchange => "full_address('contact')"}) %>
                     <% @user.errors.full_messages_for(:contact_ward).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -97,10 +98,11 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="contact_address">Địa chỉ</label>
-                    <%= f.text_field :contact_address, class: "form-control", id: "contact_address", placeholder: 'Địa chỉ liên hệ'%>
+                    <%= f.text_field :contact_address, class: "form-control", id: "contact_address", placeholder: 'Địa chỉ liên hệ', onkeyup: "full_address('contact')" %>
                     <% @user.errors.full_messages_for(:contact_address).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
+                    <label class="mt-2">Địa chỉ liên hệ: <span class="font-weight-normal" id="contact_address_full"></span></label>
                   </div>
                 </div>
                 <div class="col-sm-6">
@@ -134,6 +136,15 @@
 <%= javascript_pack_tag 'edit_user_contact' %>
 
 <script type="text/javascript">
+    function full_address(type) {
+      let full = '';
+      if ($(`#${type}_address`).val()) full = $(`#${type}_address`).val() + ', ';
+      if ($(`#${type}_ward`).val()) full += `${$(`#${type}_ward`).find('option:selected').text()}`;
+      if ($(`#${type}_district`).val()) full += `, ${$(`#${type}_district`).find('option:selected').text()}`;
+      if ($(`#${type}_province`).val()) full += `, ${$(`#${type}_province`).find('option:selected').text()}`;
+      $(`#${type}_address_full`).html(full);
+    }
+
     $('#household_province').on('change', function () {
         $('#household_district').empty();
         $.ajax({
@@ -164,6 +175,7 @@
                 $.each(data, function(key, value) {
                     $('#household_ward').append(`<option value="${value.code}">${value.name}</option>`);
                 });
+                full_address('household');
             },
             error : function(request,error)
             {
@@ -203,6 +215,7 @@
                 $.each(data, function(key, value) {
                     $('#contact_ward').append(`<option value="${value.code}">${value.name}</option>`);
                 });
+                full_address('contact');
             },
             error : function(request,error)
             {
