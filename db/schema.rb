@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_05_152054) do
+ActiveRecord::Schema.define(version: 2022_06_20_152054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,17 @@ ActiveRecord::Schema.define(version: 2022_06_05_152054) do
     t.integer "code"
     t.integer "parent_code"
     t.integer "change_code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "elective_subjects", force: :cascade do |t|
+    t.string "group_subject"
+    t.string "thematic_group"
+    t.string "elective_subject_one"
+    t.string "elective_subject_two"
+    t.string "alternative_subject"
+    t.boolean "editable", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
