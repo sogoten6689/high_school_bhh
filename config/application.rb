@@ -11,13 +11,23 @@ module HighSchool
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    config.autoloader = :classic
+    config.enable_dependency_loading = true
+    config.autoload_paths += %W(#{config.root}/lib)
+    # config.active_job.queue_adapter = :delayed_job
+    # I18n.default_locale = :en
 
-    # Configuration for the application, engines, and railties goes here.
-    #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
-    # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
+    # Avoid deprecated message
+    # config.i18n.enforce_available_locales = true
+    # config.time_zone = ENV['TIME_ZONE'] || 'UTC'
+
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration should go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded.
+
+    config.to_prepare do
+      # Or to configure mailer layout
+      #Devise::Mailer.layout "mail_layout"
+    end
   end
 end

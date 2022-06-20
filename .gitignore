@@ -39,3 +39,4 @@ yarn-debug.log*
 .idea/misc.xml
 .idea/high_school.iml
 .idea/.gitignore
+config/database.yml

@@ -56,4 +56,6 @@ Rails.application.routes.draw do
       get 'profile_file', to: 'forms#profile_file', as: 'profile_file'
     end
   end
+
+  resources :subject_combinations, :only => [:index]
 end

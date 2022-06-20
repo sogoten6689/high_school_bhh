@@ -72,6 +72,17 @@
           </li>
         <% end %>
 
+        <% if (current_user.role == 1) %>
+          <li class="nav-item <%= menu_open_class?([])%> ">
+            <%= link_to subject_combinations_path, :class => "nav-link  #{current_class?(subject_combinations_path)}" do %>
+              <i class="fa fa-cog nav-icon"></i>
+              <p>
+                <%= 'ĐK Môn học tự chọn' %>
+              </p>
+            <% end %>
+          </li>
+        <% end %>
+
       </ul>
     </nav>
 

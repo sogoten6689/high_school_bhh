@@ -1,0 +1,22 @@
+# PostgreSQL. Versions 9.1 and up are supported.
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: high_school_bhh
+  username: postgres
+  password: 123456
+  host: 127.0.0.1
+
+test:
+  <<: *default
+  database: high_school_bhh
+
+
+production:
+  <<: *default
+  database: high_school_bhh
