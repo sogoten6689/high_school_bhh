@@ -14,7 +14,7 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label for="household_province">Tỉnh/Thành phố</label>
-                    <%= f.select(:household_province, @provinces.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'household_province'}) %>
+                    <%= f.select(:household_province, @provinces.collect {|u| [u.name_with_type, u.code]},{ },{ :class => 'form-control select2', :id => 'household_province'}) %>
                     <% @user.errors.full_messages_for(:household_province).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -23,7 +23,7 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label for="household_district">Quận/Huyện</label>
-                    <%= f.select(:household_district, @household_districts.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'household_district'}) %>
+                    <%= f.select(:household_district, @household_districts.collect {|u| [u.name_with_type, u.code]},{ },{ :class => 'form-control select2', :id => 'household_district'}) %>
                     <% @user.errors.full_messages_for(:household_district).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -32,7 +32,7 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label for="household_ward">Phường/Xã</label>
-                    <%= f.select(:household_ward, @household_wards.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'household_ward', :onchange => "full_address('household')"}) %>
+                    <%= f.select(:household_ward, @household_wards.collect {|u| [u.name_with_type, u.code]},{ },{ :class => 'form-control select2', :id => 'household_ward', :onchange => "full_address('household')"}) %>
                     <% @user.errors.full_messages_for(:household_ward).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -71,7 +71,7 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label for="contact_province">Tỉnh/Thành phố</label>
-                    <%= f.select(:contact_province, @provinces.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_province'}) %>
+                    <%= f.select(:contact_province, @provinces.collect {|u| [u.name_with_type, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_province'}) %>
                     <% @user.errors.full_messages_for(:contact_province).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -80,7 +80,7 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label for="contact_district">Quận/Huyện</label>
-                    <%= f.select(:contact_district, @contact_districts.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_district'}) %>
+                    <%= f.select(:contact_district, @contact_districts.collect {|u| [u.name_with_type, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_district'}) %>
                     <% @user.errors.full_messages_for(:contact_district).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -89,7 +89,7 @@
                 <div class="col-sm-4">
                   <div class="form-group">
                     <label for="contact_ward">Phường/Xã</label>
-                    <%= f.select(:contact_ward, @contact_wards.collect {|u| [u.name, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_ward', :onchange => "full_address('contact')"}) %>
+                    <%= f.select(:contact_ward, @contact_wards.collect {|u| [u.name_with_type, u.code]},{ },{ :class => 'form-control select2', :id => 'contact_ward', :onchange => "full_address('contact')"}) %>
                     <% @user.errors.full_messages_for(:contact_ward).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>

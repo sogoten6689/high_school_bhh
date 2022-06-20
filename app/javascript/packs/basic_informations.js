@@ -1,8 +1,11 @@
 $(document).ready(function() {
     $('#full_name').on('input', function () {
-        $array_full_name = this.value.split(' ');
+        $full_name_string = this.value;
+        $array_full_name = $full_name_string.split(' ');
         $last_name = $array_full_name.slice(-1)[0];
         $('#name').val($last_name);
+        // $('#name').val($last_name.toUpperCase());
+        // $('#full_name').val($full_name_string.toUpperCase());
     });
 
     $('#ethnicity').on('change', function () {
