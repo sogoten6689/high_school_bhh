@@ -74,7 +74,7 @@
 
         <% if (current_user.role == 1) %>
           <li class="nav-item <%= menu_open_class?([])%> ">
-            <%= link_to subject_combinations_path, :class => "nav-link  #{current_class?(subject_combinations_path)}" do %>
+            <%= link_to elective_subjects_path, :class => "nav-link  #{current_class?(elective_subjects_path)}" do %>
               <i class="fa fa-cog nav-icon"></i>
               <p>
                 <%= 'ĐK Môn học tự chọn' %>
