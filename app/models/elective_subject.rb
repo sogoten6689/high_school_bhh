@@ -1,0 +1,3 @@
+class ElectiveSubject < ApplicationRecord
+
+end

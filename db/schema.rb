@@ -36,8 +36,10 @@ ActiveRecord::Schema.define(version: 2022_06_20_152054) do
     t.string "elective_subject_two"
     t.string "alternative_subject"
     t.boolean "editable", default: true
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_elective_subjects_on_user_id"
   end
 
   create_table "ethnicities", force: :cascade do |t|
@@ -176,6 +178,7 @@ ActiveRecord::Schema.define(version: 2022_06_20_152054) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "elective_subjects", "users"
   add_foreign_key "relationships", "users"
   add_foreign_key "student_classes", "users"
   add_foreign_key "user_contacts", "users"

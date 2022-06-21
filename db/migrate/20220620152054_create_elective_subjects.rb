@@ -7,6 +7,7 @@ class CreateElectiveSubjects < ActiveRecord::Migration[6.1]
       t.string :elective_subject_two
       t.string :alternative_subject
       t.boolean :editable, default: true
+      t.references :user, null: false, foreign_key: true
       t.timestamps
     end
   end

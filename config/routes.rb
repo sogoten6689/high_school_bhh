@@ -57,5 +57,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :elective_subjects, :only => [:index]
+  resources :elective_subjects, :only => [:index, :create]
 end

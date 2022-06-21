@@ -49,25 +49,25 @@ ELECTIVE_SUBJECT_TWO = [
     {code: 'tc1.2.3', name: 'Âm nhạc', key: 'th1'},
     {code: 'tc1.2.4', name: 'Mỹ thuật', key: 'th1'},
 
-    {code: 'tc2.2.1', name: 'Tin học', key: 'th1'},
-    {code: 'tc2.2.2', name: 'Công nghệ (KTCN)', key: 'th1'},
-    {code: 'tc2.2.3', name: 'Âm nhạc', key: 'th1'},
-    {code: 'tc2.2.4', name: 'Mỹ thuật', key: 'th1'},
+    {code: 'tc2.2.1', name: 'Tin học', key: 'th2'},
+    {code: 'tc2.2.2', name: 'Công nghệ (KTCN)', key: 'th2'},
+    {code: 'tc2.2.3', name: 'Âm nhạc', key: 'th2'},
+    {code: 'tc2.2.4', name: 'Mỹ thuật', key: 'th2'},
 
-    {code: 'tc3.1.1', name: 'Hóa', key: 'th3'},
-    {code: 'tc3.1.2', name: 'Sinh', key: 'th3'},
-    {code: 'tc3.1.3', name: 'Âm nhạc', key: 'th3'},
-    {code: 'tc3.1.4', name: 'Mỹ thuật', key: 'th3'},
-    {code: 'tc3.1.5', name: 'Sử', key: 'th3'},
-    {code: 'tc3.1.6', name: 'Địa', key: 'th3'},
-    {code: 'tc3.1.7', name: 'Giáo dục Kinh tế - Pháp luật', key: 'th3'}
+    {code: 'tc3.2.1', name: 'Hóa', key: 'th3'},
+    {code: 'tc3.2.2', name: 'Sinh', key: 'th3'},
+    {code: 'tc3.2.3', name: 'Âm nhạc', key: 'th3'},
+    {code: 'tc3.2.4', name: 'Mỹ thuật', key: 'th3'},
+    {code: 'tc3.2.5', name: 'Sử', key: 'th3'},
+    {code: 'tc3.2.6', name: 'Địa', key: 'th3'},
+    {code: 'tc3.2.7', name: 'Giáo dục Kinh tế - Pháp luật', key: 'th3'}
 ]
 
 ALTERNATIVE_SUBJECT = [
     {code: 'tt1.3.1', name: 'Tin học', key: 'th1'},
     {code: 'tt1.3.2', name: 'Công nghệ (KTCN)', key: 'th1'},
 
-    {code: 'tt2.3.1', name: 'Công nghệ (KTCN)', key: 'th2'},
+    {code: 'tt2.3.1', name: 'Tin học', key: 'th2'},
     {code: 'tt2.3.2', name: 'Công nghệ (KTCN)', key: 'th2'},
 
     {code: 'tt3.3.1', name: 'Hóa', key: 'th3'},

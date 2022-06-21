@@ -1,0 +1,219 @@
+
+<div class="content container-fluid elective_subjects">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">
+              Đăng Ký Môn học tự chọn
+            </h3>
+          </div>
+          <form action="/elective_subjects" method="post" class="needs-validation" novalidate>
+            <%= csrf_meta_tags %>
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="group_subject">Tổ hợp môn học</label>
+                    <select name="group_subject" id="group_subject" class="form-control select2" required>
+                      <option value="" disabled="disabled" selected>Chọn tổ hợp môn học</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Bạn cần chọn tổ hợp môn học.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="thematic_group">Nhóm chuyên đề</label>
+                    <select name="thematic_group" id="thematic_group" class="form-control select2" required></select>
+                    <div class="invalid-feedback">
+                      Bạn cần chọn nhóm chuyên đề.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="elective_subject_one">Môn tự chọn 1</label>
+                    <select name="elective_subject_one" id="elective_subject_one" class="form-control select2" required></select>
+                    <div class="invalid-feedback">
+                      Bạn cần chọn môn tự chọn 1.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="elective_subject_two">Môn tự chọn 2</label>
+                    <select name="elective_subject_two" id="elective_subject_two" class="form-control select2" required></select>
+                    <div class="invalid-feedback">
+                      Bạn cần chọn môn tự chọn 2.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group alternative_subject">
+                    <label for="alternative_subject">Môn thay thế <i class="fas fa-info-circle" data-toggle="popover" data-content="Nếu không có hoặc hết Âm nhạc và Mỹ thuật, bạn sẽ chọn môn thay thế khác"></i></label>
+                    <select name="alternative_subject" id="alternative_subject" class="form-control select2"></select>
+                    <div class="invalid-feedback">
+                      Bạn cần chọn môn thay thế.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-center">
+              <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  var group_subjects = <%= raw(GROUP_SUBJECT.to_json) %>;
+  var thematic_groups = <%= raw(THEMATIC_GROUP.to_json) %>;
+  var elective_subject_ones = <%= raw(ELECTIVE_SUBJECT_ONE.to_json) %>;
+  var elective_subject_twos = <%= raw(ELECTIVE_SUBJECT_TWO.to_json) %>;
+  var alternative_subjects = <%= raw(ALTERNATIVE_SUBJECT.to_json) %>;
+  var elective_subject = <%= raw(@elective_subject.to_json) %>;
+  
+  $(function () {
+      $("[data-toggle=popover]").popover({trigger: "hover"});
+  });
+
+  $(".alternative_subject").hide();
+
+  $.each(group_subjects, (key, value) =>{
+    $('#group_subject').append(`<option value="${value.code}">${value.name}</option>`);
+  });
+
+  <% if @elective_subject.present? %>
+    $('#group_subject').val(elective_subject.group_subject);
+    init();
+    $('#thematic_group').val(elective_subject.thematic_group);
+    $('#elective_subject_one').val(elective_subject.elective_subject_one);
+    $('#elective_subject_two').val(elective_subject.elective_subject_two);
+    $('#alternative_subject').val(elective_subject.alternative_subject);
+
+    <% if @elective_subject.alternative_subject.present? %>
+      $.each(alternative_subjects, (key, value) => {
+        if (value.key == elective_subject.group_subject) {
+          $('#alternative_subject').append(`<option value="${value.code}">${value.name}</option>`);
+        }
+      });
+      disable_option('alternative_subject', 'tt');
+      $(".alternative_subject").show();
+    <% end %>
+  <% end %>
+
+  $('#group_subject').on('change', () => {
+    $('#thematic_group').find('option').remove();
+    $('#elective_subject_one').find('option').remove();
+    $('#elective_subject_two').find('option').remove();
+    init();
+    update_alternative_subject();
+  });
+  
+  $('#elective_subject_one').on('change', () => {
+    disable_option('elective_subject_two', 'tc');
+    if (['tc1.2.3', 'tc1.2.4', 'tc2.2.3', 'tc2.2.4', 'tc3.2.3', 'tc3.2.4'].some(v => v == $('#elective_subject_two').val())) {
+      disable_option('alternative_subject', 'tt');
+    }
+  });
+
+  $('#elective_subject_two').on('change', () => {
+    update_alternative_subject()
+  });
+
+  function disable_option(id, type) {
+    if ($('#group_subject').val() == 'th3') {
+      let key = "";
+      $(`#${id} option[disabled="disabled"]`).removeAttr('disabled');
+      switch ($(`#elective_subject_one`).val()) {
+        case 'tc3.1.1':
+          key = type == 'tc' ? 'tc3.2.5' : 'tt3.3.3';
+          break;
+
+        case 'tc3.1.2':
+          key = type == 'tc' ? 'tc3.2.6' : 'tt3.3.4';
+          break;
+
+        case 'tc3.1.3':
+          key = type == 'tc' ? 'tc3.2.7' : 'tt3.3.5';
+          break;
+      }
+      $(`#${id} option[value="${key}"]`).attr('disabled', 'disabled');
+    }
+  }
+
+  function init() {
+    let group_subject_val = $('#group_subject').val();
+
+    $.each(thematic_groups, (key, value) => {
+      if (value.key == group_subject_val) {
+        $('#thematic_group').append(`<option value="${value.code}">${value.name}</option>`);
+      }
+    });
+
+    $.each(elective_subject_ones, (key, value) => {
+      if (value.key == group_subject_val) {
+        $('#elective_subject_one').append(`<option value="${value.code}">${value.name}</option>`);
+      }
+    });
+
+    $.each(elective_subject_twos, (key, value) => {
+      if (value.key == group_subject_val) {
+        $('#elective_subject_two').append(`<option value="${value.code}">${value.name}</option>`);
+      }
+      disable_option('elective_subject_two', 'tc');
+    });
+  }
+
+  function update_alternative_subject() {
+    let elective_subject_two_val = $('#elective_subject_two').val();
+    if (['tc1.2.3', 'tc1.2.4', 'tc2.2.3', 'tc2.2.4', 'tc3.2.3', 'tc3.2.4'].some(v => v == elective_subject_two_val)) {
+      let group_subject_val = $('#group_subject').val();
+      $('#alternative_subject').find('option').remove();
+      $.each(alternative_subjects, (key, value) => {
+        if (value.key == group_subject_val) {
+          $('#alternative_subject').append(`<option value="${value.code}">${value.name}</option>`);
+        }
+      });
+      disable_option('alternative_subject', 'tt');
+      $(".alternative_subject").show();
+    } else {
+      $(".alternative_subject").hide();
+    }
+  }
+
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+
+</script>
