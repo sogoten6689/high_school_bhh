@@ -31,18 +31,25 @@ class ElectiveSubjectsController < ApplicationController
                     :elective_subject_one => params[:elective_subject_one],
                     :elective_subject_two => params[:elective_subject_two],
                     :alternative_subject => params[:alternative_subject],
-                    :user_id => current_user.id
+                    :user_id => current_user.id,
+                    :editable => false
                 )
                 flash[:success] = 'Đã đăng ký thành công!'
             else
-                elective_subject.update!(
-                    :group_subject => params[:group_subject],
-                    :thematic_group => params[:thematic_group],
-                    :elective_subject_one => params[:elective_subject_one],
-                    :elective_subject_two => params[:elective_subject_two],
-                    :alternative_subject => params[:alternative_subject]
-                )
-                flash[:success] = 'Đã cập nhập thành công!'
+                if elective_subject.editable
+                    elective_subject.update!(
+                      :group_subject => params[:group_subject],
+                      :thematic_group => params[:thematic_group],
+                      :elective_subject_one => params[:elective_subject_one],
+                      :elective_subject_two => params[:elective_subject_two],
+                      :alternative_subject => params[:alternative_subject],
+                      :editable => false
+                    )
+                    flash[:success] = 'Đã cập nhập thành công!'
+                else
+                    flash[:error] = 'Hết hạn cập nhật!'
+
+                end
             end
         rescue Exception => ex
             Rails.logger.info(ex.message)

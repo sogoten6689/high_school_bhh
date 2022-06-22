@@ -68,9 +68,11 @@
                 </div>
               </div>
             </div>
-            <div class="card-footer text-center">
-              <button type="submit" class="btn btn-primary">Cập nhật</button>
-            </div>
+            <% if @elective_subject.editable %>
+              <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+              </div>
+            <% end %>
           </form>
         </div>
         <!-- /.card -->
