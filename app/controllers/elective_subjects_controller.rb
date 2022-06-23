@@ -23,6 +23,9 @@ class ElectiveSubjectsController < ApplicationController
             params[:alternative_subject] = nil if !alternative_subject
 
             elective_subject = ElectiveSubject.find_by(:user_id => current_user.id)
+            send_mail = false
+            email_subject = ''
+            is_update = false
 
             if elective_subject.blank?
                 ElectiveSubject.create!(
@@ -35,6 +38,8 @@ class ElectiveSubjectsController < ApplicationController
                     :editable => false
                 )
                 flash[:success] = 'Đã đăng ký thành công!'
+                email_subject= 'Đăng ký môn tự chọn thành công!'
+                send_mail = true
             else
                 if elective_subject.editable
                     elective_subject.update!(
@@ -46,9 +51,24 @@ class ElectiveSubjectsController < ApplicationController
                       :editable => false
                     )
                     flash[:success] = 'Đã cập nhập thành công!'
+                    email_subject= 'Cập nhập môn tự chọn thành công!'
+                    send_mail = true
+                    is_update = true
                 else
                     flash[:error] = 'Hết hạn cập nhật!'
+                end
 
+                if send_mail
+                    email_params = {
+                                        :name => current_user[:name],
+                                        :group_subject => GROUP_SUBJECT.select{|g| g[:code] == params[:group_subject]}.first[:name],
+                                        :thematic_group => THEMATIC_GROUP.select{|g| g[:code] == params[:thematic_group]}.first[:name],
+                                        :elective_subject_one => ELECTIVE_SUBJECT_ONE.select{|g| g[:code] == params[:elective_subject_one]}.first[:name],
+                                        :elective_subject_two => ELECTIVE_SUBJECT_TWO.select{|g| g[:code] == params[:elective_subject_two]}.first[:name],
+                                        :alternative_subject => params[:alternative_subject].present? ? ALTERNATIVE_SUBJECT.select{|g| g[:code] == params[:alternative_subject]}.first[:name] : nil,
+                                        :is_update => is_update
+                                    }
+                    ElectiveSubjectsMailer.send_registration_confirmation(email_params, current_user.email, email_subject).deliver
                 end
             end
         rescue Exception => ex

@@ -1,0 +1,30 @@
+<p>Xin chào <%= @email_params[:name] %>!</p>
+
+<p>Bạn đã <%= @email_params[:is_update] ? 'cập nhập' : 'đăng ký' %> thành công môn học tự chọn như sau:<p>
+<table>
+  <tr>
+    <th style="text-align:left">Tổ hợp môn học:</th>
+    <td><%= @email_params[:group_subject] %></td>
+  </tr>
+  <tr>
+    <th style="text-align:left">Nhóm chuyên đề:</th>
+    <td><%= @email_params[:thematic_group] %></td>
+  </tr>
+  <tr>
+    <th style="text-align:left">Môn tự chọn 1:</th>
+    <td><%= @email_params[:elective_subject_one] %></td>
+  </tr>
+  <tr>
+    <th style="text-align:left">Môn tự chọn 2:</th>
+    <td><%= @email_params[:elective_subject_two] %></td>
+  </tr>
+  <% if @email_params[:alternative_subject].present? %>
+    <tr>
+      <th style="text-align:left">Môn thay thế:</th>
+      <td><%= @email_params[:alternative_subject] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p>Trân trọng.</p>
+<p>Phòng Tham Vấn Học Đường.</p>

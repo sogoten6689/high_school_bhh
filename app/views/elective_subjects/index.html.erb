@@ -7,7 +7,7 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">
-              Đăng Ký Môn học tự chọn
+              Đăng Ký môn học tự chọn
             </h3>
           </div>
           <form action="/elective_subjects" method="post" class="needs-validation" novalidate>
@@ -66,6 +66,9 @@
                     </div>
                   </div>
                 </div>
+
+                <h5 class="text-danger col-12">(*)Bạn chỉ có thể đăng ký một lần, nếu có vấn đề vui lòng liên hệ giáo viên chủ nhiệm.</h5>
+
               </div>
             </div>
             <% if @elective_subject.editable %>
