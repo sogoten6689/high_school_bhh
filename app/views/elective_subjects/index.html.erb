@@ -75,7 +75,7 @@
 
               </div>
             </div>
-            <% if @elective_subject.editable %>
+            <% if @elective_subject.nil? || @elective_subject.editable %>
               <div class="card-footer text-center">
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
               </div>
