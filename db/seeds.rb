@@ -53,11 +53,43 @@ require 'json'
 #   end
 # end
 
-settings = JSON.parse(File.read(Rails.root.join("app/assets/files/setting.json")))
-settings.each do |setting|
-  if Setting.where(key: setting['key']).first().nil?
-    puts setting
-    Setting.create(setting)
+# settings = JSON.parse(File.read(Rails.root.join("app/assets/files/setting.json")))
+# settings.each do |setting|
+#   if Setting.where(key: setting['key']).first().nil?
+#     puts setting
+#     Setting.create(setting)
+#   end
+# end
+
+update_cities = JSON.parse(File.read(Rails.root.join("app/assets/files/city_change_code.json")))
+
+update_cities.each do |city|
+  # puts city['code']
+  # puts city['name']
+  if !Province.where("name LIKE ? ", city['name']).first().nil?
+    Province.where("name LIKE ? ", city['name']).first().update(change_code: city['code'])
   end
 end
+
+
+update_districts = JSON.parse(File.read(Rails.root.join("app/assets/files/district_change_code2.json")))
+
+update_districts.each do |district|
+
+
+  province = Province.where(change_code: district['parent_code']).first()
+
+  # puts district['code']
+  # puts district['name']
+  # puts district['parent_code']
+  # puts province['code']
+
+  if !District.where("name_with_type LIKE ? ", district['name']).where(parent_code: province['code']).first().nil?
+    # puts "ok";
+    District.where("name_with_type LIKE ? ", district['name']).where(parent_code: province['code']).first().update(change_code: district['code'])
+  end
+end
+# District.update(change_code: '')
+
+
 

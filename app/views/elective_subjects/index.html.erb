@@ -14,7 +14,12 @@
             <%= csrf_meta_tags %>
             <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
             <div class="card-body">
+
               <div class="row">
+                <div class="alert alert-warning col-12">
+                  <strong>*Chú ý!</strong> Bạn chỉ có thể đăng ký một lần, nếu có vấn đề vui lòng liên hệ quản lý viên!
+                </div>
+
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="group_subject">Tổ hợp môn học</label>
@@ -67,7 +72,6 @@
                   </div>
                 </div>
 
-                <h5 class="text-danger col-12">(*)Bạn chỉ có thể đăng ký một lần, nếu có vấn đề vui lòng liên hệ giáo viên chủ nhiệm.</h5>
 
               </div>
             </div>

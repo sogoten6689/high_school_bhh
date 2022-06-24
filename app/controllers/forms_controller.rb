@@ -1,63 +1,179 @@
 class FormsController < ApplicationController
   include ApplicationHelper
+  # include PdfToPdfService
   before_action :is_signed_in?
-
 
   def index
   end
 
   def profile_file
-    # require 'hexapdf'
-    # # require 'stringio'
-    # require 'tempfile'
+    left = 28;
+    bottom = 33;
+    size = 4;
+    # data = [
+    #   [
+    #     # [:font, Rails.root.join("app", "assets", "fonts", "TimesNewRoman.ttf")], # set font cho toàn bộ content file
+    #     [:font, "LoraWeight"], # set font cho toàn bộ content file
+    #     [:draw_text, "A456", at: [left + 492, bottom + 742], size: size + 7, color: "#FF0000", styles: [:bold, :italic] ], # điền text "2018" với font size 10 vào vị trí (260, 790)
+    #     [:draw_text, current_user.full_name, at: [left + 188, bottom + 695], size: size + 7],
+    #     [:draw_text, current_user.gender == 0 ? "Nữ" : "Nam", at: [left + 460, bottom + 696], size: size + 5],
     #
-    # doc = HexaPDF::Document.open('profile_template.pdf')
-    # # doc.write('modified.pdf')
-    # # doc = HexaPDF::Document.new
-    # canvas = doc.pages.add.canvas
-    # canvas.font('Helvetica', size: 100)
-    # canvas.text("Hello World2!", at: [20, 400])
+    #     [:draw_text, "0", at: [left + 258, bottom + 677], size: size + 5],
+    #     [:draw_text, "1", at: [left + 280, bottom + 677], size: size + 5],
     #
-    # io = Tempfile.new(['so_yeu_ly_lich', '.pdf'], 'tmp' )
-    # doc.write(io)
-    # # Do something with io
-    # # return io
-    # send_file io.path
+    #     [:draw_text, "0", at: [left + 326, bottom + 677], size: size + 5],
+    #     [:draw_text, "3", at: [left + 348, bottom + 677], size: size + 5],
     #
+    #     [:draw_text, "2", at: [left + 389, bottom + 678], size: size + 5],
+    #     [:draw_text, "0", at: [left + 410, bottom + 678], size: size + 5],
+    #     [:draw_text, "0", at: [left + 432, bottom + 678], size: size + 5],
+    #     [:draw_text, "2", at: [left + 454, bottom + 678], size: size + 5],
+    #
+    #     [:draw_text, "THÀNH PHỐ HỒ CHÍ MINH", at: [left + 74, bottom + 650], size: size + 6],
+    #     [:draw_text, "Kinh", at: [left + 72, bottom + 635], size: size + 6],
+    #     [:draw_text, "Việt Nam", at: [left + 245, bottom + 635], size: size + 6],
+    #     [:draw_text, "Công Giáo", at: [left + 460, bottom + 635], size: size + 6],
+    #
+    #     [:draw_text, "0", at: [left + 265, bottom + 620], size: size + 6],
+    #     [:draw_text, "7", at: [left + 285, bottom + 620], size: size + 6],
+    #     [:draw_text, "8", at: [left + 302, bottom + 620], size: size + 6],
+    #     [:draw_text, "9", at: [left + 320, bottom + 620], size: size + 6],
+    #     [:draw_text, "3", at: [left + 340, bottom + 620], size: size + 6],
+    #     [:draw_text, "4", at: [left + 357, bottom + 620], size: size + 6],
+    #     [:draw_text, "8", at: [left + 376, bottom + 620], size: size + 6],
+    #     [:draw_text, "1", at: [left + 395, bottom + 620], size: size + 6],
+    #     [:draw_text, "3", at: [left + 414, bottom + 620], size: size + 6],
+    #     [:draw_text, "4", at: [left + 433, bottom + 620], size: size + 6],
+    #     [:draw_text, "9", at: [left + 452, bottom + 620], size: size + 6],
+    #     [:draw_text, "7", at: [left + 470, bottom + 620], size: size + 6],
+    #
+    #
+    #     [:draw_text, "Chứng minh nhân dân", at: [left + 140, bottom + 605], size: size + 6],
+    #     [:draw_text, "023123456", at: [left + 160, bottom + 592], size: size + 6],
+    #
+    #     [:draw_text, "HS", at: [left + 261, bottom + 576], size: size + 6],
+    #     [:draw_text, "4", at: [left + 285, bottom + 576], size: size + 6],
+    #     [:draw_text, "79", at: [left + 305, bottom + 576], size: size + 6],
+    #     [:draw_text, "123 456 7890", at: [left + 330, bottom + 576], size: size + 6],
+    #
+    #
+    #     [:draw_text, "8", at: [left + 376, bottom + 561], size: size + 6],
+    #     [:draw_text, "1", at: [left + 396, bottom + 561], size: size + 6],
+    #
+    #     [:draw_text, "8", at: [left + 440, bottom + 561], size: size + 6],
+    #     [:draw_text, "1", at: [left + 461, bottom + 561], size: size + 6],
+    #
+    #     [:draw_text, "123 Đường XYZ, Phường 7, Quận Tân Bình, TP. Hồ Chí Minh", at: [left + 28, bottom + 547], size: size + 6],
+    #
+    #     [:draw_text, "123 Đường XYZ, Phường 7, Quận Tân Bình, TP. Hồ Chí Minh", at: [left + 100, bottom + 520], size: size + 6],
+    #     [:draw_text, "0987654321", at: [left + 130, bottom + 505], size: size + 6],
+    #     [:draw_text, "123456.thuyan@thptbinhhunghoa.edu.vn", at: [left + 65, bottom + 490], size: size + 6],
+    #
+    #     [:draw_text, "Không", at: [left + 105, bottom + 444], size: size + 6],
+    #     [:draw_text, "Không", at: [left + 370, bottom + 444], size: size + 6],
+    #     [:draw_text, "Không", at: [left + 95, bottom + 429], size: size + 6],
+    #
+    #
+    #     [:draw_text, "Bùi Văn A", at: [left + 108, bottom + 385], size: size + 6],
+    #     [:draw_text, "1960", at: [left + 80, bottom + 370], size: size + 6],
+    #     [:draw_text, "Tự Do", at: [left + 335, bottom + 370], size: size + 6],
+    #
+    #     [:draw_text, "123 Đường XYZ, Phường 7, Quận Tân Bình, TP. Hồ Chí Minh", at: [left + 100, bottom + 355], size: size + 6],
+    #     [:draw_text, "0983271234", at: [left + 98, bottom + 340], size: size + 6],
+    #
+    #     [:draw_text, "Bùi Văn A", at: [left + 104, bottom + 297], size: size + 6],
+    #     [:draw_text, "1960", at: [left + 80, bottom + 282], size: size + 6],
+    #     [:draw_text, "Tự Do", at: [left + 335, bottom + 282], size: size + 6],
+    #
+    #     [:draw_text, "123 Đường XYZ, Phường 7, Quận Tân Bình, TP. Hồ Chí Minh", at: [left + 100, bottom + 267], size: size + 6],
+    #     [:draw_text, "0983271234", at: [left + 98, bottom + 252], size: size + 6],
+    #
+    #
+    #     [:draw_text, "Bùi Văn A", at: [left + 175, bottom + 209], size: size + 6],
+    #     [:draw_text, "1960", at: [left + 80, bottom + 194], size: size + 6],
+    #     [:draw_text, "Tự Do", at: [left + 335, bottom + 194], size: size + 6],
+    #
+    #     [:draw_text, "123 Đường XYZ, Phường 7, Quận Tân Bình, TP. Hồ Chí Minh", at: [left + 100, bottom + 179], size: size + 6],
+    #     [:draw_text, "0983271234", at: [left + 98, bottom + 164], size: size + 6],
+    #
+    #     [:draw_text, "0983271234", at: [left + 299, bottom + 137], size: size + 6],
+    #
+    #     [:draw_text, "06", at: [left + 354, bottom + 71], size: size + 3],
+    #     [:draw_text, "05", at: [left + 390, bottom + 71], size: size + 3],
+    #     [:draw_text, "2022", at: [left + 420, bottom + 71], size: size + 3],
+    #
+    #     # [:draw_text, "BÙI THỊ THÚY AN".valid_encoding?, at: [200, 730], size: 12, font: 'TimesNewRoman'],
+    #     # [:text_box, "20", at: [333, 790], size: 10],
+    #     # [:text_box, "NGUYEN DUC TUNG", at: [135, 748], size: 20],
+    #     # [:text_box, "1991", at: [120, 701], size: 10],
+    #     # [:text_box, "2", at: [170, 701], size: 10],
+    #     # [:text_box, "31", at: [210, 701], size: 10],
+    #     # [:text_box, "26", at: [285, 701], size: 10],
+    #     # [:stroke_ellipse, [348, 688], 10], # vẽ đường tròn với bán kính 10px ở vị trí (348, 688)
+    #   ]
+    # ]
 
     data = [
       [
-        # [:font, Rails.root.join("app", "assets", "fonts", "Helvetica.ttf")], # set font cho toàn bộ content file
-        # [:text_box, "2018", at: [260, 790], size: 10], # điền text "2018" với font size 10 vào vị trí (260, 790)
-        # [:text_box, "6", at: [307, 790], size: 10],
-        # [:text_box, "20", at: [333, 790], size: 10],
-        # [:text_box, "グエン　ドゥック　トゥン", at: [135, 774], size: 10],
-        # [:text_box, "NGUYEN DUC TUNG", at: [135, 748], size: 20],
-        # [:text_box, "1991", at: [120, 701], size: 10],
-        # [:text_box, "2", at: [170, 701], size: 10],
-        # [:text_box, "31", at: [210, 701], size: 10],
-        # [:text_box, "26", at: [285, 701], size: 10],
-        # [:stroke_ellipse, [348, 688], 10], # vẽ đường tròn với bán kính 10px ở vị trí (348, 688)
-        # [:text_box, "トウキョウト シンジュクク シンジュク ゴチョウメ ニノイチ", at: [135, 673], size: 10],
-        # [:text_box, "160-0022", at: [135, 658], size: 10],
-        # [:text_box, "東京都新宿区新宿５丁目２ー1", at: [135, 635], size: 18],
-        # [:text_box, "0987654321", at: [425, 653], size: 12]
-      ],
-      [
-        # page 2 tạm thời không có nội dung nên truyền vào mảng rỗng
-      ],
-      [
-        # page 3 tạm thời không có nội dung nên truyền vào mảng rỗng
-      ],
-      [
-        # page 3 tạm thời không có nội dung nên truyền vào mảng rỗng
-      ],
-      [
-        # page 3 tạm thời không có nội dung nên truyền vào mảng rỗng
+        [:font, "LoraWeight"], # set font cho toàn bộ content file
+        # [:draw_text, "A456", at: [left + 492, bottom + 742], size: size + 7, color: "#FF0000", styles: [:bold, :italic] ], # điền text "2018" với font size 10 vào vị trí (260, 790)
+        [:draw_text, current_user.full_name, at: [left + 170, bottom + 696], size: size + 6],
+        [:draw_text, current_user.gender == 0 ? "Nữ" : "Nam", at: [left + 460, bottom + 696], size: size + 5],
       ]
     ]
 
-    # PdfToPdfService.new("profile_template.pdf", "out.pdf", data).perform
+    file_name = "tmp/ly_lich_hs_" + rand.to_s[2..11]  + ".pdf"
+    # file_name = "out2.pdf"
+    PdfToPdfService.new("ly_lich_hs_new_no_data_pdf.pdf", file_name, data).perform
+    File.open(file_name, 'r') do |f|
+      send_data f.read, type: "application/pdf"
+    end
+    File.delete(file_name)
+  end
+
+  def score_board_file
+    left = 30;
+    bottom = 30;
+    size = 5;
+    data = [
+      [
+        # [:font, Rails.root.join("app", "assets", "fonts", "TimesNewRoman.ttf")], # set font cho toàn bộ content file
+        [:font, "LoraWeight"], # set font cho toàn bộ content file
+      ]
+    ]
+
+
+    file_name = "tmp/DonNhapHoc_no_data" + rand.to_s[2..11]  + ".pdf"
+
+    # file_name = "out2.pdf"
+    PdfToPdfService.new("DonNhapHoc_no_data_pdf.pdf", file_name, data).perform
+    File.open(file_name, 'r') do |f|
+      send_data f.read, type: "application/pdf"
+    end
+    File.delete(file_name)
+
+  end
+
+  def commitment_file
+    left = 30;
+    bottom = 30;
+    size = 5;
+    data = [
+      [
+        # [:font, Rails.root.join("app", "assets", "fonts", "TimesNewRoman.ttf")], # set font cho toàn bộ content file
+        [:font, "LoraWeight"], # set font cho toàn bộ content file
+      ]
+    ]
+
+
+    file_name = "tmp/DonCamKet_no_data_pdf_" + rand.to_s[2..11]  + ".pdf"
+
+    # file_name = "out2.pdf"
+    PdfToPdfService.new("DonCamKet_no_data_pdf.pdf", file_name, data).perform
+    File.open(file_name, 'r') do |f|
+      send_data f.read, type: "application/pdf"
+    end
+    File.delete(file_name)
 
   end
 end

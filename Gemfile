@@ -23,6 +23,10 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'rails-i18n'
 
+# Versatile PDF creation and manipulation library
+gem 'prawn'
+gem 'combine_pdf'
+
 gem "roo"
 
 gem 'figaro'

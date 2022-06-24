@@ -54,6 +54,8 @@ Rails.application.routes.draw do
   resources :forms do
     collection do
       get 'profile_file', to: 'forms#profile_file', as: 'profile_file'
+      get 'commitment_file', to: 'forms#commitment_file', as: 'commitment_file'
+      get 'score_board_file', to: 'forms#score_board_file', as: 'score_board_file'
     end
   end
 

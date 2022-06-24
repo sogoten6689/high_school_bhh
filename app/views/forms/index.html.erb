@@ -3,7 +3,7 @@
     <!-- Small boxes (Stat box) -->
 
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">Sơ yếu lý lịch</h3>
@@ -11,15 +11,61 @@
 
           <div class="card-body">
             <strong><i class="fas fa-book mr-1"></i> Download Mẫu sơ yếu lý lịch học sinh... </strong>
-            <p class="text-muted">
-              Sơ yếu lý lịch học sinh trình bày chi tiết các thông tin nhân thân cơ bản, quan trọng nhất là bạn phải khai chính xác, kèm theo chữ ký xác nhận của chính quyền địa phương.
-            </p>
+            <!--            <p class="text-muted">-->
+            <!--              Sơ yếu lý lịch học sinh trình bày chi tiết các thông tin nhân thân cơ bản, quan trọng nhất là bạn phải khai chính xác, kèm theo chữ ký xác nhận của chính quyền địa phương.-->
+            <!--            </p>-->
             <hr>
-            <%#= link_to profile_file_forms_url, :class => "nav-link " do %>
-            <i class="fa fa-download nav-icon"></i>
-            <%= 'Chức năng đang xây dựng ...' %>
-            <%# end %>
-<!--            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>-->
+            <%= link_to profile_file_forms_url, :class => "nav-link " do %>
+              <i class="fa fa-download nav-icon"></i>
+              <%= 'Tải xuống' %>
+            <% end %>
+            <!--            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>-->
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-4">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Bảng điểm</h3>
+          </div>
+
+          <div class="card-body">
+            <strong><i class="fas fa-book mr-1"></i> Download Mẫu bảng điểm </strong>
+            <!--            <p class="text-muted">-->
+            <!--              Sơ yếu lý lịch học sinh trình bày chi tiết các thông tin nhân thân cơ bản, quan trọng nhất là bạn phải khai chính xác, kèm theo chữ ký xác nhận của chính quyền địa phương.-->
+            <!--            </p>-->
+            <hr>
+            <%= link_to score_board_file_forms_url, :class => "nav-link " do %>
+              <i class="fa fa-download nav-icon"></i>
+              <%= 'Tải xuống' %>
+            <% end %>
+            <!--            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>-->
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-4">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Cam kết</h3>
+          </div>
+
+          <div class="card-body">
+            <strong><i class="fas fa-book mr-1"></i> Download Mẫu Cam kết </strong>
+            <!--            <p class="text-muted">-->
+            <!--              Sơ yếu lý lịch học sinh trình bày chi tiết các thông tin nhân thân cơ bản, quan trọng nhất là bạn phải khai chính xác, kèm theo chữ ký xác nhận của chính quyền địa phương.-->
+            <!--            </p>-->
+            <hr>
+            <%= link_to commitment_file_forms_url, :class => "nav-link " do %>
+              <i class="fa fa-download nav-icon"></i>
+              <%= 'Tải xuống' %>
+            <% end %>
+            <!--            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>-->
           </div>
 
         </div>

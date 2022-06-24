@@ -1,0 +1,17 @@
+[
+  { "code": "20", "name": "Thị Xã Thái Hoà", "parent_code": "29"},
+  { "code": "21", "name": "Thị Xã Hoàng Mai", "parent_code": "29"},
+  { "code": "07", "name": "Huyện Đăk GLong", "parent_code": "63"},
+  { "code": "09", "name": "Huyện Đa Krông", "parent_code": "32"},
+  { "code": "20", "name": "Thị xã Thái Hoà", "parent_code": "29"},
+  { "code": "21", "name": "Thị xã Hoàng Mai", "parent_code": "29"},
+  { "code": "05", "name": "Huyện Ý Yên", "parent_code": "25"},
+  { "code": "12", "name": "Huyện Phú Quí", "parent_code": "47"},
+  { "code": "09", "name": "Huyện Thuỷ Nguyên", "parent_code": "03"},
+  { "code": "08", "name": "Huyện Kiến Thuỵ", "parent_code": "03"},
+  { "code": "05", "name": "Huyện Mù Căng Chải", "parent_code": "13"},
+  { "code": "13", "name": "Huyện Đăk Đoa", "parent_code": "38"},
+  { "code": "15", "name": "Huyện Đăk Pơ", "parent_code": "38"},
+  { "code": "07", "name": "Huyện Kỳ Sơn", "parent_code": "29"},
+  { "code": "02", "name": "Huyện Ea HLeo", "parent_code": "40"}
+]
