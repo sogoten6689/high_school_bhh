@@ -1,7 +1,134 @@
 <div class="content container-fluid">
   <div class="container-fluid">
     <%= form_for(@secondarySchoolUser, :url =>  update_secondary_school_user_path(@user.id)) do |f| %>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Thông tin cấp 2' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :school_name, 'Tên trường học' %>
+                    <%= f.text_field :school_name, class: 'form-control', placeholder: 'VD: Trường THCS Phan Bội Châu' %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :school_type, 'Kiểu trường học' %>
+                    <%= f.text_field :school_type, class: 'form-control', placeholder: 'VD: Dân lập' %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :other_language, 'Ngôn ngữ khác' %>
+                    <%= f.text_field :other_language, class: 'form-control', placeholder: 'VD: Tiếng anh' %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :math, 'Điểm toán' %>
+                    <%= f.number_field :math, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :physics, 'Điểm vật lý' %>
+                    <%= f.number_field :physics, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :chemistry, 'Điểm hóa học' %>
+                    <%= f.number_field :chemistry, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :biological, 'Điểm sinh học' %>
+                    <%= f.number_field :biological, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :literature, 'Điểm văn' %>
+                    <%= f.number_field :literature, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :history, 'Điểm lịch sử' %>
+                    <%= f.number_field :history, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :geography, 'Điểm địa lý' %>
+                    <%= f.number_field :geography, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :english, 'Điểm tiếng anh' %>
+                    <%= f.number_field :english, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :civic_education, 'Điểm giáo dục công dân' %>
+                    <%= f.number_field :civic_education, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :technology, 'Điểm công nghệ' %>
+                    <%= f.number_field :technology, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :subject_average, 'Điểm trung bình của môn học' %>
+                    <%= f.number_field :subject_average, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :admission_test_score, 'Điểm tuyển sinh' %>
+                    <%= f.number_field :admission_test_score, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :exercise_result, 'Kết quả môn thể dục' %>
+                    <%= f.text_field :exercise_result, class: 'form-control', placeholder: 'Đạt/Không Đạt' %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :ranked_academic, 'Xếp hạng học lực' %>
+                    <%= f.text_field :ranked_academic, class: 'form-control', placeholder: 'Khá/Giỏi/Trung Bình/Yếu' %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :conduct, 'Hạnh kiểm' %>
+                    <%= f.text_field :conduct, class: 'form-control', placeholder: 'Tốt/Giỏi/Trung Bình/Yếu' %>
+                  </div>
+                </div>
+              </div>
+            </div>
 
+            <div class="card-footer text-center">
+              <button type="submit" class="btn btn-primary">Cập nhập</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
     <% end %>
   </div>
  </div>
@@ -9,4 +136,13 @@
 <%= javascript_pack_tag 'edit_user_contact' %>
 
 <script type="text/javascript">
+  function input_subject_score(id) {
+    try {
+      if ($(`#${id}`).val() < 0 || $(`#${id}`).val() > 10) {
+        $(`#${id}`).val(0);
+      }
+    } catch (error) {
+      $(`#${id}`).val(0);
+    }
+  }
 </script>

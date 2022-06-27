@@ -187,18 +187,20 @@ class BasicInformationsController < ApplicationController
 
   def update_secondary_school_user
     @user = User.find(params[:id])
-    @relatioship = Relationship.where(user_id: params[:id]).first()
-    if @relatioship.update(edit_relationship_params)
-      redirect_to basic_informations_path
-    else
+    @secondary_school_user = SecondarySchoolUser.where(user_id: params[:id]).first()
 
-      @title_page = 'Cập nhật thông tin cấp 2'
-      @breadcrumbs = [
-        ['Thông tin cá nhân', basic_informations_path],
-        ['Cập nhật thông tin cấp 2', edit_secondary_school_user_path]
-      ]
-      render :edit, status: :unprocessable_entity
+    if @secondary_school_user.blank?
+      SecondarySchoolUser.create!(secondary_school_user_params)
+      flash[:success] = 'Cập nhập thành công!'
+    else
+      if @secondary_school_user.editable
+        @secondary_school_user.update!(secondary_school_user_params)
+        flash[:success] = 'Cập nhập thành công!'
+      else
+        flash[:error] = 'Hết hạn cập nhật!'
+      end
     end
+    redirect_to request.referer
   end
 
   def edit_password
@@ -253,6 +255,13 @@ class BasicInformationsController < ApplicationController
 
   def user_password_params
     params.require(:user).permit(:current_password, :password, :password_confirmation)
+  end
+
+  def secondary_school_user_params
+    params.require(:secondary_school_user).permit(:school_name, :school_type, :other_language, :math, :physics, 
+                                                  :chemistry, :biological, :literature, :history, :geography, :english, 
+                                                  :civic_education, :technology, :admission_test_score, :exercise_result, 
+                                                  :ranked_academic, :conduct, :subject_average)
   end
 
 
