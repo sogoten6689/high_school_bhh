@@ -171,6 +171,36 @@ class BasicInformationsController < ApplicationController
     end
   end
 
+  def edit_secondary_school_user
+    @user = User.find(params[:id])
+    @secondarySchoolUser = SecondarySchoolUser.where(user_id: params[:id]).first()
+    if @secondarySchoolUser.nil?
+      @secondarySchoolUser = SecondarySchoolUser.create([user_id: params[:id]]).first()
+    end
+
+    @title_page = 'Cập nhật thông tin cấp 2'
+    @breadcrumbs = [
+      ['Thông tin cá nhân', basic_informations_path],
+      ['Cập nhật thông tin cấp 2', edit_secondary_school_user_path]
+    ]
+  end
+
+  def update_secondary_school_user
+    @user = User.find(params[:id])
+    @relatioship = Relationship.where(user_id: params[:id]).first()
+    if @relatioship.update(edit_relationship_params)
+      redirect_to basic_informations_path
+    else
+
+      @title_page = 'Cập nhật thông tin cấp 2'
+      @breadcrumbs = [
+        ['Thông tin cá nhân', basic_informations_path],
+        ['Cập nhật thông tin cấp 2', edit_secondary_school_user_path]
+      ]
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def edit_password
     @user = current_user
     @title_page = 'Đổi mật khẩu'

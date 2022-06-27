@@ -95,6 +95,7 @@
               <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin liên lạc</a></li>
               <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Thông tin học tập</a></li>
               <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Thông tin gia đình</a></li>
+              <li class="nav-item"><a class="nav-link" href="#secondary_school" data-toggle="tab">Kết quả cấp 2</a></li>
             </ul>
           </div>
           <div class="card-body">
@@ -281,6 +282,16 @@
                   </div>
                 </div>
               </div>
+
+              <div class="tab-pane" id="secondary_school">
+
+                <div class="row">
+                  <div class="col-sm-12 text-center">
+                    <%= link_to "Cập nhật thông tin cấp 2", edit_secondary_school_user_path(current_user.id), class: "btn btn-primary"%>
+                  </div>
+                </div>
+              </div>
+
 
             </div>
 

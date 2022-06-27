@@ -1,0 +1,3 @@
+class SecondarySchoolUser < ApplicationRecord
+
+end

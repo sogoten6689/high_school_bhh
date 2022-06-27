@@ -40,6 +40,10 @@ Rails.application.routes.draw do
   patch '/basic_informations/:id/update_user_contact', to: 'basic_informations#update_user_contact', as: 'update_user_contact'
   get '/basic_informations/:id/edit_relationship', to: 'basic_informations#edit_relationship', as: 'edit_relationship'
   patch '/basic_informations/:id/update_relationship', to: 'basic_informations#update_relationship', as: 'update_relationship'
+
+  get '/basic_informations/:id/edit_secondary_school_user', to: 'basic_informations#edit_secondary_school_user', as: 'edit_secondary_school_user'
+  patch '/basic_informations/:id/update_secondary_school_user', to: 'basic_informations#update_secondary_school_user', as: 'update_secondary_school_user'
+
   resources :user_contacts
   resources :student_classes
   resources :relationships

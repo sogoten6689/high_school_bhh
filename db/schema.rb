@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_20_152054) do
+ActiveRecord::Schema.define(version: 2022_06_27_152054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,32 @@ ActiveRecord::Schema.define(version: 2022_06_20_152054) do
     t.string "difficult_code"
     t.integer "revolutionary_family", default: 0
     t.index ["user_id"], name: "index_relationships_on_user_id"
+  end
+
+  create_table "secondary_school_users", force: :cascade do |t|
+    t.string "school_name"
+    t.string "school_type"
+    t.string "other_language"
+    t.float "math"
+    t.float "physics"
+    t.float "chemistry"
+    t.float "biological"
+    t.float "literature"
+    t.float "history"
+    t.float "geography"
+    t.float "english"
+    t.float "civic_education"
+    t.float "technology"
+    t.float "subject_average"
+    t.float "admission_test_score"
+    t.string "exercise_result"
+    t.string "ranked_academic"
+    t.string "conduct"
+    t.boolean "editable", default: true
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_secondary_school_users_on_user_id"
   end
 
   create_table "settings", force: :cascade do |t|
@@ -180,6 +206,7 @@ ActiveRecord::Schema.define(version: 2022_06_20_152054) do
 
   add_foreign_key "elective_subjects", "users"
   add_foreign_key "relationships", "users"
+  add_foreign_key "secondary_school_users", "users"
   add_foreign_key "student_classes", "users"
   add_foreign_key "user_contacts", "users"
 end
