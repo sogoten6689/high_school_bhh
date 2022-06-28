@@ -29,4 +29,18 @@ class Relationship < ApplicationRecord
             return "Chưa nhập"
         end
     end
+
+
+    def difficult_area_name_export
+        case self.difficult_area
+        when 0
+            return "Không"
+        when 1
+            return "Hộ cận nghèo"
+        when 2
+            return "Hộ nghèo "
+        else
+            return "Chưa nhập"
+        end
+    end
 end

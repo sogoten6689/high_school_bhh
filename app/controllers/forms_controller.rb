@@ -7,7 +7,122 @@ class FormsController < ApplicationController
   end
 
   def profile_file
-    # user_contact = UserContact.find(user_id: current_user.id)
+    require 'omnidocx'
+
+    user_contact = UserContact.where(:user_id => current_user.id).first()
+    relationship = Relationship.where(:user_id =>  current_user.id).first()
+    if user_contact.nil?
+      user_contact = UserContact.create([user_id: current_user.id])
+    end
+
+    if relationship.nil?
+      relationship = Relationship.create([user_id: current_user.id])
+    end
+
+    string_code = current_user.student_code.strip
+    string_length = string_code.length
+    code = string_length > 3 ? (string_code[string_length - 3, string_length - 1]): ''
+    code = 'A' + code
+
+    # birthday
+    array_birthday = current_user.birthday.to_s.delete('-').chars
+
+    json_data = {
+      "full_name" => current_user.full_name.upcase,
+      "ucod" => code,
+      "gender" => current_user.gender == 0 ? "Nữ" : "Nam",
+
+      "bd1" => array_birthday[6],
+      "bd2" => array_birthday[7],
+      "m1" => array_birthday[4],
+      "m2" => array_birthday[5],
+      "y1" => array_birthday[0],
+      "y2" => array_birthday[1],
+      "y3" => array_birthday[2],
+      "y4" => array_birthday[3],
+
+      "province" => current_user.province_name,
+      "ethnicity_name" => current_user.ethnicity_name,
+      "nationality" => '', #Viet nam - Quốc tịch
+      "religion_name" => current_user.religion_name,
+    }
+    identification_code = current_user.identification_type == 3 || current_user.identification_type == 4 ? current_user.identification : current_user.identification_chip ? current_user.identifier_code : ''
+    identification_array = identification_code.chars
+
+    # render json: identification_array
+    json_data['id1'] = identification_array[0].to_s
+    json_data['id2'] = identification_array[1].to_s
+    json_data['id3'] = identification_array[2].to_s
+    json_data['id4'] = identification_array[3].to_s
+    json_data['id5'] = identification_array[4].to_s
+    json_data['id6'] = identification_array[5].to_s
+    json_data['id7'] = identification_array[6].to_s
+    json_data['id8'] = identification_array[7].to_s
+    json_data['id9'] = identification_array[8].to_s
+    json_data['i10'] = identification_array[9].to_s
+    json_data['i11'] = identification_array[10].to_s
+    json_data['i12'] = identification_array[11].to_s
+
+    json_data['identification_type'] = current_user.identification_type_name_export
+    json_data['identification'] = current_user.identification.length == 9 ? current_user.identification : ''
+
+    # bao hiem y te
+    health_insurance_code = current_user.health_insurance_code
+
+    json_data['hs'] = health_insurance_code[0,2]
+    json_data['bh1'] = health_insurance_code[2,1]
+    json_data['bh2'] = health_insurance_code[3,2]
+
+    json_data['bh3'] = health_insurance_code[5,3] + " " + health_insurance_code[8,3] + " " + health_insurance_code[11,4]
+
+    json_data['household_full_address'] = user_contact.household_full_address
+    json_data['contact_full_address'] = user_contact.contact_full_address
+    json_data['connect_phone'] = relationship.vietschool_connect_phone
+
+    json_data['email_contact'] = current_user.email
+
+    json_data['difficult_area'] = relationship.difficult_area_name_export
+    json_data['difficult_code'] = relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không'
+    json_data['revolutionary_family'] = relationship.revolutionary_family ? "Có" : "Không"
+
+    json_data['father_name'] = relationship.father_name.upcase
+    json_data['father_year'] = relationship.father_year.to_s
+    json_data['father_career'] = relationship.father_career
+    json_data['father_phone'] = relationship.father_phone
+    json_data['father_address'] = relationship.father_address
+    #
+    json_data['guardian_name'] = relationship.guardian_name.upcase
+    json_data['guardian_year'] = relationship.guardian_year.to_s
+    json_data['guardian_career'] = relationship.guardian_career
+    json_data['guardian_phone'] = relationship.guardian_phone
+    json_data['guardian_address'] = relationship.guardian_address
+
+    json_data['mother_name'] = relationship.mother_name.upcase
+    json_data['mother_year'] = relationship.mother_year.to_s
+    json_data['mother_career'] = relationship.mother_career
+    json_data['mother_phone'] = relationship.mother_phone
+    json_data['mother_address'] = relationship.mother_address
+
+    json_data['vietschool_phone'] = relationship.vietschool_connect_phone
+
+    date = Time.now
+    json_data['now_date'] = date.strftime("%d")
+    json_data['now_month'] = date.strftime("%m")
+    json_data['now_year'] = date.strftime("%Y")
+
+    file_name = "tmp/ly_lich_hs_" + rand.to_s[2..11]  + ".docx"
+
+    Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'ly_lich_hs_code.docx', file_name)
+
+    File.open(file_name, 'r') do |f|
+      send_data f.read, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    end
+    File.delete(file_name)
+  end
+
+  def profile_file_old
+
+  # user_contact = UserContact.find(user_id: current_user.id)
 
     left = 28;
     bottom = 33;
@@ -20,8 +135,6 @@ class FormsController < ApplicationController
     string_length = string_code.length
     code = string_length > 3 ? (string_code[string_length - 3, string_length - 1]): ''
     code = 'A' + code
-
-
 
     data =
       [

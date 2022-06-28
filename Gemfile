@@ -27,6 +27,9 @@ gem 'rails-i18n'
 gem 'prawn'
 gem 'combine_pdf'
 
+gem 'omnidocx', '~> 0.1.2'
+gem 'mime-types'
+
 gem "roo"
 
 gem 'figaro'
