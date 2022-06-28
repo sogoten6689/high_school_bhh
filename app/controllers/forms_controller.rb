@@ -19,7 +19,7 @@ class FormsController < ApplicationController
       relationship = Relationship.create([user_id: current_user.id])
     end
 
-    string_code = current_user.student_code.strip
+    string_code = current_user.student_code.delete(' ')
     string_length = string_code.length
     code = string_length > 3 ? (string_code[string_length - 3, string_length - 1]): ''
     code = 'A' + code
