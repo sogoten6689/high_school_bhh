@@ -19,7 +19,7 @@ class FormsController < ApplicationController
       relationship = Relationship.create([user_id: current_user.id])
     end
 
-    string_code = current_user.student_code.delete(' ')
+    string_code = current_user.student_code.nil? ? '' : current_user.student_code.strip
     string_length = string_code.length
     code = string_length > 3 ? (string_code[string_length - 3, string_length - 1]): ''
     code = 'A' + code
@@ -47,7 +47,7 @@ class FormsController < ApplicationController
       "religion_name" => current_user.religion_name,
     }
     identification_code = current_user.identification_type == 3 || current_user.identification_type == 4 ? current_user.identification : current_user.identification_chip ? current_user.identifier_code : ''
-    identification_array = identification_code.chars
+    identification_array = identification_code.nil? ? [] : identification_code.chars
 
     # render json: identification_array
     json_data['id1'] = identification_array[0].to_s
@@ -85,13 +85,13 @@ class FormsController < ApplicationController
     json_data['difficult_code'] = relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không'
     json_data['revolutionary_family'] = relationship.revolutionary_family ? "Có" : "Không"
 
-    json_data['father_name'] = relationship.father_name.upcase
+    json_data['father_name'] = relationship.father_name.nil? ? '' : relationship.father_name.upcase
     json_data['father_year'] = relationship.father_year.to_s
     json_data['father_career'] = relationship.father_career
     json_data['father_phone'] = relationship.father_phone
     json_data['father_address'] = relationship.father_address
     #
-    json_data['guardian_name'] = relationship.guardian_name.upcase
+    json_data['guardian_name'] = relationship.guardian_name.nil? ? '' : relationship.father_name.upcase
     json_data['guardian_year'] = relationship.guardian_year.to_s
     json_data['guardian_career'] = relationship.guardian_career
     json_data['guardian_phone'] = relationship.guardian_phone
