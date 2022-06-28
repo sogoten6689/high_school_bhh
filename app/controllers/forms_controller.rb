@@ -7,33 +7,76 @@ class FormsController < ApplicationController
   end
 
   def profile_file
+    # user_contact = UserContact.find(user_id: current_user.id)
+
     left = 28;
     bottom = 33;
     size = 4;
-    # data = [
-    #   [
-    #     # [:font, Rails.root.join("app", "assets", "fonts", "TimesNewRoman.ttf")], # set font cho toàn bộ content file
-    #     [:font, "LoraWeight"], # set font cho toàn bộ content file
-    #     [:draw_text, "A456", at: [left + 492, bottom + 742], size: size + 7, color: "#FF0000", styles: [:bold, :italic] ], # điền text "2018" với font size 10 vào vị trí (260, 790)
-    #     [:draw_text, current_user.full_name, at: [left + 188, bottom + 695], size: size + 7],
-    #     [:draw_text, current_user.gender == 0 ? "Nữ" : "Nam", at: [left + 460, bottom + 696], size: size + 5],
-    #
-    #     [:draw_text, "0", at: [left + 258, bottom + 677], size: size + 5],
-    #     [:draw_text, "1", at: [left + 280, bottom + 677], size: size + 5],
-    #
-    #     [:draw_text, "0", at: [left + 326, bottom + 677], size: size + 5],
-    #     [:draw_text, "3", at: [left + 348, bottom + 677], size: size + 5],
-    #
-    #     [:draw_text, "2", at: [left + 389, bottom + 678], size: size + 5],
-    #     [:draw_text, "0", at: [left + 410, bottom + 678], size: size + 5],
-    #     [:draw_text, "0", at: [left + 432, bottom + 678], size: size + 5],
-    #     [:draw_text, "2", at: [left + 454, bottom + 678], size: size + 5],
-    #
-    #     [:draw_text, "THÀNH PHỐ HỒ CHÍ MINH", at: [left + 74, bottom + 650], size: size + 6],
-    #     [:draw_text, "Kinh", at: [left + 72, bottom + 635], size: size + 6],
-    #     [:draw_text, "Việt Nam", at: [left + 245, bottom + 635], size: size + 6],
-    #     [:draw_text, "Công Giáo", at: [left + 460, bottom + 635], size: size + 6],
-    #
+
+    # chữ A thêm 3 số cuối của email
+    # Vd email là 220789.ahdhfjc@….
+    # Thì mã là A789
+    string_code = current_user.student_code.strip
+    string_length = string_code.length
+    code = string_length > 3 ? (string_code[string_length - 3, string_length - 1]): ''
+    code = 'A' + code
+
+
+
+    data =
+      [
+        # [:font, Rails.root.join("app", "assets", "fonts", "TimesNewRoman.ttf")], # set font cho toàn bộ content file
+        [:font, "LoraWeight"], # set font cho toàn bộ content file
+        [:draw_text, code, at: [left + 492, bottom + 742], size: size + 7, color: "#FF0000", styles: [:bold, :italic] ], # điền text "2018" với font size 10 vào vị trí (260, 790)
+        [:draw_text, current_user.full_name, at: [left + 188, bottom + 695], size: size + 7],
+        [:draw_text, current_user.gender == 0 ? "Nữ" : "Nam", at: [left + 460, bottom + 696], size: size + 5],
+    ]
+
+    #     # birthday
+    # render json: current_user.birthday
+    # yyyyMMdd
+    array_birthday = current_user.birthday.to_s.delete('-').chars
+    data.concat [
+        [:draw_text, array_birthday[6], at: [left + 258, bottom + 677], size: size + 5],
+        [:draw_text, array_birthday[7], at: [left + 280, bottom + 677], size: size + 5],
+
+        [:draw_text, array_birthday[4], at: [left + 326, bottom + 677], size: size + 5],
+        [:draw_text, array_birthday[5], at: [left + 348, bottom + 677], size: size + 5],
+
+        [:draw_text, array_birthday[0], at: [left + 389, bottom + 678], size: size + 5],
+        [:draw_text, array_birthday[1], at: [left + 410, bottom + 678], size: size + 5],
+        [:draw_text, array_birthday[2], at: [left + 432, bottom + 678], size: size + 5],
+        [:draw_text, array_birthday[3], at: [left + 454, bottom + 678], size: size + 5],
+
+        # Nơi sinh, Dân tộc, *Quốc tịch, Tôn giáo
+        [:draw_text, current_user.province_name, at: [left + 74, bottom + 650], size: size + 6],
+        [:draw_text, current_user.ethnicity_name, at: [left + 72, bottom + 635], size: size + 6],
+        [:draw_text, "Việt Nam", at: [left + 245, bottom + 635], size: size + 6],
+        [:draw_text, current_user.religion_name, at: [left + 460, bottom + 635], size: size + 6],
+      ]
+
+    identification_code = current_user.identification_type == 3 || current_user.identification_type == 4 ? current_user.identification : current_user.identification_chip ? current_user.identifier_code : '';
+    # render json: identification_code
+    if (identification_code.length == 12)
+      identification_array = identification_code.chars
+      # mã định danh, cccd
+      data.concat [
+        [:draw_text, identification_array[0], at: [left + 265, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[1], at: [left + 285, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[2], at: [left + 302, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[3], at: [left + 320, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[4], at: [left + 340, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[5], at: [left + 357, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[6], at: [left + 376, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[7], at: [left + 395, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[8], at: [left + 414, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[9], at: [left + 433, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[10], at: [left + 452, bottom + 620], size: size + 6],
+        [:draw_text, identification_array[11], at: [left + 470, bottom + 620], size: size + 6],
+      ]
+    end
+
+    # mã định danh, cccd
     #     [:draw_text, "0", at: [left + 265, bottom + 620], size: size + 6],
     #     [:draw_text, "7", at: [left + 285, bottom + 620], size: size + 6],
     #     [:draw_text, "8", at: [left + 302, bottom + 620], size: size + 6],
@@ -47,14 +90,23 @@ class FormsController < ApplicationController
     #     [:draw_text, "9", at: [left + 452, bottom + 620], size: size + 6],
     #     [:draw_text, "7", at: [left + 470, bottom + 620], size: size + 6],
     #
+
+    data.concat [
+        [:draw_text, current_user.identification_type_name_export, at: [left + 140, bottom + 605], size: size + 6],
+        [:draw_text, current_user.identification.length == 9 ? current_user.identification.length : '', at: [left + 160, bottom + 592], size: size + 6]
+    ]
     #
-    #     [:draw_text, "Chứng minh nhân dân", at: [left + 140, bottom + 605], size: size + 6],
-    #     [:draw_text, "023123456", at: [left + 160, bottom + 592], size: size + 6],
-    #
-    #     [:draw_text, "HS", at: [left + 261, bottom + 576], size: size + 6],
-    #     [:draw_text, "4", at: [left + 285, bottom + 576], size: size + 6],
-    #     [:draw_text, "79", at: [left + 305, bottom + 576], size: size + 6],
-    #     [:draw_text, "123 456 7890", at: [left + 330, bottom + 576], size: size + 6],
+    #     Số sổ bảo hiểm y tế
+    health_insurance_code = current_user.health_insurance_code
+    if health_insurance_code.length == 15
+      data.concat [
+        [:draw_text, health_insurance_code[0,2], at: [left + 261, bottom + 576], size: size + 6],
+        [:draw_text, health_insurance_code[2,1], at: [left + 285, bottom + 576], size: size + 6],
+        [:draw_text, health_insurance_code[3,3], at: [left + 305, bottom + 576], size: size + 6],
+        [:draw_text, health_insurance_code[5,3] + " " + health_insurance_code[8,3] + " " + health_insurance_code[11,4], at: [left + 330, bottom + 576], size: size + 6],
+      ]
+    end
+
     #
     #
     #     [:draw_text, "8", at: [left + 376, bottom + 561], size: size + 6],
@@ -113,18 +165,18 @@ class FormsController < ApplicationController
     #   ]
     # ]
 
-    data = [
-      [
-        [:font, "LoraWeight"], # set font cho toàn bộ content file
-        # [:draw_text, "A456", at: [left + 492, bottom + 742], size: size + 7, color: "#FF0000", styles: [:bold, :italic] ], # điền text "2018" với font size 10 vào vị trí (260, 790)
-        [:draw_text, current_user.full_name, at: [left + 170, bottom + 696], size: size + 6],
-        [:draw_text, current_user.gender == 0 ? "Nữ" : "Nam", at: [left + 460, bottom + 696], size: size + 5],
-      ]
-    ]
+    # data = [
+    #   [
+    #     [:font, "LoraWeight"], # set font cho toàn bộ content file
+    #     # [:draw_text, "A456", at: [left + 492, bottom + 742], size: size + 7, color: "#FF0000", styles: [:bold, :italic] ], # điền text "2018" với font size 10 vào vị trí (260, 790)
+    #     [:draw_text, current_user.full_name, at: [left + 170, bottom + 696], size: size + 6],
+    #     [:draw_text, current_user.gender == 0 ? "Nữ" : "Nam", at: [left + 460, bottom + 696], size: size + 5],
+    #   ]
+    # ]
 
     file_name = "tmp/ly_lich_hs_" + rand.to_s[2..11]  + ".pdf"
     # file_name = "out2.pdf"
-    PdfToPdfService.new("ly_lich_hs_new_no_data_pdf.pdf", file_name, data).perform
+    PdfToPdfService.new("ly_lich_hs_new_no_data_pdf.pdf", file_name, [data]).perform
     File.open(file_name, 'r') do |f|
       send_data f.read, type: "application/pdf"
     end

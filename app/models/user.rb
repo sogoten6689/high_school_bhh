@@ -54,7 +54,7 @@ class User < ApplicationRecord
   def province_name
     province = Province.where(:code => self.province).first
     if !province.nil?
-      return province.name
+      return province.name_with_type
     else
       return "Chưa có"
     end
@@ -90,6 +90,21 @@ class User < ApplicationRecord
       return "CCCD gắn chíp"
     else
       return "Chưa cập nhật"
+    end
+  end
+
+  def identification_type_name_export
+    case self.identification_type
+    when 0
+      return ""
+    when 1
+      return "Chứng minh nhân dân"
+    when 2
+      return "CCCD thường"
+    when 3
+      return "CCCD gắn chíp"
+    else
+      return ""
     end
   end
 end
