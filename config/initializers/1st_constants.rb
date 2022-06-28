@@ -76,3 +76,15 @@ ALTERNATIVE_SUBJECT = [
     {code: 'tt3.3.4', name: 'Địa', key: 'th3'},
     {code: 'tt3.3.5', name: 'Giáo dục Kinh tế - Pháp luật', key: 'th3'}
 ]
+
+LIST_SCHOOL = [
+    'Trường THCS Phan Bội Châu'
+]
+
+SCHOOL_TYPE = ['Dân lập', 'Công lập', 'Bán công']
+
+EXERCISE_RESULT = ['Đạt', 'Không đạt']
+
+RANKED_ACADEMIC = ['Giỏi', 'Khá', 'Trung bình', 'Yếu', 'Kém']
+
+CONDUCT = ['Tốt', 'Giỏi', 'Trung bình', 'Yếu']
