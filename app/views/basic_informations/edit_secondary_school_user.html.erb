@@ -6,7 +6,7 @@
           <div class="card card-default">
             <div class="card-header">
               <h3 class="card-title">
-                <%= 'Thông tin cấp 2' %>
+                <%= 'Thông tin trường học' %>
               </h3>
             </div>
             <div class="card-body">
@@ -23,6 +23,18 @@
                     <%= f.select(:school_type, SCHOOL_TYPE.collect {|u| [u, u]},{ },{ :class => 'form-control select2'}) %>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Thông tin các môn' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
                 <div class="col-sm-4">
                   <div class="form-group">
                     <%= f.label :other_language, 'Ngôn ngữ khác' %>
@@ -91,20 +103,26 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="form-group">
-                    <%= f.label :subject_average, 'Điểm trung bình của môn học' %>
-                    <%= f.number_field :subject_average, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <%= f.label :admission_test_score, 'Điểm tuyển sinh' %>
-                    <%= f.number_field :admission_test_score, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="form-group">
                     <%= f.label :exercise_result, 'Kết quả môn thể dục' %>
                     <%= f.select(:exercise_result, EXERCISE_RESULT.collect {|u| [u, u]},{ },{ :class => 'form-control select2'}) %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :subject_average_semester_one, 'Điểm trung bình các môn học học kỳ 1' %>
+                    <%= f.number_field :subject_average_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :subject_average_semester_two, 'Điểm trung bình các môn học học kỳ 2' %>
+                    <%= f.number_field :subject_average_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :subject_average, 'Điểm trung bình các môn học cả năm' %>
+                    <%= f.number_field :subject_average, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
                   </div>
                 </div>
                 <div class="col-sm-4">
@@ -119,11 +137,18 @@
                     <%= f.select(:conduct, CONDUCT.collect {|u| [u, u]},{ },{ :class => 'form-control select2'}) %>
                   </div>
                 </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :admission_test_score, 'Điểm tuyển sinh' %>
+                    <%= f.number_field :admission_test_score, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="card-footer text-center">
               <button type="submit" class="btn btn-primary">Cập nhập</button>
+              <%= link_to 'Huỷ', basic_informations_path, class: "btn btn-danger"%>
             </div>
           </div>
 

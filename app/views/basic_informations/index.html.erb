@@ -284,7 +284,101 @@
               </div>
 
               <div class="tab-pane" id="secondary_school">
-
+                <% if @secondary_school_user.present? %>
+                  <div class="post">
+                    <div><a class="text-bold">Thông tin trường học</a></div>
+                    <div class="row">
+                      <div class="col-4">
+                        <label for="school_name">Tên trường học: </label>
+                        <p><%= @secondary_school_user.school_name %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="school_type">Kiểu trường học: </label>
+                        <p><%= @secondary_school_user.school_type %></p>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="post">
+                    <div><a class="text-bold">Thông tin các môn</a></div>
+                    <div class="row">
+                      <div class="col-4">
+                        <label for="other_language">Ngôn ngữ khác: </label>
+                        <p><%= @secondary_school_user.other_language %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="math">Điểm toán: </label>
+                        <p><%= @secondary_school_user.math %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="physics">Điểm vật lý: </label>
+                        <p><%= @secondary_school_user.physics %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="chemistry">Điểm hóa học: </label>
+                        <p><%= @secondary_school_user.chemistry %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="biological">Điểm sinh học: </label>
+                        <p><%= @secondary_school_user.biological %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="literature">Điểm văn: </label>
+                        <p><%= @secondary_school_user.literature %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="history">Điểm lịch sử: </label>
+                        <p><%= @secondary_school_user.history %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="geography">Điểm địa lý: </label>
+                        <p><%= @secondary_school_user.geography %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="english">Điểm tiếng anh: </label>
+                        <p><%= @secondary_school_user.english %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="civic_education">Điểm giáo dục công dân: </label>
+                        <p><%= @secondary_school_user.civic_education %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="technology">Điểm công nghệ: </label>
+                        <p><%= @secondary_school_user.technology %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="exercise_result">Kết quả môn thể dục: </label>
+                        <p><%= @secondary_school_user.exercise_result %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="subject_average_semester_one">Điểm trung bình các môn học học kỳ 1: </label>
+                        <p><%= @secondary_school_user.subject_average_semester_one %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="subject_average_semester_two">Điểm trung bình các môn học học kỳ 2: </label>
+                        <p><%= @secondary_school_user.subject_average_semester_two %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="subject_average">Điểm trung bình các môn học cả năm: </label>
+                        <p><%= @secondary_school_user.subject_average %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="ranked_academic">Xếp hạng học lực: </label>
+                        <p><%= @secondary_school_user.ranked_academic %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="conduct">Hạnh kiểm: </label>
+                        <p><%= @secondary_school_user.conduct %></p>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="admission_test_score">Điểm tuyển sinh: </label>
+                        <p><%= @secondary_school_user.admission_test_score %></p>
+                      </div>
+                    </div>
+                  </div>
+                <% else %>
+                  <label>Chưa cập nhập thông tin</label>
+                <% end %>
                 <div class="row">
                   <div class="col-sm-12 text-center">
                     <%= link_to "Cập nhật thông tin cấp 2", edit_secondary_school_user_path(current_user.id), class: "btn btn-primary"%>

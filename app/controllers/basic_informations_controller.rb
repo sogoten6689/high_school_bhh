@@ -11,6 +11,7 @@ class BasicInformationsController < ApplicationController
 
     @student_classess = StudentClass.where(user_id: @user.id)
     @relationship = Relationship.where(user_id: @user.id).first()
+    @secondary_school_user = SecondarySchoolUser.where(user_id: @user.id).first()
 
     @title_page = 'Thông tin cá nhân của tôi'
     @breadcrumbs = [
@@ -200,7 +201,7 @@ class BasicInformationsController < ApplicationController
         flash[:error] = 'Hết hạn cập nhật!'
       end
     end
-    redirect_to request.referer
+    redirect_to basic_informations_path
   end
 
   def edit_password
@@ -261,7 +262,7 @@ class BasicInformationsController < ApplicationController
     params.require(:secondary_school_user).permit(:school_name, :school_type, :other_language, :math, :physics, 
                                                   :chemistry, :biological, :literature, :history, :geography, :english, 
                                                   :civic_education, :technology, :admission_test_score, :exercise_result, 
-                                                  :ranked_academic, :conduct, :subject_average)
+                                                  :ranked_academic, :conduct, :subject_average, :subject_average_semester_one, :subject_average_semester_two)
   end
 
 
