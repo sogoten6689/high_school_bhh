@@ -32,8 +32,13 @@ class FormsController < ApplicationController
       "ucod" => code,
       "gender" => current_user.gender == 0 ? "Nữ" : "Nam",
 
-      "b3" => array_birthday[6],
-      "b4" => array_birthday[7],
+      "b3" => "1",
+      "b4" => "1",
+      "codedifficult_test" => relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không',
+      "contact_phone" => relationship.vietschool_connect_phone,
+
+      "P1" => array_birthday[6],
+      "P2" => array_birthday[7],
       "m1" => array_birthday[4],
       "m2" => array_birthday[5],
       "y1" => array_birthday[0],
@@ -75,24 +80,23 @@ class FormsController < ApplicationController
 
     json_data['bh3'] = health_insurance_code[5,3] + " " + health_insurance_code[8,3] + " " + health_insurance_code[11,4]
 
-    json_data['tp1'] = ''
-    json_data['tp2'] = ''
+    json_data['Tp1'] = ''
+    json_data['Tp2'] = ''
 
-    json_data['q1'] = ''
-    json_data['q2'] = ''
+    json_data['Q1'] = ''
+    json_data['Q2'] = ''
 
     json_data['household_full_address'] = user_contact.household_full_address
     json_data['contact_full_address'] = user_contact.contact_full_address
-    json_data['connectphone'] = relationship.vietschool_connect_phone
 
     json_data['email_contact'] = current_user.email
 
     json_data['difficult_area'] = relationship.difficult_area_name_export
-    json_data['difficultcode'] = relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không'
+    json_data['sosongheo'] = relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không'
     json_data['revolutionary_family'] = relationship.revolutionary_family ? "Có" : "Không"
 
     json_data['father_name'] = relationship.father_name.nil? ? '' : relationship.father_name.upcase
-    json_data['fatheryear'] = relationship.father_year.to_s
+    json_data['nam_sinh_ba'] = relationship.father_year.to_s
     json_data['father_career'] = relationship.father_career
     json_data['father_phone'] = relationship.father_phone
     json_data['father_address'] = relationship.father_address
@@ -109,7 +113,7 @@ class FormsController < ApplicationController
     json_data['mother_phone'] = relationship.mother_phone
     json_data['mother_address'] = relationship.mother_address
 
-    json_data['vietschoolphone'] = relationship.vietschool_connect_phone
+    json_data['testvietschool'] = relationship.vietschool_connect_phone
 
     date = Time.now
     json_data['now_date'] = date.strftime("%d")
