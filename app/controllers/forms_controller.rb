@@ -330,23 +330,43 @@ class FormsController < ApplicationController
   end
 
   def commitment_file
-    left = 30;
-    bottom = 30;
-    size = 5;
-    data = [
-      [
-        # [:font, Rails.root.join("app", "assets", "fonts", "TimesNewRoman.ttf")], # set font cho toàn bộ content file
-        [:font, "LoraWeight"], # set font cho toàn bộ content file
-      ]
-    ]
+    relationship = Relationship.where(:user_id =>  current_user.id).first()
 
+    if relationship.nil?
+      relationship = Relationship.create([user_id: current_user.id])
+    end
 
-    file_name = "tmp/DonCamKet_no_data_pdf_" + rand.to_s[2..11]  + ".pdf"
+    date = Date.today()
+    json_data = {
+      'full_name' => current_user.full_name.upcase.to_s,
+      'father_name' => relationship.father_name.nil? ? '' : relationship.father_name.upcase.to_s,
+      'nam_sinh_ba' => relationship.father_year.to_s,
+      'father_career' => relationship.father_career.to_s,
+      'father_phone' => relationship.father_phone.to_s,
+      'father_address' => relationship.father_address.to_s,
+      'mother_name' => relationship.mother_name.nil? ? '' : relationship.mother_name.upcase.to_s,
+      'mother_year' => relationship.mother_year.to_s,
+      'mother_career' => relationship.mother_career.to_s,
+      'mother_phone' => relationship.mother_phone.to_s,
+      'mother_address' => relationship.mother_address.to_s,
+      'guardian_name' => relationship.guardian_name.nil? ? '' : relationship.guardian_name.upcase.to_s,
+      'guardian_year' => relationship.guardian_year.to_s,
+      'guardian_career' => relationship.guardian_career.to_s,
+      'guardian_phone' => relationship.guardian_phone.to_s,
+      'guardian_address' => relationship.guardian_address.to_s,
+      'testvietschool' => relationship.vietschool_connect_phone.to_s,
+      'dd' => date.mday.to_s,
+      'mm' => date.mon.to_s,
+      'yyyy' => date.year.to_s
+    }
 
-    # file_name = "out2.pdf"
-    PdfToPdfService.new("DonCamKet_no_data_pdf.pdf", file_name, data).perform
+    file_name = "tmp/DonCamKet_" + rand.to_s[2..11]  + ".docx"
+    
+    byebug
+    Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'DonCamKet.docx', file_name)
+    
     File.open(file_name, 'r') do |f|
-      send_data f.read, type: "application/pdf"
+      send_data f.read, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     end
     File.delete(file_name)
 
