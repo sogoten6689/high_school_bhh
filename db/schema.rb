@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_29_150653) do
+ActiveRecord::Schema.define(version: 2022_07_01_122207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,26 @@ ActiveRecord::Schema.define(version: 2022_06_29_150653) do
     t.datetime "updated_at", precision: 6, null: false
     t.float "subject_average_semester_one"
     t.float "subject_average_semester_two"
+    t.float "math_semester_one"
+    t.float "math_semester_two"
+    t.float "physics_semester_one"
+    t.float "physics_semester_two"
+    t.float "chemistry_semester_one"
+    t.float "chemistry_semester_two"
+    t.float "biological_semester_one"
+    t.float "biological_semester_two"
+    t.float "literature_semester_one"
+    t.float "literature_semester_two"
+    t.float "history_semester_one"
+    t.float "history_semester_two"
+    t.float "geography_semester_one"
+    t.float "geography_semester_two"
+    t.float "english_semester_one"
+    t.float "english_semester_two"
+    t.float "civic_education_semester_one"
+    t.float "civic_education_semester_two"
+    t.float "technology_semester_one"
+    t.float "technology_semester_two"
     t.index ["user_id"], name: "index_secondary_school_users_on_user_id"
   end
 

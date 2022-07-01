@@ -262,7 +262,13 @@ class BasicInformationsController < ApplicationController
     params.require(:secondary_school_user).permit(:school_name, :school_type, :other_language, :math, :physics, 
                                                   :chemistry, :biological, :literature, :history, :geography, :english, 
                                                   :civic_education, :technology, :admission_test_score, :exercise_result, 
-                                                  :ranked_academic, :conduct, :subject_average, :subject_average_semester_one, :subject_average_semester_two)
+                                                  :ranked_academic, :conduct, :subject_average, :subject_average_semester_one, :subject_average_semester_two,
+                                                  :math_semester_one, :math_semester_two, :physics_semester_one, :physics_semester_two, :chemistry_semester_one,
+                                                  :chemistry_semester_two, :biological_semester_one, :biological_semester_two, :literature_semester_one,
+                                                  :literature_semester_two, :history_semester_one, :history_semester_two, :geography_semester_one,
+                                                  :geography_semester_two, :english_semester_one, :english_semester_two, :civic_education_semester_one,
+                                                  :civic_education_semester_two, :technology_semester_one, :technology_semester_two
+                                                )
   end
 
 
