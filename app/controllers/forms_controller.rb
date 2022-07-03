@@ -230,9 +230,9 @@ class FormsController < ApplicationController
 
     json_data['next_year_top'] = (date.strftime("%Y").to_i + 1).to_s
 
-    file_name = "tmp/DonNhapHoc" + rand.to_s[2..11]  + ".docx"
+    file_name = "tmp/DonXinNhaphoc" + rand.to_s[2..11]  + ".docx"
 
-    Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'DonNhapHoc.docx', file_name)
+    Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'DonXinNhaphoc.docx', file_name)
 
     File.open(file_name, 'r') do |f|
       send_data f.read, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
