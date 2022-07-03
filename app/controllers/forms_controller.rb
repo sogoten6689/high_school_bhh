@@ -264,74 +264,7 @@ class FormsController < ApplicationController
 
     json_data = {
       "full_name" => current_user.full_name.upcase,
-      "ucod" => code,
-      "gender" => current_user.gender == 0 ? "Nữ" : "Nam",
-
-      "b3" => "1",
-      "b4" => "1",
-      "codedifficult_test" => relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không',
-      "contact_phone" => relationship.vietschool_connect_phone,
-
-      "P1" => array_birthday[6],
-      "P2" => array_birthday[7],
-      "m1" => array_birthday[4],
-      "m2" => array_birthday[5],
-      "y1" => array_birthday[0],
-      "y2" => array_birthday[1],
-      "y3" => array_birthday[2],
-      "y4" => array_birthday[3],
-
-      "province" => current_user.province_name,
-      "ethnicity_name" => current_user.ethnicity_name,
-      "nationality" => '', #Viet nam - Quốc tịch
-      "religion_name" => current_user.religion_name,
     }
-    identification_code = current_user.identification_type == 3 || current_user.identification_type == 4 ? current_user.identification : current_user.identification_chip ? current_user.identifier_code : ''
-    identification_array = identification_code.nil? ? [] : identification_code.chars
-
-    # render json: identification_array
-    json_data['id1'] = identification_array[0].to_s
-    json_data['id2'] = identification_array[1].to_s
-    json_data['id3'] = identification_array[2].to_s
-    json_data['id4'] = identification_array[3].to_s
-    json_data['id5'] = identification_array[4].to_s
-    json_data['id6'] = identification_array[5].to_s
-    json_data['id7'] = identification_array[6].to_s
-    json_data['id8'] = identification_array[7].to_s
-    json_data['id9'] = identification_array[8].to_s
-    json_data['i10'] = identification_array[9].to_s
-    json_data['i11'] = identification_array[10].to_s
-    json_data['i12'] = identification_array[11].to_s
-
-    json_data['identification_type'] = current_user.identification_type_name_export
-    json_data['identification'] = current_user.identification.length == 9 ? current_user.identification : ''
-
-    # bao hiem y te
-    health_insurance_code = current_user.health_insurance_code
-
-    json_data['hs'] = health_insurance_code[0,2].nil? ? '' : health_insurance_code[0,2]
-    json_data['bh1'] = health_insurance_code[2,1].nil? ? '' : health_insurance_code[2,1]
-    json_data['bh2'] = health_insurance_code[3,2].nil? ? '' : health_insurance_code[3,2]
-
-    bh_3_string = health_insurance_code[5,3].nil? ? '' : health_insurance_code[5,3]
-    bh_3_string += health_insurance_code[8,3].nil? ? '' : " " + health_insurance_code[8,3]
-    bh_3_string += health_insurance_code[11,3].nil? ? '' : " " + health_insurance_code[11,4]
-    json_data['bh3'] = bh_3_string
-
-    json_data['Tp1'] = ''
-    json_data['Tp2'] = ''
-
-    json_data['Q1'] = ''
-    json_data['Q2'] = ''
-
-    json_data['household_full_address'] = user_contact.household_full_address
-    json_data['contact_full_address'] = user_contact.contact_full_address
-
-    json_data['email_contact'] = current_user.email
-
-    json_data['difficult_area'] = relationship.difficult_area_name_export
-    json_data['sosongheo'] = relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không'
-    json_data['revolutionary_family'] = relationship.revolutionary_family ? "Có" : "Không"
 
     json_data['father_name'] = relationship.father_name.nil? ? '' : relationship.father_name.upcase
     json_data['nam_sinh_ba'] = relationship.father_year.to_s
@@ -358,12 +291,10 @@ class FormsController < ApplicationController
     json_data['now_month'] = date.strftime("%m")
     json_data['now_year'] = date.strftime("%Y")
 
-    json_data['now_year_top'] = date.strftime("%y")
-    json_data['next_year_top'] = date.strftime("%y + 1")
 
-    file_name = "tmp/ly_lich_hs_" + rand.to_s[2..11]  + ".docx"
+    file_name = "tmp/DonCamKet" + rand.to_s[2..11]  + ".docx"
 
-    Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'ly_lich_hs_code.docx', file_name)
+    Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'DonCamKet.docx', file_name)
 
     File.open(file_name, 'r') do |f|
       send_data f.read, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
