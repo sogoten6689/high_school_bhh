@@ -196,6 +196,19 @@
         </div>
       </div>
 
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="nationality">
+            <%= 'Quốc tịch' %>
+          </label>
+          <%= f.text_field :nationality, class: "form-control text-uppercase", id: "nationality", placeholder: 'VD: VIỆT NAM'%>
+          <div class="text-danger" id="nationality_error"></div>
+          <% @user.errors.full_messages_for(:nationality).each do |message| %>
+            <div class="text-danger"><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+
     </div>
 
   </div>

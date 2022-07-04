@@ -35,7 +35,7 @@ class FormsController < ApplicationController
       "b3" => "1",
       "b4" => "1",
       "codedifficult_test" => relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không',
-      "contact_phone" => relationship.vietschool_connect_phone,
+      "contact_phone" => user_contact.phone_number.nil? ? '' : user_contact.phone_number,
 
       "P1" => array_birthday[6],
       "P2" => array_birthday[7],
@@ -48,7 +48,7 @@ class FormsController < ApplicationController
 
       "province" => current_user.province_name,
       "ethnicity_name" => current_user.ethnicity_name,
-      "nationality" => '', #Viet nam - Quốc tịch
+      "nationality" => current_user.nationality.upcase,
       "religion_name" => current_user.religion_name,
     }
     identification_code = current_user.identification_type == 3 || current_user.identification_type == 4 ? current_user.identification : current_user.identification_chip ? current_user.identifier_code : ''
@@ -82,6 +82,25 @@ class FormsController < ApplicationController
     bh_3_string += health_insurance_code[8,3].nil? ? '' : " " + health_insurance_code[8,3]
     bh_3_string += health_insurance_code[11,3].nil? ? '' : " " + health_insurance_code[11,4]
     json_data['bh3'] = bh_3_string
+
+
+    # unless user_contact.household_province.nil?
+    #   household_province = Province.where(:code => user_contact.household_province).first()
+    #   unless household_province.nil?
+    #     household_province_array = household_province.nil? ? [] : household_province.change_code.to_s.chars
+    #     json_data['Tp1'] = household_province_array[0]
+    #     json_data['Tp2'] = household_province_array[1]
+    #   end
+    # end
+    #
+    # unless user_contact.household_province.nil?
+    #   household_district = District.where(:code => user_contact.household_district).first()
+    #   unless household_district.nil?
+    #     household_district_array = household_district.nil? ? [] : household_district.change_code.to_s.chars
+    #     json_data['Q1'] = household_district_array[0]
+    #     json_data['Q2'] = household_district_array[1]
+    #   end
+    # end
 
     json_data['Tp1'] = ''
     json_data['Tp2'] = ''

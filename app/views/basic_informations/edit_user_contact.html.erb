@@ -153,7 +153,7 @@
             dataType:'json',
             success : function(data) {
                 $.each(data, function(key, value) {
-                    $('#household_district').append(`<option value="${value.code}">${value.name}</option>`);
+                    $('#household_district').append(`<option value="${value.code}">${value.name_with_type}</option>`);
                 });
                 $('#household_district').change();
             },
@@ -173,7 +173,7 @@
             dataType:'json',
             success : function(data) {
                 $.each(data, function(key, value) {
-                    $('#household_ward').append(`<option value="${value.code}">${value.name}</option>`);
+                    $('#household_ward').append(`<option value="${value.code}">${value.name_with_type}</option>`);
                 });
                 full_address('household');
             },
@@ -193,7 +193,7 @@
             dataType:'json',
             success : function(data) {
                 $.each(data, function(key, value) {
-                    $('#contact_district').append(`<option value="${value.code}">${value.name}</option>`);
+                    $('#contact_district').append(`<option value="${value.code}">${value.name_with_type}</option>`);
                 });
                 $('#contact_district').change();
             },
@@ -213,7 +213,7 @@
             dataType:'json',
             success : function(data) {
                 $.each(data, function(key, value) {
-                    $('#contact_ward').append(`<option value="${value.code}">${value.name}</option>`);
+                    $('#contact_ward').append(`<option value="${value.code}">${value.name_with_type}</option>`);
                 });
                 full_address('contact');
             },

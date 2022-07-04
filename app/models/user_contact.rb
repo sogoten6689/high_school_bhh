@@ -7,9 +7,9 @@ class UserContact < ApplicationRecord
 
     full_address = []
     full_address.push(self.household_address) unless self.household_address.nil?
-    full_address.push(@household_ward.name) unless @household_ward.nil?
-    full_address.push(@household_district.name) unless @household_district.nil?
-    full_address.push(@household_province.name) unless @household_province.nil?
+    full_address.push(@household_ward.name_with_type) unless @household_ward.nil?
+    full_address.push(@household_district.name_with_type) unless @household_district.nil?
+    full_address.push(@household_province.name_with_type) unless @household_province.nil?
 
     return full_address.join(', ') if full_address.size > 0
     return 'Chưa cung cấp'
@@ -23,9 +23,9 @@ class UserContact < ApplicationRecord
 
     full_address = []
     full_address.push(self.household_address || '')
-    full_address.push(@household_ward.nil? ? '' : @household_ward.name)
-    full_address.push(@household_district.nil? ? '' : @household_district.name)
-    full_address.push(@household_province.nil? ? '' : @household_province.name)
+    full_address.push(@household_ward.nil? ? '' : @household_ward.name_with_type)
+    full_address.push(@household_district.nil? ? '' : @household_district.name_with_type)
+    full_address.push(@household_province.nil? ? '' : @household_province.name_with_type)
 
     return full_address
 
@@ -38,9 +38,9 @@ class UserContact < ApplicationRecord
     full_address = []
 
     full_address.push(self.contact_address) unless self.contact_address.nil?
-    full_address.push(@contact_ward.name) unless @contact_ward.nil?
-    full_address.push(@contact_district.name) unless @contact_district.nil?
-    full_address.push(@contact_province.name) unless @contact_province.nil?
+    full_address.push(@contact_ward.name_with_type) unless @contact_ward.nil?
+    full_address.push(@contact_district.name_with_type) unless @contact_district.nil?
+    full_address.push(@contact_province.name_with_type) unless @contact_province.nil?
 
     return full_address.join(', ') if full_address.size > 0
     return 'Chưa cung cấp'
@@ -54,9 +54,9 @@ class UserContact < ApplicationRecord
 
     full_address = []
     full_address.push(self.contact_address || '')
-    full_address.push(@contact_ward.nil? ? '' : @contact_ward.name)
-    full_address.push(@contact_district.nil? ? '' : @contact_district.name)
-    full_address.push(@contact_province.nil? ? '' : @contact_province.name)
+    full_address.push(@contact_ward.nil? ? '' : @contact_ward.name_with_type)
+    full_address.push(@contact_district.nil? ? '' : @contact_district.name_with_type)
+    full_address.push(@contact_province.nil? ? '' : @contact_province.name_with_type)
 
     return full_address
 

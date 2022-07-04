@@ -179,10 +179,10 @@ class BasicInformationsController < ApplicationController
       @secondarySchoolUser = SecondarySchoolUser.create([user_id: params[:id]]).first()
     end
 
-    @title_page = 'Cập nhật thông tin cấp 2'
+    @title_page = 'Cập nhật kết quả học tập lớp 9'
     @breadcrumbs = [
       ['Thông tin cá nhân', basic_informations_path],
-      ['Cập nhật thông tin cấp 2', edit_secondary_school_user_path]
+      ['Cập nhật kết quả học tập lớp 9', edit_secondary_school_user_path]
     ]
   end
 
@@ -239,7 +239,7 @@ class BasicInformationsController < ApplicationController
   def edit_user_params
     params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :identifier_code,
                                   :another_ethnicity, :identification, :identification_type, :identification_chip,
-                                  :religion, :another_religion, :health_insurance_code)
+                                  :religion, :another_religion, :health_insurance_code, :nationality)
   end
 
   def edit_user_contact_params

@@ -343,7 +343,7 @@ class AdminUsersController < ApplicationController
   def edit_user_params
     params.require(:user).permit( :full_name, :name, :birthday, :gender, :province, :ethnicity, :another_ethnicity,
                                   :identifier_code, :identification, :identification_type, :identification_chip,
-                                  :identification, :role, :religion, :another_religion, :health_insurance_code)
+                                  :identification, :role, :religion, :another_religion, :health_insurance_code, :nationality)
   end
 
   def edit_user_contact_params
