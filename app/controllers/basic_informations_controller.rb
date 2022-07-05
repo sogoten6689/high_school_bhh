@@ -189,13 +189,15 @@ class BasicInformationsController < ApplicationController
   def update_secondary_school_user
     @user = User.find(params[:id])
     @secondary_school_user = SecondarySchoolUser.where(user_id: params[:id]).first()
+    secondary_school_user = secondary_school_user_params
+    secondary_school_user[:other_language] = 'Tiếng Anh'
 
     if @secondary_school_user.blank?
-      SecondarySchoolUser.create!(secondary_school_user_params)
+      SecondarySchoolUser.create!(secondary_school_user)
       flash[:success] = 'Cập nhập thành công!'
     else
       if @secondary_school_user.editable
-        @secondary_school_user.update!(secondary_school_user_params)
+        @secondary_school_user.update!(secondary_school_user)
         flash[:success] = 'Cập nhập thành công!'
       else
         flash[:error] = 'Hết hạn cập nhật!'
