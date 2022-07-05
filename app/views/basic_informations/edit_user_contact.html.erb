@@ -1,6 +1,6 @@
 <div class="content container-fluid">
   <div class="container-fluid">
-    <%= form_for(@user_contact, :url =>  update_user_contact_path(@user.id)) do |f| %>
+    <%= form_for(@user_contact, :url =>  update_user_contact_path(@user.id), :remote => true) do |f| %>
       <div class="row">
         <div class="col-md-12">
           <div class="card card-default">
@@ -109,8 +109,8 @@
                   <div class="form-group">
                     <label for="phone_number">Số điện thoại liên lạc</label>
                     <%= f.text_field :phone_number, class: "form-control", id: "phone_number", placeholder: 'Số điện thoại liên lạc'%>
-                    <% @user.errors.full_messages_for(:phone_number).each do |message| %>
-                      <div class="text-danger"><%= message %></div>
+                    <% @user_contact.errors.full_messages_for(:phone_number).each do |message| %>
+                      <div class="text-danger">Định dạng số điện thoại không chính xác</div>
                     <% end %>
                   </div>
                 </div>

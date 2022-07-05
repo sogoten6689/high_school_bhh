@@ -139,7 +139,17 @@ class BasicInformationsController < ApplicationController
         ['Thông tin cá nhân', basic_informations_path],
         ['Cập nhật thông tin liên lạc', edit_user_contact_path]
       ]
-      render :edit, status: :unprocessable_entity
+      # @religions = [['Không', 0], ['Công Giáo', 1],['Phật Giáo', 2], ['Hòa Hảo', 3],['Tin Lành', 4], ['Hồi Giáo', 5], ['Khác', 6]]
+      # @identification_types = [['Chưa có CCCD/CMND', 0], ['Đã có CMND', 1],['Đã có CCCD thường', 2], ['Đã có CCCD gắn chíp', 3]]
+      # @ethnicities = Ethnicity.all
+      @household_districts = District.where(parent_code: @user_contact.household_province).order(:code)
+      @household_wards = Ward.where(parent_code: @user_contact.household_district).order(:code)
+  
+      @contact_districts = District.where(parent_code: @user_contact.contact_province).order(:code)
+      @contact_wards = Ward.where(parent_code: @user_contact.contact_district).order(:code)
+      # redirect_to request.referer
+
+      render :edit_user_contact, status: :unprocessable_entity
     end
   end
 

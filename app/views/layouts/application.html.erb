@@ -48,5 +48,21 @@
     $(document).ready(function() {
         $('.select2').select2();
     });
+
+    function inputMaskPhoneNumber() {
+      $('.mask-phone').each(function() {
+        var $this = $(this)[0];
+        Inputmask({
+          mask: '099-999-9999',
+          clearMaskOnLostFocus: true,
+          removeMaskOnSubmit: false,
+          autoUnmask: true,
+          greedy: false
+        }).mask($this);
+      });
+    }
+    $(function() {
+      inputMaskPhoneNumber();
+    })
 </script>
 </html>
