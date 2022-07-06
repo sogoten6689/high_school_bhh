@@ -82,7 +82,8 @@
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label for="father_phone">Số điện thoại</label>
-                    <%= f.text_field :father_phone, class: "form-control", id: "father_phone", placeholder: 'Số điện thoại'%>
+                    <%= f.text_field :father_phone, class: "form-control", id: "father_phone", placeholder: 'Số điện thoại', onchange: 'change_vietschool_option()' %>
+                    <div class="text-danger" id="father_phone_error"></div>
                     <% @relatioship.errors.full_messages_for(:father_phone).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -140,7 +141,8 @@
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label for="mother_phone">Số điện thoại</label>
-                    <%= f.text_field :mother_phone, class: "form-control", id: "mother_phone", placeholder: 'Số điện thoại'%>
+                    <%= f.text_field :mother_phone, class: "form-control", id: "mother_phone", placeholder: 'Số điện thoại', onchange: 'change_vietschool_option()' %>
+                    <div class="text-danger" id="mother_phone_error"></div>
                     <% @relatioship.errors.full_messages_for(:mother_phone).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -198,7 +200,8 @@
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label for="guardian_phone">Số điện thoại</label>
-                    <%= f.text_field :guardian_phone, class: "form-control", id: "guardian_phone", placeholder: 'Số điện thoại'%>
+                    <%= f.text_field :guardian_phone, class: "form-control", id: "guardian_phone", placeholder: 'Số điện thoại', onchange: 'change_vietschool_option()' %>
+                    <div class="text-danger" id="guardian_phone_error"></div>
                     <% @relatioship.errors.full_messages_for(:guardian_phone).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -240,6 +243,7 @@
                   <div class="form-group">
                     <label for="guardian_year">Số điện thoại</label>
                     <%= f.text_field :vietschool_connect_phone, class: "form-control", id: "vietschool_connect_phone", placeholder: 'Số điện thoại', readonly: !@relatioship.isAnotherVietSchoolPhoneNumber %>
+                    <div class="text-danger" id="vietschool_connect_phone_error"></div>
                     <% @relatioship.errors.full_messages_for(:vietschool_connect_phone).each do |message| %>
                       <div class="text-danger"><%= message %></div>
                     <% end %>
@@ -269,40 +273,77 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function() {
-        $('#vietschool_option').on('change', function () {
-            $('#vietschool_connect_phone').val('');
-            if (this.value == 0) {
-                $('#vietschool_connect_phone').attr('readonly', false);
-            } else if (this.value == 1) {
-                $('#vietschool_connect_phone').val($("#father_phone").val());
+  $(document).ready(function() {
+      $('#vietschool_option').on('change', function () {
+        $('#vietschool_connect_phone').val('');
+        change_vietschool_option();
+      });
+  });
 
-                $('#vietschool_connect_phone').attr('readonly', true);
-            } else if (this.value == 2) {
-                $('#vietschool_connect_phone').val($("#mother_phone").val());
+  function updateDifficultArea () {
 
-                $('#vietschool_connect_phone').attr('readonly', true);
-            }
-        });
-    });
+      var difficultArea = $('#difficult_area').val();
 
-    function updateDifficultArea () {
+      if (difficultArea == 0){
+          $('.difficult-code').addClass('d-none');
+          $('#difficult_code').val('');
+      } else {
+          $('.difficult-code').removeClass('d-none');
+      }
+  }
 
-        var difficultArea = $('#difficult_area').val();
+  function change_vietschool_option() {
+    switch (Number($('#vietschool_option').val())) {
+      case 0:
+        $('#vietschool_connect_phone').attr('readonly', false);
+        break;
 
-        if (difficultArea == 0){
-            $('.difficult-code').addClass('d-none');
-            $('#difficult_code').val('');
-        } else {
-            $('.difficult-code').removeClass('d-none');
-        }
+      case 1:
+        $('#vietschool_connect_phone').val($("#father_phone").val());
+        $('#vietschool_connect_phone').attr('readonly', true);
+        break;
+
+      case 2:
+        $('#vietschool_connect_phone').val($("#mother_phone").val());
+        $('#vietschool_connect_phone').attr('readonly', true);
+        break;
     }
+  }
 
-    updateDifficultArea();
+  updateDifficultArea();
 
-    $(document).ready(function() {
-        $('#difficult_area').on('change', function () {
-            updateDifficultArea();
-        });
+  $(document).ready(function() {
+    $('#difficult_area').on('change', function () {
+        updateDifficultArea();
     });
+
+    $('form').on('submit', function() {
+      var father_phone = $('#father_phone').val(),
+          mother_phone = $('#mother_phone').val(),
+          guardian_phone = $('#guardian_phone').val(),
+          vietschool_connect_phone = $('#vietschool_connect_phone').val(),
+          text_error = "Định dạng số điện thoại không chính xác!",
+          father_phone_check = father_phone.match(/(0[3|5|7|8|9])+([0-9]{8})\b/),
+          mother_phone_check = mother_phone.match(/(0[3|5|7|8|9])+([0-9]{8})\b/),
+          guardian_phone_check = guardian_phone.match(/(0[3|5|7|8|9])+([0-9]{8})\b/),
+          vietschool_connect_phone_check = vietschool_connect_phone.match(/(0[3|5|7|8|9])+([0-9]{8})\b/);
+      
+      father_phone_check == null && father_phone ? $('#father_phone_error').text(text_error) : $('#father_phone_error').text('');
+      mother_phone_check == null && mother_phone ? $('#mother_phone_error').text(text_error) : $('#mother_phone_error').text('');
+      guardian_phone_check == null && guardian_phone ? $('#guardian_phone_error').text(text_error) : $('#guardian_phone_error').text('');
+      if (vietschool_connect_phone_check == null && vietschool_connect_phone || $('#vietschool_option').val() != 0) {
+        if (vietschool_connect_phone) $('#vietschool_connect_phone_error').text(text_error);
+        if ($('#vietschool_option').val() != 0) $('#vietschool_connect_phone_error').text('Vui lòng cập nhập số điện thoại Cha/Mẹ');
+      } else {
+        $('#vietschool_connect_phone_error').text('');
+      }
+
+      if (father_phone_check == null && father_phone
+        || mother_phone_check == null && mother_phone
+        || guardian_phone_check == null && guardian_phone
+        || vietschool_connect_phone_check == null) {
+        return false;
+      }
+    })
+  });
 </script>

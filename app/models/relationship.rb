@@ -1,6 +1,12 @@
 class Relationship < ApplicationRecord
     belongs_to :user, dependent: :destroy
 
+    validates :father_phone, format: { with: /(0[3|5|7|8|9])+([0-9]{8})\b/}, if: -> { father_phone.present? }
+    validates :mother_phone, format: { with: /(0[3|5|7|8|9])+([0-9]{8})\b/}, if: -> { mother_phone.present? }
+    validates :guardian_phone, format: { with: /(0[3|5|7|8|9])+([0-9]{8})\b/}, if: -> { guardian_phone.present? }
+    validates :vietschool_connect_phone, format: { with: /(0[3|5|7|8|9])+([0-9]{8})\b/}, if: -> { vietschool_connect_phone.present? }
+
+
     def isAnotherVietSchoolPhoneNumber
         if self.vietschool_connect_phone == self.father_phone
             return false

@@ -109,6 +109,7 @@
                   <div class="form-group">
                     <label for="phone_number">Số điện thoại liên lạc</label>
                     <%= f.text_field :phone_number, class: "form-control", id: "phone_number", placeholder: 'Số điện thoại liên lạc'%>
+                    <div class="text-danger" id="phone_number_error"></div>
                     <% @user_contact.errors.full_messages_for(:phone_number).each do |message| %>
                       <div class="text-danger">Định dạng số điện thoại không chính xác</div>
                     <% end %>
@@ -136,94 +137,102 @@
 <%= javascript_pack_tag 'edit_user_contact' %>
 
 <script type="text/javascript">
-    function full_address(type) {
-      let full = '';
-      if ($(`#${type}_address`).val()) full = $(`#${type}_address`).val() + ', ';
-      if ($(`#${type}_ward`).val()) full += `${$(`#${type}_ward`).find('option:selected').text()}`;
-      if ($(`#${type}_district`).val()) full += `, ${$(`#${type}_district`).find('option:selected').text()}`;
-      if ($(`#${type}_province`).val()) full += `, ${$(`#${type}_province`).find('option:selected').text()}`;
-      $(`#${type}_address_full`).html(full);
+  function full_address(type) {
+    let full = '';
+    if ($(`#${type}_address`).val()) full = $(`#${type}_address`).val() + ', ';
+    if ($(`#${type}_ward`).val()) full += `${$(`#${type}_ward`).find('option:selected').text()}`;
+    if ($(`#${type}_district`).val()) full += `, ${$(`#${type}_district`).find('option:selected').text()}`;
+    if ($(`#${type}_province`).val()) full += `, ${$(`#${type}_province`).find('option:selected').text()}`;
+    $(`#${type}_address_full`).html(full);
+  }
+
+  $('#household_province').on('change', function () {
+      $('#household_district').empty();
+      $.ajax({
+          url : '/provinces/'+this.value+'/districts',
+          type : 'GET',
+          dataType:'json',
+          success : function(data) {
+              $.each(data, function(key, value) {
+                  $('#household_district').append(`<option value="${value.code}">${value.name_with_type}</option>`);
+              });
+              $('#household_district').change();
+          },
+          error : function(request,error)
+          {
+              console.log(request);
+              console.log(error);
+          }
+      });
+  });
+
+  $('#household_district').on('change', function () {
+      $('#household_ward').empty();
+      $.ajax({
+          url : '/districts/'+this.value+'/wards',
+          type : 'GET',
+          dataType:'json',
+          success : function(data) {
+              $.each(data, function(key, value) {
+                  $('#household_ward').append(`<option value="${value.code}">${value.name_with_type}</option>`);
+              });
+              full_address('household');
+          },
+          error : function(request,error)
+          {
+              console.log(request);
+              console.log(error);
+          }
+      });
+  });
+
+  $('#contact_province').on('change', function () {
+      $('#contact_district').empty();
+      $.ajax({
+          url : '/provinces/'+this.value+'/districts',
+          type : 'GET',
+          dataType:'json',
+          success : function(data) {
+              $.each(data, function(key, value) {
+                  $('#contact_district').append(`<option value="${value.code}">${value.name_with_type}</option>`);
+              });
+              $('#contact_district').change();
+          },
+          error : function(request,error)
+          {
+              console.log(request);
+              console.log(error);
+          }
+      });
+  });
+
+  $('#contact_district').on('change', function () {
+      $('#contact_ward').empty();
+      $.ajax({
+          url : '/districts/'+this.value+'/wards',
+          type : 'GET',
+          dataType:'json',
+          success : function(data) {
+              $.each(data, function(key, value) {
+                  $('#contact_ward').append(`<option value="${value.code}">${value.name_with_type}</option>`);
+              });
+              full_address('contact');
+          },
+          error : function(request,error)
+          {
+              console.log(request);
+              console.log(error);
+          }
+      });
+  });
+  $('form').on('submit', function() {
+    var phone_number = $('#phone_number').val(),
+        phone_number_check = phone_number.match(/(0[3|5|7|8|9])+([0-9]{8})\b/);
+    if (phone_number && phone_number_check == null) {
+      $('#phone_number_error').text('Định dạng số điện thoại không chính xác!');
+      return false;
     }
-
-    $('#household_province').on('change', function () {
-        $('#household_district').empty();
-        $.ajax({
-            url : '/provinces/'+this.value+'/districts',
-            type : 'GET',
-            dataType:'json',
-            success : function(data) {
-                $.each(data, function(key, value) {
-                    $('#household_district').append(`<option value="${value.code}">${value.name_with_type}</option>`);
-                });
-                $('#household_district').change();
-            },
-            error : function(request,error)
-            {
-                console.log(request);
-                console.log(error);
-            }
-        });
-    });
-
-    $('#household_district').on('change', function () {
-        $('#household_ward').empty();
-        $.ajax({
-            url : '/districts/'+this.value+'/wards',
-            type : 'GET',
-            dataType:'json',
-            success : function(data) {
-                $.each(data, function(key, value) {
-                    $('#household_ward').append(`<option value="${value.code}">${value.name_with_type}</option>`);
-                });
-                full_address('household');
-            },
-            error : function(request,error)
-            {
-                console.log(request);
-                console.log(error);
-            }
-        });
-    });
-
-    $('#contact_province').on('change', function () {
-        $('#contact_district').empty();
-        $.ajax({
-            url : '/provinces/'+this.value+'/districts',
-            type : 'GET',
-            dataType:'json',
-            success : function(data) {
-                $.each(data, function(key, value) {
-                    $('#contact_district').append(`<option value="${value.code}">${value.name_with_type}</option>`);
-                });
-                $('#contact_district').change();
-            },
-            error : function(request,error)
-            {
-                console.log(request);
-                console.log(error);
-            }
-        });
-    });
-
-    $('#contact_district').on('change', function () {
-        $('#contact_ward').empty();
-        $.ajax({
-            url : '/districts/'+this.value+'/wards',
-            type : 'GET',
-            dataType:'json',
-            success : function(data) {
-                $.each(data, function(key, value) {
-                    $('#contact_ward').append(`<option value="${value.code}">${value.name_with_type}</option>`);
-                });
-                full_address('contact');
-            },
-            error : function(request,error)
-            {
-                console.log(request);
-                console.log(error);
-            }
-        });
-    });
+  })
   full_address('household');
   full_address('contact');
 </script>

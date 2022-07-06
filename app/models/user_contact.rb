@@ -1,6 +1,6 @@
 class UserContact < ApplicationRecord
 
-  validates :phone_number, format: { with: /(0[3|5|7|8|9])+([0-9]{8})\b/}
+  validates :phone_number, format: { with: /(0[3|5|7|8|9])+([0-9]{8})\b/}, if: -> { phone_number.present? }
 
   def household_full_address
     @household_province = Province.where(:code => self.household_province).first()
