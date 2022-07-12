@@ -176,7 +176,7 @@ class FormsController < ApplicationController
       "birthday" => current_user.birthday.to_s,
       "province" => current_user.province_name,
       "contact_full_address" => user_contact.contact_full_address,
-      "phone_contact" => relationship.vietschool_connect_phone,
+      "phone_contact" => relationship.vietschool_connect_phone.nil? ? "Chưa nhập" : relationship.vietschool_connect_phone,
       "school_type" => secondary_school_user.school_type.nil? ? "Chưa nhập" : secondary_school_user.school_type,
       "school_name" => secondary_school_user.school_name.nil? ? "Chưa nhập" : secondary_school_user.school_name,
       "other_language" => secondary_school_user.other_language.nil? ? "Chưa nhập" : secondary_school_user.other_language,
