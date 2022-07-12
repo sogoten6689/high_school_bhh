@@ -25,7 +25,7 @@ class FormsController < ApplicationController
     code = 'A' + code
 
     # birthday
-    array_birthday = current_user.birthday.to_s.delete('-').chars
+    array_birthday = current_user.birthday.nil? ? "        " : current_user.birthday.to_s.delete('-').chars
 
     json_data = {
       "full_name" => current_user.full_name.upcase,
@@ -51,8 +51,22 @@ class FormsController < ApplicationController
       "nationality" => current_user.nationality.nil? ? '' : current_user.nationality.upcase,
       "religion_name" => current_user.religion_name,
     }
+
+
+    # if (array_birthday.length > 8){
+    #   json_data['P1'] = array_birthday[6],
+    #   json_data['P2'] = array_birthday[7],
+    #   json_data['m1'] = array_birthday[4],
+    #   json_data['m2'] = array_birthday[5],
+    #   json_data['y1'] = array_birthday[0],
+    #   json_data['y2'] = array_birthday[1],
+    #   json_data['y3'] = array_birthday[2],
+    #   json_data['y4'] = array_birthday[3],
+    #   json_data['P1'] = array_birthday[4],
+    # }
+
     identification_code = current_user.identification_type == 3 || current_user.identification_type == 4 ? current_user.identification : current_user.identification_chip ? current_user.identifier_code : ''
-    identification_array = identification_code.nil? ? [] : identification_code.chars
+    identification_array = identification_code.nil? ? "            " : identification_code.chars
 
     # render json: identification_array
     json_data['id1'] = identification_array[0].to_s
@@ -69,10 +83,10 @@ class FormsController < ApplicationController
     json_data['i12'] = identification_array[11].to_s
 
     json_data['identification_type'] = current_user.identification_type_name_export
-    json_data['identification'] = current_user.identification.length == 9 ? current_user.identification : ''
+    json_data['identification'] = !current_user.identification.nil? && current_user.identification.length == 9 ? current_user.identification : ''
 
     # bao hiem y te
-    health_insurance_code = current_user.health_insurance_code
+    health_insurance_code = current_user.health_insurance_code.nil? ? "               " : current_user.health_insurance_code
 
     json_data['hs'] = health_insurance_code[0,2].nil? ? '' : health_insurance_code[0,2]
     json_data['bh1'] = health_insurance_code[2,1].nil? ? '' : health_insurance_code[2,1]
@@ -84,23 +98,23 @@ class FormsController < ApplicationController
     json_data['bh3'] = bh_3_string
 
 
-    # unless user_contact.household_province.nil?
-    #   household_province = Province.where(:code => user_contact.household_province).first()
-    #   unless household_province.nil?
-    #     household_province_array = household_province.nil? ? [] : household_province.change_code.to_s.chars
-    #     json_data['Tp1'] = household_province_array[0]
-    #     json_data['Tp2'] = household_province_array[1]
-    #   end
-    # end
-    #
-    # unless user_contact.household_province.nil?
-    #   household_district = District.where(:code => user_contact.household_district).first()
-    #   unless household_district.nil?
-    #     household_district_array = household_district.nil? ? [] : household_district.change_code.to_s.chars
-    #     json_data['Q1'] = household_district_array[0]
-    #     json_data['Q2'] = household_district_array[1]
-    #   end
-    # end
+    unless user_contact.household_province.nil?
+      household_province = Province.where(:code => user_contact.household_province).first()
+      unless household_province.nil?
+        household_province_array = household_province.nil? ? [] : household_province.change_code.to_s.chars
+        json_data['Tp1'] = household_province_array[0]
+        json_data['Tp2'] = household_province_array[1]
+      end
+    end
+    
+    unless user_contact.household_province.nil?
+      household_district = District.where(:code => user_contact.household_district).first()
+      unless household_district.nil?
+        household_district_array = household_district.nil? ? [] : household_district.change_code.to_s.chars
+        json_data['Q1'] = household_district_array[0]
+        json_data['Q2'] = household_district_array[1]
+      end
+    end
 
     json_data['Tp1'] = ''
     json_data['Tp2'] = ''
@@ -118,24 +132,24 @@ class FormsController < ApplicationController
     json_data['revolutionary_family'] = relationship.revolutionary_family ? "Có" : "Không"
 
     json_data['father_name'] = relationship.father_name.nil? ? '' : relationship.father_name.upcase
-    json_data['nam_sinh_ba'] = relationship.father_year.to_s
-    json_data['father_career'] = relationship.father_career
-    json_data['father_phone'] = relationship.father_phone
-    json_data['father_address'] = relationship.father_address
-    #
+    json_data['nam_sinh_ba'] = relationship.father_year.nil? ? '' : relationship.father_year.to_s
+    json_data['father_career'] = relationship.father_career.nil? ? '' : relationship.father_career
+    json_data['father_phone'] = relationship.father_phone.nil? ? '' : relationship.father_phone
+    json_data['father_address'] = relationship.father_address.nil? ? '' : relationship.father_address
+    # #
     json_data['guardian_name'] = relationship.guardian_name.nil? ? '' : relationship.guardian_name.upcase
-    json_data['guardian_year'] = relationship.guardian_year.to_s
-    json_data['guardian_career'] = relationship.guardian_career
-    json_data['guardian_phone'] = relationship.guardian_phone
-    json_data['guardian_address'] = relationship.guardian_address
+    json_data['guardian_year'] = relationship.guardian_year.nil? ? '' : relationship.guardian_year.to_s
+    json_data['guardian_career'] = relationship.guardian_career.nil? ? '' : relationship.guardian_career.to_s
+    json_data['guardian_phone'] = relationship.guardian_phone.nil? ? '' : relationship.guardian_phone.to_s
+    json_data['guardian_address'] = relationship.guardian_address.nil? ? '' : relationship.guardian_address.to_s
 
     json_data['mother_name'] = relationship.mother_name.nil? ? '' : relationship.mother_name.upcase
-    json_data['mother_year'] = relationship.mother_year.to_s
-    json_data['mother_career'] = relationship.mother_career
-    json_data['mother_phone'] = relationship.mother_phone
-    json_data['mother_address'] = relationship.mother_address
+    json_data['mother_year'] = relationship.mother_year.nil? ? '' : relationship.mother_year.to_s
+    json_data['mother_career'] = relationship.mother_career.nil? ? '' : relationship.mother_career.to_s
+    json_data['mother_phone'] = relationship.mother_phone.nil? ? '' : relationship.mother_phone.to_s
+    json_data['mother_address'] = relationship.mother_address.nil? ? '' : relationship.mother_address.to_s
 
-    json_data['testvietschool'] = relationship.vietschool_connect_phone
+    json_data['testvietschool'] = relationship.vietschool_connect_phone.nil? ? '' : relationship.vietschool_connect_phone.to_s
 
     date = Time.now
     json_data['now_date'] = date.strftime("%d")
