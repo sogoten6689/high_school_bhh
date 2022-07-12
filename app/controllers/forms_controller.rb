@@ -188,7 +188,7 @@ class FormsController < ApplicationController
       "Math1" => secondary_school_user.math_semester_one.nil? ? '0' : secondary_school_user.math_semester_one.to_s,
       "Math2" => secondary_school_user.math_semester_two.nil? ? '0' : secondary_school_user.math_semester_two.to_s,
 
-      "Ly0" => secondary_school_user.physics.nil? ? '0' : secondary_school_user.physics,
+      "Ly0" => secondary_school_user.physics.nil? ? '0' : secondary_school_user.physics.to_s,
       "Ly1" => secondary_school_user.physics_semester_one.nil? ? '0' : secondary_school_user.physics_semester_one.to_s,
       "Physics2" => secondary_school_user.physics_semester_two.nil? ? '0' : secondary_school_user.physics_semester_two.to_s,
 
@@ -266,10 +266,6 @@ class FormsController < ApplicationController
 
     user_contact = UserContact.where(:user_id => current_user.id).first()
     relationship = Relationship.where(:user_id =>  current_user.id).first()
-    if user_contact.nil?
-      user_contact = UserContact.create([user_id: current_user.id])
-    end
-
     if relationship.nil?
       relationship = Relationship.create([user_id: current_user.id])
     end

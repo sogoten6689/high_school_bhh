@@ -72,7 +72,7 @@
           </li>
         <% end %>
 
-        <% if (current_user.role == 1 || current_user.role == 5 ) %>
+        <%# if (current_user.role == 0 || current_user.role == 5 ) %>
           <li class="nav-item <%= menu_open_class?([])%> ">
             <%= link_to elective_subjects_path, :class => "nav-link  #{current_class?(elective_subjects_path)}" do %>
               <i class="fa fa-file-alt nav-icon"></i>
@@ -81,7 +81,7 @@
               </p>
             <% end %>
           </li>
-        <% end %>
+        <%# end %>
 
       </ul>
     </nav>
