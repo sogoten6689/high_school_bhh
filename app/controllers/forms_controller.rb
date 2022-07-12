@@ -289,24 +289,24 @@ class FormsController < ApplicationController
     }
 
     json_data['father_name'] = relationship.father_name.nil? ? '' : relationship.father_name.upcase
-    json_data['nam_sinh_ba'] = relationship.father_year.to_s
-    json_data['father_career'] = relationship.father_career
-    json_data['father_phone'] = relationship.father_phone
-    json_data['father_address'] = relationship.father_address
-    #
+    json_data['nam_sinh_ba'] = relationship.father_year.nil? ? '' : relationship.father_year.to_s
+    json_data['father_career'] = relationship.father_career.nil? ? '' : relationship.father_career
+    json_data['father_phone'] = relationship.father_phone.nil? ? '' : relationship.father_phone
+    json_data['father_address'] = relationship.father_address.nil? ? '' : relationship.father_address
+    # #
     json_data['guardian_name'] = relationship.guardian_name.nil? ? '' : relationship.guardian_name.upcase
-    json_data['guardian_year'] = relationship.guardian_year.to_s
-    json_data['guardian_career'] = relationship.guardian_career
-    json_data['guardian_phone'] = relationship.guardian_phone
-    json_data['guardian_address'] = relationship.guardian_address
+    json_data['guardian_year'] = relationship.guardian_year.nil? ? '' : relationship.guardian_year.to_s
+    json_data['guardian_career'] = relationship.guardian_career.nil? ? '' : relationship.guardian_career.to_s
+    json_data['guardian_phone'] = relationship.guardian_phone.nil? ? '' : relationship.guardian_phone.to_s
+    json_data['guardian_address'] = relationship.guardian_address.nil? ? '' : relationship.guardian_address.to_s
 
     json_data['mother_name'] = relationship.mother_name.nil? ? '' : relationship.mother_name.upcase
-    json_data['mother_year'] = relationship.mother_year.to_s
-    json_data['mother_career'] = relationship.mother_career
-    json_data['mother_phone'] = relationship.mother_phone
-    json_data['mother_address'] = relationship.mother_address
+    json_data['mother_year'] = relationship.mother_year.nil? ? '' : relationship.mother_year.to_s
+    json_data['mother_career'] = relationship.mother_career.nil? ? '' : relationship.mother_career.to_s
+    json_data['mother_phone'] = relationship.mother_phone.nil? ? '' : relationship.mother_phone.to_s
+    json_data['mother_address'] = relationship.mother_address.nil? ? '' : relationship.mother_address.to_s
 
-    json_data['testvietschool'] = relationship.vietschool_connect_phone
+    json_data['testvietschool'] = relationship.vietschool_connect_phone.nil? ? '' : relationship.vietschool_connect_phone.to_s
 
     date = Time.now
     json_data['now_date'] = date.strftime("%d")
