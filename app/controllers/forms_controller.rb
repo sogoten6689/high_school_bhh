@@ -48,7 +48,7 @@ class FormsController < ApplicationController
 
       "province" => current_user.province_name,
       "ethnicity_name" => current_user.ethnicity_name,
-      "nationality" => current_user.nationality.upcase,
+      "nationality" => current_user.nationality.nil? ? '' : current_user.nationality.upcase,
       "religion_name" => current_user.religion_name,
     }
     identification_code = current_user.identification_type == 3 || current_user.identification_type == 4 ? current_user.identification : current_user.identification_chip ? current_user.identifier_code : ''
