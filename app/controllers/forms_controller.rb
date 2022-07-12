@@ -225,9 +225,9 @@ class FormsController < ApplicationController
       "Nghe1" => secondary_school_user.technology_semester_one.nil? ? '0' : secondary_school_user.technology_semester_one.to_s,
       "Nghe2" => secondary_school_user.technology_semester_two.nil? ? '0' : secondary_school_user.technology_semester_two.to_s,
 
-      "TrungB0" => secondary_school_user.subject_average.nil? ? '0' : secondary_school_user.subject_average.to_s.to_s,
-      "TrungB1" => secondary_school_user.subject_average_semester_one.nil? ? '0' : secondary_school_user.subject_average_semester_one.to_s.to_s,
-      "TrungB2" => secondary_school_user.subject_average_semester_two.nil? ? '0' : secondary_school_user.subject_average_semester_two.to_s.to_s,
+      "TrungB0" => secondary_school_user.subject_average.nil? ? '0' : secondary_school_user.subject_average.to_s,
+      "TrungB1" => secondary_school_user.subject_average_semester_one.nil? ? '0' : secondary_school_user.subject_average_semester_one.to_s,
+      "TrungB2" => secondary_school_user.subject_average_semester_two.nil? ? '0' : secondary_school_user.subject_average_semester_two.to_s,
 
     }
 
@@ -273,14 +273,6 @@ class FormsController < ApplicationController
     if relationship.nil?
       relationship = Relationship.create([user_id: current_user.id])
     end
-
-    string_code = current_user.student_code.nil? ? '' : current_user.student_code.strip
-    string_length = string_code.length
-    code = string_length > 3 ? (string_code[string_length - 3, string_length - 1]): ''
-    code = 'A' + code
-
-    # birthday
-    array_birthday = current_user.birthday.to_s.delete('-').chars
 
     json_data = {
       "full_name" => current_user.full_name.upcase,
