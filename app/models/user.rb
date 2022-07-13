@@ -13,6 +13,9 @@ class User < ApplicationRecord
   has_one :user_contact, dependent: :destroy
   has_one :student_class, dependent: :destroy
   has_one :relationship, dependent: :destroy
+  has_one :secondary_school_user, dependent: :destroy
+  has_one :elective_subject, dependent: :destroy
+
   # has_one :ethnicity, foreign_key: 'code'
 
   enum roles: [:undefine, :student, :teacher, :teacher_class, :bod, :admin] # supervisor

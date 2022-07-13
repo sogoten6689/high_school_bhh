@@ -96,6 +96,7 @@
               <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Thông tin học tập</a></li>
               <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Thông tin gia đình</a></li>
               <li class="nav-item"><a class="nav-link" href="#secondary_school" data-toggle="tab">Kết quả học tập lớp 9</a></li>
+              <li class="nav-item"><a class="nav-link" href="#elective_subject" data-toggle="tab">ĐK môn tự chọn</a></li>
 
             </ul>
           </div>
@@ -287,8 +288,6 @@
 <!--                  </div>-->
 <!--                </div>-->
               </div>
-
-
 
               <div class="tab-pane" id="secondary_school">
                 <% if @secondary_school_user.present? %>
@@ -488,6 +487,50 @@
                 </div>
               </div>
 
+              <div class="tab-pane" id="elective_subject">
+                <div class="tab-content">
+                  <div class="active tab-pane" id="activity">
+                      <div class="post">
+<!--                        <div><a href="#" class="text-bold">Thông tin Cha</a></div>-->
+                        <% if !@elective_subject.nil?%>
+                          <div>
+                            <p>
+                              <strong><%= current_user.full_name %></strong> đã đăng ký thành công môn học tự chọn như sau:
+                            <p>
+                            <table>
+                              <tr>
+                                <th style="text-align:left">Tổ hợp môn học:</th>
+                                <td><%= @elective_subject[:group_subject] %></td>
+                              </tr>
+                              <tr>
+                                <th style="text-align:left">Nhóm chuyên đề:</th>
+                                <td><%= @elective_subject[:thematic_group] %></td>
+                              </tr>
+                              <tr>
+                                <th style="text-align:left">Môn tự chọn 1:</th>
+                                <td><%= @elective_subject[:elective_subject_one] %></td>
+                              </tr>
+                              <tr>
+                                <th style="text-align:left">Môn tự chọn 2:</th>
+                                <td><%= @elective_subject[:elective_subject_two] %></td>
+                              </tr>
+                              <% if @elective_subject[:alternative_subject].present? %>
+                                <tr>
+                                  <th style="text-align:left">Môn thay thế:</th>
+                                  <td><%= @elective_subject[:alternative_subject] %></td>
+                                </tr>
+                              <% end %>
+                            </table>
+                        </div>
+                        <% else %>
+                         <div><a class="text-bold">Chưa đăng ký môn tự chọn</a></div>
+
+                      <% end %>
+                      </div>
+                      <hr />
+                  </div>
+                </div>
+              </div>
 
             </div>
 

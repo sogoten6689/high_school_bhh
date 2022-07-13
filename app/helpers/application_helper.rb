@@ -37,4 +37,9 @@ module ApplicationHelper
     end.join("\n").html_safe
   end
 
+  def format_null_to_s(value)
+    return '' if value.nil?
+    return value.to_s
+  end
+
 end

@@ -22,6 +22,17 @@ class AdminUsersController < ApplicationController
     @student_classess = StudentClass.where(:user_id => @user.id)
     @relationship = Relationship.where(:user_id =>  params[:id]).first()
     @secondary_school_user = SecondarySchoolUser.where(user_id: @user.id).first()
+    elective_subject_data = ElectiveSubject.where(user_id: @user.id).first()
+    if !elective_subject_data.nil?
+      @elective_subject = {
+        :name => current_user[:name],
+        :group_subject => GROUP_SUBJECT.select{|g| g[:code] == elective_subject_data.group_subject}.first[:name],
+        :thematic_group => THEMATIC_GROUP.select{|g| g[:code] == elective_subject_data.thematic_group}.first[:name],
+        :elective_subject_one => ELECTIVE_SUBJECT_ONE.select{|g| g[:code] == elective_subject_data.elective_subject_one}.first[:name],
+        :elective_subject_two => ELECTIVE_SUBJECT_TWO.select{|g| g[:code] == elective_subject_data.elective_subject_two}.first[:name],
+        :alternative_subject => elective_subject_data.alternative_subject.present? ? ALTERNATIVE_SUBJECT.select{|g| g[:code] == elective_subject_data.alternative_subject}.first[:name] : nil,
+      }
+    end
 
     @title_page = @user.name
     @breadcrumbs = [
@@ -338,6 +349,127 @@ class AdminUsersController < ApplicationController
     send_data excel_data.string, :filename => file_name, :disposition => 'inline'
   end
 
+  def download_csv_elective_subject
+
+    search = AppUtils.escape_search_query(params[:search])
+    search = AppUtils.quote_string(search)
+    param_user_ids = params[:user_ids].split(',')
+    param_user_ids = param_user_ids.reject(&:blank?) if param_user_ids.present? && param_user_ids.kind_of?(Array)
+    users = User.left_joins(:student_class)
+    users = users.where("student_code ILIKE '%#{search}%' OR student_classes.class_name ILIKE '%#{search}%' OR full_name ILIKE '%#{search}%' OR email ILIKE '%#{search}%'") if search.present?
+    users = users.where(:id => param_user_ids) if param_user_ids.present?
+    user_ids = users.group('users.id').pluck('users.id')
+    file_name = 'DK Mon Tu chon.xls'
+
+    header = ['Mã học sinh', 'Họ và tên', 'Tên', 'Email', 'Giới tính']
+    header += ['Ngày tháng năm sinh', 'Tổ hợp môn học', 'Nhóm chuyên đề']
+    header += ['Môn tự chọn 1', 'Môn tự chọn 2', 'Môn thay thế']
+
+    # header += ['Họ tên người giám hộ', 'Năm sinh của người giám hộ', 'Nghề nghiệp của người giám hộ', 'Địa chỉ liên hệ của người giám hộ', 'Số điện thoại của người giám hộ']
+    data_users = User.eager_load(:elective_subject).where(id: user_ids)
+
+    excel_book = Spreadsheet::Workbook.new
+    sheet_page = excel_book.create_worksheet :name => 'Danh sach nguoi dung'
+    # Header row
+    sheet_page.insert_row(0, header)
+    ExcelUtils.format_rows_header(sheet_page, [0])
+    row_index = 1
+    data_users.each do |u|
+      elective_subject_data = u.elective_subject
+
+      # gender
+      gender_name = u.gender == 1 ? 'Nam' : 'Nữ' if u.gender.present?
+      row_data = [u.student_code, u.full_name, u.name, u.email, gender_name,u.birthday]
+
+      if !elective_subject_data.nil? && !elective_subject_data.group_subject.nil?
+        elective_subject = {
+          :group_subject => GROUP_SUBJECT.select{|g| g[:code] == format_null_to_s(elective_subject_data.group_subject)}.first[:name],
+          :thematic_group => THEMATIC_GROUP.select{|g| g[:code] == elective_subject_data.thematic_group}.first[:name],
+          :elective_subject_one => ELECTIVE_SUBJECT_ONE.select{|g| g[:code] == elective_subject_data.elective_subject_one}.first[:name],
+          :elective_subject_two => ELECTIVE_SUBJECT_TWO.select{|g| g[:code] == elective_subject_data.elective_subject_two}.first[:name],
+          :alternative_subject => elective_subject_data.alternative_subject.present? ? ALTERNATIVE_SUBJECT.select{|g| g[:code] == elective_subject_data.alternative_subject}.first[:name] : nil,
+        }
+
+        row_data += [elective_subject[:group_subject], elective_subject[:thematic_group]]
+        row_data += [elective_subject[:elective_subject_one], elective_subject[:elective_subject_two], elective_subject[:alternative_subject] ]
+      end
+
+      sheet_page.insert_row(row_index, row_data)
+      row_index += 1
+    end
+    excel_data = StringIO.new
+    excel_book.write excel_data
+
+    send_data excel_data.string, :filename => file_name, :disposition => 'inline'
+
+  end
+
+  def download_csv_score_board
+    search = AppUtils.escape_search_query(params[:search])
+    search = AppUtils.quote_string(search)
+    param_user_ids = params[:user_ids].split(',')
+    param_user_ids = param_user_ids.reject(&:blank?) if param_user_ids.present? && param_user_ids.kind_of?(Array)
+    users = User.left_joins(:student_class)
+    users = users.where("student_code ILIKE '%#{search}%' OR student_classes.class_name ILIKE '%#{search}%' OR full_name ILIKE '%#{search}%' OR email ILIKE '%#{search}%'") if search.present?
+    users = users.where(:id => param_user_ids) if param_user_ids.present?
+    user_ids = users.group('users.id').pluck('users.id')
+    file_name = 'Bang diem.xls'
+
+    header = ['Mã học sinh', 'Họ và tên', 'Tên', 'Email', 'Giới tính']
+    header += ['Ngày tháng năm sinh', 'Trường', 'Loại trường']
+    header += ['Toán HK1', 'Toán HK2', 'Toán Cả năm']
+    header += ['Lý HK1', 'Lý HK2', 'Lý Cả năm']
+    header += ['Hoá HK1', 'Hoá HK2', 'Hoá Cả năm']
+    header += ['Sinh HK1', 'Sinh HK2', 'Sinh Cả năm']
+    header += ['Văn HK1', 'Văn HK2', 'Văn Cả năm']
+    header += ['Sử HK1', 'Sử HK2', 'Sử Cả năm']
+    header += ['Địa HK1', 'Địa HK2', 'Địa Cả năm']
+    header += ['Anh HK1', 'Anh HK2', 'Anh Cả năm']
+    header += ['GDCD HK1', 'GDCD HK2', 'GDCD Cả năm']
+    header += ['Công Nghệ HK1', 'Công Nghệ HK2', 'Công Nghệ Cả năm']
+    header += ['TB HK1', 'TB HK2', 'TB Cả năm']
+    header += ['Ngoại ngữ', 'Thể dục', 'Học Lực']
+    header += ['Hạnh kiểm', 'Điểm tuyển sinh']
+
+    # header += ['Họ tên người giám hộ', 'Năm sinh của người giám hộ', 'Nghề nghiệp của người giám hộ', 'Địa chỉ liên hệ của người giám hộ', 'Số điện thoại của người giám hộ']
+    data_users = User.eager_load(:secondary_school_user).where(id: user_ids)
+
+    excel_book = Spreadsheet::Workbook.new
+    sheet_page = excel_book.create_worksheet :name => 'Danh sach nguoi dung'
+    # Header row
+    sheet_page.insert_row(0, header)
+    ExcelUtils.format_rows_header(sheet_page, [0])
+    row_index = 1
+    data_users.each do |u|
+      secondary_school_user = u.secondary_school_user.nil? ? SecondarySchoolUser.create(user_id: u.id) : u.secondary_school_user
+
+      # gender
+      gender_name = u.gender == 1 ? 'Nam' : 'Nữ' if u.gender.present?
+
+      row_data = [u.student_code, u.full_name, u.name, u.email, gender_name]
+      row_data += [u.birthday, format_null_to_s(secondary_school_user.school_name), format_null_to_s(secondary_school_user.school_type), ]
+      row_data += [format_null_to_s(secondary_school_user.math_semester_one), format_null_to_s(secondary_school_user.math_semester_two), format_null_to_s(secondary_school_user.math)]
+      row_data += [format_null_to_s(secondary_school_user.physics_semester_one), format_null_to_s(secondary_school_user.physics_semester_two), format_null_to_s(secondary_school_user.physics)]
+      row_data += [format_null_to_s(secondary_school_user.chemistry_semester_one), format_null_to_s(secondary_school_user.chemistry_semester_two), format_null_to_s(secondary_school_user.chemistry)]
+      row_data += [format_null_to_s(secondary_school_user.biological_semester_one), format_null_to_s(secondary_school_user.biological_semester_two), format_null_to_s(secondary_school_user.biological)]
+      row_data += [format_null_to_s(secondary_school_user.literature_semester_one), format_null_to_s(secondary_school_user.literature_semester_two), format_null_to_s(secondary_school_user.literature)]
+      row_data += [format_null_to_s(secondary_school_user.history_semester_one), format_null_to_s(secondary_school_user.history_semester_two), format_null_to_s(secondary_school_user.history)]
+      row_data += [format_null_to_s(secondary_school_user.geography_semester_one), format_null_to_s(secondary_school_user.geography_semester_two), format_null_to_s(secondary_school_user.geography)]
+      row_data += [format_null_to_s(secondary_school_user.english_semester_one), format_null_to_s(secondary_school_user.english_semester_two), format_null_to_s(secondary_school_user.english)]
+      row_data += [format_null_to_s(secondary_school_user.civic_education_semester_one), format_null_to_s(secondary_school_user.civic_education_semester_two), format_null_to_s(secondary_school_user.civic_education)]
+      row_data += [format_null_to_s(secondary_school_user.technology_semester_one), format_null_to_s(secondary_school_user.technology_semester_two), format_null_to_s(secondary_school_user.technology)]
+      row_data += [format_null_to_s(secondary_school_user.subject_average_semester_one), format_null_to_s(secondary_school_user.subject_average_semester_two), format_null_to_s(secondary_school_user.subject_average)]
+      row_data += [format_null_to_s(secondary_school_user.other_language), format_null_to_s(secondary_school_user.exercise_result), format_null_to_s(secondary_school_user.ranked_academic)]
+      row_data += [format_null_to_s(secondary_school_user.conduct), format_null_to_s(secondary_school_user.admission_test_score)]
+      sheet_page.insert_row(row_index, row_data)
+      row_index += 1
+    end
+    excel_data = StringIO.new
+    excel_book.write excel_data
+
+    send_data excel_data.string, :filename => file_name, :disposition => 'inline'
+
+  end
 
   def edit_secondary_school_user
     @user = User.find(params[:id])

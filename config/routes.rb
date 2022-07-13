@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     collection do
       get :execute_users
       get :download_csv
+      get :download_csv_score_board
+      get :download_csv_elective_subject
     end
   end
 
