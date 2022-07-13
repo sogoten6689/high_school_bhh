@@ -21,6 +21,7 @@ class AdminUsersController < ApplicationController
     @user_contact = UserContact.where(:user_id => params[:id]).first()
     @student_classess = StudentClass.where(:user_id => @user.id)
     @relationship = Relationship.where(:user_id =>  params[:id]).first()
+    @secondary_school_user = SecondarySchoolUser.where(user_id: @user.id).first()
 
     @title_page = @user.name
     @breadcrumbs = [
@@ -337,6 +338,43 @@ class AdminUsersController < ApplicationController
     send_data excel_data.string, :filename => file_name, :disposition => 'inline'
   end
 
+
+  def edit_secondary_school_user
+    @user = User.find(params[:id])
+    @secondarySchoolUser = SecondarySchoolUser.where(user_id: params[:id]).first()
+    if @secondarySchoolUser.nil?
+      @secondarySchoolUser = SecondarySchoolUser.create([user_id: params[:id]]).first()
+    end
+
+    @title_page = 'Cập nhật kết quả học tập lớp 9'
+    @breadcrumbs = [
+      ['Thông tin cá nhân', basic_informations_path],
+      ['Cập nhật kết quả học tập lớp 9', edit_secondary_school_user_path]
+    ]
+  end
+
+  def update_secondary_school_user
+    @user = User.find(params[:id])
+    @secondary_school_user = SecondarySchoolUser.where(user_id: params[:id]).first()
+    secondary_school_user = secondary_school_user_params
+    secondary_school_user[:other_language] = 'Tiếng Anh'
+
+    if @secondary_school_user.blank?
+      SecondarySchoolUser.create!(secondary_school_user)
+      flash[:success] = 'Cập nhập thành công!'
+    else
+      if @secondary_school_user.editable
+        @secondary_school_user.update!(secondary_school_user)
+        flash[:success] = 'Cập nhập thành công!'
+      else
+        flash[:error] = 'Hết hạn cập nhật!'
+      end
+    end
+
+    redirect_to  admin_user_path(params[:id])
+  end
+
+
   private
 
 
@@ -356,5 +394,18 @@ class AdminUsersController < ApplicationController
                                           :father_name, :father_year, :father_career, :father_phone, :father_address,
                                           :mother_name, :mother_year, :mother_career, :mother_phone, :mother_address,
                                           :guardian_name, :guardian_year, :guardian_career, :guardian_phone, :guardian_address, :vietschool_connect_phone)
+  end
+
+  def secondary_school_user_params
+    params.require(:secondary_school_user).permit(:school_name, :school_type, :other_language, :math, :physics,
+                                                  :chemistry, :biological, :literature, :history, :geography, :english,
+                                                  :civic_education, :technology, :admission_test_score, :exercise_result,
+                                                  :ranked_academic, :conduct, :subject_average, :subject_average_semester_one, :subject_average_semester_two,
+                                                  :math_semester_one, :math_semester_two, :physics_semester_one, :physics_semester_two, :chemistry_semester_one,
+                                                  :chemistry_semester_two, :biological_semester_one, :biological_semester_two, :literature_semester_one,
+                                                  :literature_semester_two, :history_semester_one, :history_semester_two, :geography_semester_one,
+                                                  :geography_semester_two, :english_semester_one, :english_semester_two, :civic_education_semester_one,
+                                                  :civic_education_semester_two, :technology_semester_one, :technology_semester_two
+    )
   end
 end

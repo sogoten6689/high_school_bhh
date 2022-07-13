@@ -1,0 +1,265 @@
+<div class="content container-fluid">
+  <div class="container-fluid">
+    <%= form_for(@secondarySchoolUser, :url =>  update_admin_users_secondary_school_user_path(@user.id)) do |f| %>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Thông tin trường học' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :school_name, 'Tên trường học' %>
+                    <%= f.select(:school_name, LIST_SCHOOL.collect {|u| [u, u]},{ },{ :class => 'form-control select2'}) %>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <%= f.label :school_type, 'Kiểu trường học' %>
+                    <%= f.select(:school_type, SCHOOL_TYPE.collect {|u| [u, u]},{ },{ :class => 'form-control select2'}) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Thông tin điểm các môn' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <th></th>
+                    <th>HK1</th>
+                    <th>HK2</th>
+                    <th>CN</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Toán</td>
+                      <td>
+                        <%= f.number_field :math_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :math_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :math, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Vật Lý</td>
+                      <td>
+                        <%= f.number_field :physics_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :physics_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :physics, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Hóa Học</td>
+                      <td>
+                        <%= f.number_field :chemistry_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :chemistry_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :chemistry, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Sinh Học</td>
+                      <td>
+                        <%= f.number_field :biological_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :biological_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :biological, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Ngữ Văn</td>
+                      <td>
+                        <%= f.number_field :literature_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :literature_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :literature, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Lịch Sử</td>
+                      <td>
+                        <%= f.number_field :history_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :history_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :history, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Địa Lý</td>
+                      <td>
+                        <%= f.number_field :geography_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :geography_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :geography, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Anh Văn</td>
+                      <td>
+                        <%= f.number_field :english_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :english_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :english, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>GDCD</td>
+                      <td>
+                        <%= f.number_field :civic_education_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :civic_education_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :civic_education, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Công Nghệ</td>
+                      <td>
+                        <%= f.number_field :technology_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :technology_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :technology, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DTB các môn học</td>
+                      <td>
+                        <%= f.number_field :subject_average_semester_one, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :subject_average_semester_two, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                      <td>
+                        <%= f.number_field :subject_average, in: 0.0..10.0, step: 0.1, placeholder: 'VD: 9', class: 'form-control',  onchange: "input_subject_score(event.target.id)"  %>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <%= 'Thông tin khác' %>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= f.label :other_language, 'Ngoại ngữ' %>
+                    <%= f.text_field :other_language, class: 'form-control', placeholder: 'VD: Tiếng anh', value: 'Tiếng Anh', readonly: true %>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= f.label :exercise_result, 'Kết quả môn thể dục' %>
+                    <%= f.select(:exercise_result, EXERCISE_RESULT.collect {|u| [u, u]},{ },{ :class => 'form-control select2'}) %>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= f.label :ranked_academic, 'Xếp hạng học lực' %>
+                    <%= f.select(:ranked_academic, RANKED_ACADEMIC.collect {|u| [u, u]},{ },{ :class => 'form-control select2'}) %>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= f.label :conduct, 'Hạnh kiểm' %>
+                    <%= f.select(:conduct, CONDUCT.collect {|u| [u, u]},{ },{ :class => 'form-control select2'}) %>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <%= f.label :admission_test_score, 'Điểm tuyển sinh' %>
+                    <%= f.number_field :admission_test_score, in: 0.00..50.00, step: 0.01, placeholder: 'VD: 27', class: 'form-control',  onchange: "admission_test_score(event.target.id)"  %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-footer text-center">
+              <button type="submit" class="btn btn-primary">Cập nhập</button>
+              <%= link_to 'Huỷ', basic_informations_path, class: "btn btn-danger"%>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+ </div>
+
+<%= javascript_pack_tag 'edit_user_contact' %>
+
+<script type="text/javascript">
+  function input_subject_score(id) {
+    try {
+      let value = $(`#${id}`).val();
+      if (value > 0 && value <= 10) {
+        $(`#${id}`).val(Number(value).toFixed(1));
+      } else {
+        $(`#${id}`).val(0);
+      }
+    } catch (error) {
+      $(`#${id}`).val(0);
+    }
+  }
+
+  function admission_test_score(id) {
+    try {
+      let value = $(`#${id}`).val();
+      if (value > 0 && value <= 50) {
+        $(`#${id}`).val(Number(value).toFixed(2));
+      } else {
+        $(`#${id}`).val(0);
+      }
+    } catch (error) {
+      $(`#${id}`).val(0);
+    }
+  }
+</script>

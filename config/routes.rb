@@ -29,6 +29,10 @@ Rails.application.routes.draw do
   post '/delete_student', to: 'admin_users#delete_student', as: 'delete_student'
 
 
+  get '/admin_users/:id/edit_secondary_school_user', to: 'admin_users#edit_secondary_school_user', as: 'edit_admin_user_secondary_school_user'
+  patch '/admin_users/:id/update_secondary_school_user', to: 'admin_users#update_secondary_school_user', as: 'update_admin_users_secondary_school_user'
+
+
   resources :basic_informations do
     collection do
       patch 'update_password', to: 'basic_informations#update_password', as: 'update_password'
