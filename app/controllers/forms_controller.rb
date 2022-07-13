@@ -173,6 +173,10 @@ class FormsController < ApplicationController
     relationship = Relationship.where(:user_id =>  current_user.id).first()
     secondary_school_user = SecondarySchoolUser.where(:user_id =>  current_user.id).first()
 
+    if secondary_school_user.nil?
+      secondary_school_user = SecondarySchoolUser.create([user_id: current_user.id])
+    end
+
     if user_contact.nil?
       user_contact = UserContact.create([user_id: current_user.id])
     end

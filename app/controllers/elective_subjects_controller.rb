@@ -35,7 +35,7 @@ class ElectiveSubjectsController < ApplicationController
                     :elective_subject_two => params[:elective_subject_two],
                     :alternative_subject => params[:alternative_subject],
                     :user_id => current_user.id,
-                    :editable => false
+                    :editable => true
                 )
                 flash[:success] = 'Đã đăng ký thành công!'
                 email_subject= 'Đăng ký môn tự chọn thành công!'
@@ -48,7 +48,7 @@ class ElectiveSubjectsController < ApplicationController
                       :elective_subject_one => params[:elective_subject_one],
                       :elective_subject_two => params[:elective_subject_two],
                       :alternative_subject => params[:alternative_subject],
-                      :editable => false
+                      :editable => true
                     )
                     flash[:success] = 'Đã cập nhập thành công!'
                     email_subject= 'Cập nhập môn tự chọn thành công!'
