@@ -14,6 +14,14 @@
             <p class="text-danger">
               *Hãy nhập đủ thông tin gia đình, thông tin cá nhân để tự động điền vào Sơ yếu lý lịch
             </p>
+            <%= link_to edit_relationship_path(current_user.id), class: "nav-link" do %>
+                <i class="fas fa-hand-point-right" aria-hidden="true"></i> Cập nhật thông tin gia đình!
+            <% end %>
+
+            <%= link_to edit_basic_information_path(current_user.id), class: "nav-link" do %>
+              <i class="fas fa-hand-point-right" aria-hidden="true"></i> Cập nhật thông tin cá nhân!
+            <% end %>
+
             <hr>
             <%= link_to profile_file_forms_url, :class => "nav-link " do %>
               <i class="fa fa-download nav-icon"></i>
@@ -37,6 +45,14 @@
             <p class="text-danger">
               *Hãy nhập đủ thông tin cá nhân, kết quả học tập lớp 9(bảng điểm), ĐK môn tự chọn để tự động điền vào Đơn xin nhập học
             </p>
+
+            <%= link_to edit_secondary_school_user_path(current_user.id), class: "nav-link" do %>
+              <i class="fas fa-hand-point-right" aria-hidden="true"></i> Cập nhật kết quả học tập lớp 9!
+            <% end %>
+            <%= link_to edit_basic_information_path(current_user.id), class: "nav-link" do %>
+              <i class="fas fa-hand-point-right" aria-hidden="true"></i> Cập nhật thông tin cá nhân!
+            <% end %>
+
             <hr>
             <%= link_to score_board_file_forms_url, :class => "nav-link " do %>
               <i class="fa fa-download nav-icon"></i>
@@ -57,9 +73,13 @@
 
           <div class="card-body">
             <strong><i class="fas fa-book mr-1"></i> Download Mẫu Cam kết </strong>
-                        <p class="text-danger">
-                          *Hãy nhập đủ thông tin gia đình để tự động điền vào Bảng cam kết
-                        </p>
+              <p class="text-danger">
+                *Hãy nhập đủ thông tin gia đình để tự động điền vào Bảng cam kết
+              </p>
+
+            <%= link_to edit_relationship_path(current_user.id), class: "nav-link" do %>
+              <i class="fas fa-hand-point-right" aria-hidden="true"></i> Cập nhật thông tin gia đình!
+            <% end %>
             <hr>
             <%= link_to commitment_file_forms_url, :class => "nav-link " do %>
               <i class="fa fa-download nav-icon"></i>
