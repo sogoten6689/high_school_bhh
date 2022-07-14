@@ -210,7 +210,7 @@ class FormsController < ApplicationController
       "Ly1" => secondary_school_user.physics_semester_one.nil? ? '0' : secondary_school_user.physics_semester_one.to_s,
       "Physics2" => secondary_school_user.physics_semester_two.nil? ? '0' : secondary_school_user.physics_semester_two.to_s,
 
-      "Hoa0" => secondary_school_user.chemistry.nil? ? '0' : secondary_school_user.physics.to_s,
+      "Hoa0" => secondary_school_user.chemistry.nil? ? '0' : secondary_school_user.chemistry.to_s,
       "Hoa1" => secondary_school_user.chemistry_semester_one.nil? ? '0' : secondary_school_user.chemistry_semester_one.to_s,
       "Hoa2" => secondary_school_user.chemistry_semester_two.nil? ? '0' : secondary_school_user.chemistry_semester_two.to_s,
 
