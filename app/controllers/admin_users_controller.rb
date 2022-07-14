@@ -18,6 +18,7 @@ class AdminUsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @province = Province.where(code: @user.province).first()
     @user_contact = UserContact.where(:user_id => params[:id]).first()
     @student_classess = StudentClass.where(:user_id => @user.id)
     @relationship = Relationship.where(:user_id =>  params[:id]).first()

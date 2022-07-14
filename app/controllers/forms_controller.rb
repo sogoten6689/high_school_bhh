@@ -129,7 +129,7 @@ class FormsController < ApplicationController
 
     json_data['difficult_area'] = relationship.difficult_area_name_export
     json_data['sosongheo'] = relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không'
-    json_data['revolutionary_family'] = relationship.revolutionary_family ? "Có" : "Không"
+    json_data['revolutionary_family'] = relationship.revolutionary_family == 1 ? "Có" : "Không"
 
     json_data['father_name'] = relationship.father_name.nil? ? '' : relationship.father_name.upcase
     json_data['nam_sinh_ba'] = relationship.father_year.nil? ? '' : relationship.father_year.to_s
