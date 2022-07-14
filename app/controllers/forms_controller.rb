@@ -187,11 +187,12 @@ class FormsController < ApplicationController
 
     elective_subject = ElectiveSubject.where(:user_id =>  current_user.id).first()
 
+
     json_data = {
       "full_name" => current_user.full_name.upcase,
       "gender" => current_user.gender == 0 ? "Nữ" : "Nam",
 
-      "birthday" => current_user.birthday.to_s,
+      "birthday" => current_user.birthday.nil? ? '' :  current_user.birthday.strftime("%d-%m-%Y"),
       "province" => current_user.province_name,
       "contact_full_address" => user_contact.contact_full_address,
       "phone_contact" => relationship.vietschool_connect_phone.nil? ? "Chưa nhập" : relationship.vietschool_connect_phone,
