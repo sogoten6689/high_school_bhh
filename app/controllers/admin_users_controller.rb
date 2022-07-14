@@ -243,7 +243,11 @@ class AdminUsersController < ApplicationController
     @user_contact.delete unless @user_contact.nil?
     @student_class = StudentClass.where(:user_id =>  params[:id]).delete_all
     @relationship = Relationship.where(:user_id =>  params[:id]).first()
+    @electiveSubject = ElectiveSubject.where(:user_id =>  params[:id]).first()
+    @secondarySchoolUser = SecondarySchoolUser.where(:user_id =>  params[:id]).first()
     @relationship.delete unless @relationship.nil?
+    @electiveSubject.delete unless @electiveSubject.nil?
+    @secondarySchoolUser.delete unless @secondarySchoolUser.nil?
     @user = User.find(params[:id])
     @user.delete
     redirect_to  admin_users_path
