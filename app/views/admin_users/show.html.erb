@@ -81,6 +81,21 @@
               <div class="text-center">
                 <%= link_to "Chỉnh sửa", edit_admin_user_path(@user.id), class: "btn btn-primary"%>
               </div>
+
+              <%= link_to profile_file_forms_url(@user.id), :class => "nav-link ", target: :_blank  do %>
+                <i class="fa fa-download nav-icon"></i>
+                <%= 'SYLL' %>
+              <% end %>
+
+              <%= link_to score_board_file_forms_url(@user.id), :class => "nav-link ", target: :_blank  do %>
+                <i class="fa fa-download nav-icon"></i>
+                <%= 'Đơn NH' %>
+              <% end %>
+
+              <%= link_to commitment_file_forms_url(@user.id), :class => "nav-link ", target: :_blank  do %>
+                <i class="fa fa-download nav-icon"></i>
+                <%= 'Cam Kết' %>
+              <% end %>
             <% end %>
             <!--                      <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>-->
           </div>

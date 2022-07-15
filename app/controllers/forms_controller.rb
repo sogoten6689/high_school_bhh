@@ -7,10 +7,22 @@ class FormsController < ApplicationController
   end
 
   def profile_file
-    require 'omnidocx'
 
-    user_contact = UserContact.where(:user_id => current_user.id).first()
-    relationship = Relationship.where(:user_id =>  current_user.id).first()
+    if current_user.role != 5 && params[:id] != current_user.id
+      return redirect_to home_path
+    end
+
+    require 'omnidocx'
+    require "i18n"
+
+    user = User.find (params[:id])
+
+    if user.nil?
+      return redirect_to home_path
+    end
+
+    user_contact = UserContact.where(:user_id => user.id).first()
+    relationship = Relationship.where(:user_id =>  user.id).first()
     if user_contact.nil?
       user_contact = UserContact.create([user_id: current_user.id])
     end
@@ -19,18 +31,18 @@ class FormsController < ApplicationController
       relationship = Relationship.create([user_id: current_user.id])
     end
 
-    string_code = current_user.student_code.nil? ? '' : current_user.student_code.strip
+    string_code = user.student_code.nil? ? '' : user.student_code.strip
     string_length = string_code.length
     code = string_length > 3 ? (string_code[string_length - 3, string_length - 1]): ''
     code = 'A' + code
 
     # birthday
-    array_birthday = current_user.birthday.nil? ? "        " : current_user.birthday.to_s.delete('-').chars
+    array_birthday = user.birthday.nil? ? "        " : user.birthday.to_s.delete('-').chars
 
     json_data = {
-      "full_name" => current_user.full_name.upcase,
+      "full_name" => user.full_name.upcase,
       "ucod" => code,
-      "gender" => current_user.gender == 0 ? "Nữ" : "Nam",
+      "gender" => user.gender == 0 ? "Nữ" : "Nam",
 
       "b3" => "1",
       "b4" => "1",
@@ -46,10 +58,10 @@ class FormsController < ApplicationController
       "y3" => array_birthday[2],
       "y4" => array_birthday[3],
 
-      "province" => current_user.province_name,
-      "ethnicity_name" => current_user.ethnicity_name,
-      "nationality" => current_user.nationality.nil? ? '' : current_user.nationality.upcase,
-      "religion_name" => current_user.religion_name,
+      "province" => user.province_name,
+      "ethnicity_name" => user.ethnicity_name,
+      "nationality" => user.nationality.nil? ? '' : user.nationality.upcase,
+      "religion_name" => user.religion_name,
     }
 
 
@@ -65,7 +77,7 @@ class FormsController < ApplicationController
     #   json_data['P1'] = array_birthday[4],
     # }
 
-    identification_code = current_user.identification_type == 3 || current_user.identification_type == 4 ? current_user.identification : current_user.identification_chip ? current_user.identifier_code : ''
+    identification_code = user.identification_type == 3 || user.identification_type == 4 ? user.identification : user.identification_chip ? user.identifier_code : ''
     identification_array = identification_code.nil? ? "            " : identification_code.chars
 
     # render json: identification_array
@@ -82,11 +94,11 @@ class FormsController < ApplicationController
     json_data['i11'] = identification_array[10].to_s
     json_data['i12'] = identification_array[11].to_s
 
-    json_data['identification_type'] = current_user.identification_type_name_export
-    json_data['identification'] = !current_user.identification.nil? && current_user.identification.length == 9 ? current_user.identification : ''
+    json_data['identification_type'] = user.identification_type_name_export
+    json_data['identification'] = !user.identification.nil? && user.identification.length == 9 ? user.identification : ''
 
     # bao hiem y te
-    health_insurance_code = current_user.health_insurance_code.nil? ? "               " : current_user.health_insurance_code
+    health_insurance_code = user.health_insurance_code.nil? ? "               " : user.health_insurance_code
 
     json_data['hs'] = health_insurance_code[0,2].nil? ? '' : health_insurance_code[0,2]
     json_data['bh1'] = health_insurance_code[2,1].nil? ? '' : health_insurance_code[2,1]
@@ -125,7 +137,7 @@ class FormsController < ApplicationController
     json_data['household_full_address'] = user_contact.household_full_address
     json_data['contact_full_address'] = user_contact.contact_full_address
 
-    json_data['email_contact'] = current_user.email
+    json_data['email_contact'] = user.email
 
     json_data['difficult_area'] = relationship.difficult_area_name_export
     json_data['sosongheo'] = relationship.difficult_area != 0 && !relationship.difficult_code.nil? ? relationship.difficult_code : 'Không'
@@ -160,40 +172,53 @@ class FormsController < ApplicationController
 
     Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'ly_lich_hs_code.docx', file_name)
 
+    out_file = I18n.transliterate(user.name) + "_" +  user.student_code + "_syll.docx"
+
     File.open(file_name, 'r') do |f|
-      send_data f.read, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      send_data f.read, :filename => out_file, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     end
     File.delete(file_name)
   end
 
   def score_board_file
-    require 'omnidocx'
 
-    user_contact = UserContact.where(:user_id => current_user.id).first()
-    relationship = Relationship.where(:user_id =>  current_user.id).first()
-    secondary_school_user = SecondarySchoolUser.where(:user_id =>  current_user.id).first()
+    if current_user.role != 5 && params[:id] != current_user.id
+      return redirect_to home_path
+    end
+
+    require 'omnidocx'
+    require "i18n"
+
+    user = User.find (params[:id])
+
+    if user.nil?
+      return redirect_to home_path
+    end
+
+    user_contact = UserContact.where(:user_id => user.id).first()
+    relationship = Relationship.where(:user_id =>  user.id).first()
+    secondary_school_user = SecondarySchoolUser.where(:user_id =>  user.id).first()
 
     if secondary_school_user.nil?
-      secondary_school_user = SecondarySchoolUser.create([user_id: current_user.id])
+      secondary_school_user = SecondarySchoolUser.create([user_id: user.id])
     end
 
     if user_contact.nil?
-      user_contact = UserContact.create([user_id: current_user.id])
+      user_contact = UserContact.create([user_id: user.id])
     end
 
     if relationship.nil?
-      relationship = Relationship.create([user_id: current_user.id])
+      relationship = Relationship.create([user_id: user.id])
     end
 
-    elective_subject = ElectiveSubject.where(:user_id =>  current_user.id).first()
-
+    elective_subject = ElectiveSubject.where(:user_id =>  user.id).first()
 
     json_data = {
-      "full_name" => current_user.full_name.upcase,
-      "gender" => current_user.gender == 0 ? "Nữ" : "Nam",
+      "full_name" => user.full_name.upcase,
+      "gender" => user.gender == 0 ? "Nữ" : "Nam",
 
-      "birthday" => current_user.birthday.nil? ? '' :  current_user.birthday.strftime("%d-%m-%Y"),
-      "province" => current_user.province_name,
+      "birthday" => user.birthday.nil? ? '' :  user.birthday.strftime("%d-%m-%Y"),
+      "province" => user.province_name,
       "contact_full_address" => user_contact.contact_full_address,
       "phone_contact" => relationship.vietschool_connect_phone.nil? ? "Chưa nhập" : relationship.vietschool_connect_phone,
       "school_type" => secondary_school_user.school_type.nil? ? "Chưa nhập" : secondary_school_user.school_type,
@@ -273,24 +298,37 @@ class FormsController < ApplicationController
 
     Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'DonXinNhaphoc.docx', file_name)
 
+    out_file = I18n.transliterate(user.name) + "_" +  user.student_code + "_donnhaphoc.docx"
+
     File.open(file_name, 'r') do |f|
-      send_data f.read, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      send_data f.read, :filename => out_file, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     end
     File.delete(file_name)
 
   end
 
   def commitment_file
-    require 'omnidocx'
 
-    user_contact = UserContact.where(:user_id => current_user.id).first()
-    relationship = Relationship.where(:user_id =>  current_user.id).first()
+    if current_user.role != 5 && params[:id] != current_user.id
+        return redirect_to home_path
+    end
+
+    require 'omnidocx'
+    require "i18n"
+
+    user = User.find (params[:id])
+
+    if user.nil?
+      return redirect_to home_path
+    end
+
+    relationship = Relationship.where(:user_id => user.id ).first()
     if relationship.nil?
-      relationship = Relationship.create([user_id: current_user.id])
+      relationship = Relationship.create([user_id: user.id])
     end
 
     json_data = {
-      "full_name" => current_user.full_name.upcase,
+      "full_name" => user.full_name.upcase,
     }
 
     json_data['father_name'] = relationship.father_name.nil? ? '' : relationship.father_name.upcase
@@ -323,8 +361,9 @@ class FormsController < ApplicationController
 
     Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'DonCamKet.docx', file_name)
 
+    out_file = I18n.transliterate(user.name) + "_" +  user.student_code + "_camket.docx"
     File.open(file_name, 'r') do |f|
-      send_data f.read, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      send_data f.read,:filename => out_file, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     end
     File.delete(file_name)
   end
