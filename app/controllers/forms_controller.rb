@@ -8,14 +8,14 @@ class FormsController < ApplicationController
 
   def profile_file
 
-    if current_user.role != 5 && params[:id] != current_user.id
+    if current_user.role != 5 && params[:id].to_s != current_user.id.to_s
       return redirect_to home_path
     end
 
     require 'omnidocx'
     require "i18n"
 
-    user = User.find (params[:id])
+    user = User.find(params[:id])
 
     if user.nil?
       return redirect_to home_path
@@ -182,7 +182,7 @@ class FormsController < ApplicationController
 
   def score_board_file
 
-    if current_user.role != 5 && params[:id] != current_user.id
+    if current_user.role != 5 && params[:id].to_s != current_user.id.to_s
       return redirect_to home_path
     end
 
@@ -309,7 +309,7 @@ class FormsController < ApplicationController
 
   def commitment_file
 
-    if current_user.role != 5 && params[:id] != current_user.id
+    if current_user.role != 5 && params[:id].to_s != current_user.id.to_s
         return redirect_to home_path
     end
 
