@@ -132,4 +132,4 @@ EXERCISE_RESULT = ['Đạt', 'Không đạt']
 
 RANKED_ACADEMIC = ['Giỏi', 'Khá', 'Trung bình', 'Yếu', 'Kém']
 
-CONDUCT = ['Tốt', 'Giỏi', 'Khá', 'Trung bình', 'Yếu']
+CONDUCT = ['Tốt', 'Khá', 'Trung bình', 'Yếu']
