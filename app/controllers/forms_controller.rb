@@ -172,7 +172,8 @@ class FormsController < ApplicationController
 
     Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'ly_lich_hs_code.docx', file_name)
 
-    out_file = I18n.transliterate(user.name) + "_" +  user.student_code + "_syll.docx"
+    # out_file = I18n.transliterate(user.name) + "_" +  user.student_code + "_syll.docx"
+    out_file = user.student_code + "_syll.docx"
 
     File.open(file_name, 'r') do |f|
       send_data f.read, :filename => out_file, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -298,7 +299,8 @@ class FormsController < ApplicationController
 
     Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'DonXinNhaphoc.docx', file_name)
 
-    out_file = I18n.transliterate(user.name) + "_" +  user.student_code + "_donnhaphoc.docx"
+    # out_file = I18n.transliterate(user.name) + "_" +  user.student_code + "_donnhaphoc.docx"
+    out_file = user.student_code + "_donnhaphoc.docx"
 
     File.open(file_name, 'r') do |f|
       send_data f.read, :filename => out_file, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -361,7 +363,7 @@ class FormsController < ApplicationController
 
     Omnidocx::Docx.replace_doc_content(replacement_hash=json_data, 'DonCamKet.docx', file_name)
 
-    out_file = I18n.transliterate(user.name) + "_" +  user.student_code + "_camket.docx"
+    out_file = user.student_code + "_camket.docx"
     File.open(file_name, 'r') do |f|
       send_data f.read,:filename => out_file, type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     end
