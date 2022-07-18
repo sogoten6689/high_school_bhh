@@ -64,19 +64,6 @@ class FormsController < ApplicationController
       "religion_name" => user.religion_name,
     }
 
-
-    # if (array_birthday.length > 8){
-    #   json_data['P1'] = array_birthday[6],
-    #   json_data['P2'] = array_birthday[7],
-    #   json_data['m1'] = array_birthday[4],
-    #   json_data['m2'] = array_birthday[5],
-    #   json_data['y1'] = array_birthday[0],
-    #   json_data['y2'] = array_birthday[1],
-    #   json_data['y3'] = array_birthday[2],
-    #   json_data['y4'] = array_birthday[3],
-    #   json_data['P1'] = array_birthday[4],
-    # }
-
     identification_code = user.identification_type == 3 || user.identification_type == 4 ? user.identification : user.identification_chip ? user.identifier_code : ''
     identification_array = identification_code.nil? ? "            " : identification_code.chars
 
@@ -109,31 +96,6 @@ class FormsController < ApplicationController
     bh_3_string += health_insurance_code[11,3].nil? ? '' : " " + health_insurance_code[11,4]
     json_data['bh3'] = bh_3_string
 
-
-    unless user_contact.household_province.nil?
-      household_province = Province.where(:code => user_contact.household_province).first()
-      unless household_province.nil?
-        household_province_array = household_province.nil? ? [] : household_province.change_code.to_s.chars
-        json_data['Tp1'] = household_province_array[0]
-        json_data['Tp2'] = household_province_array[1]
-      end
-    end
-    
-    unless user_contact.household_province.nil?
-      household_district = District.where(:code => user_contact.household_district).first()
-      unless household_district.nil?
-        household_district_array = household_district.nil? ? [] : household_district.change_code.to_s.chars
-        json_data['Q1'] = household_district_array[0]
-        json_data['Q2'] = household_district_array[1]
-      end
-    end
-
-    json_data['Tp1'] = ''
-    json_data['Tp2'] = ''
-
-    json_data['Q1'] = ''
-    json_data['Q2'] = ''
-
     json_data['household_full_address'] = user_contact.household_full_address
     json_data['contact_full_address'] = user_contact.contact_full_address
 
@@ -148,7 +110,7 @@ class FormsController < ApplicationController
     json_data['father_career'] = relationship.father_career.nil? ? '' : relationship.father_career
     json_data['father_phone'] = relationship.father_phone.nil? ? '' : relationship.father_phone
     json_data['father_address'] = relationship.father_address.nil? ? '' : relationship.father_address
-    # #
+
     json_data['guardian_name'] = relationship.guardian_name.nil? ? '' : relationship.guardian_name.upcase
     json_data['guardian_year'] = relationship.guardian_year.nil? ? '' : relationship.guardian_year.to_s
     json_data['guardian_career'] = relationship.guardian_career.nil? ? '' : relationship.guardian_career.to_s
@@ -157,7 +119,9 @@ class FormsController < ApplicationController
 
     json_data['mother_name'] = relationship.mother_name.nil? ? '' : relationship.mother_name.upcase
     json_data['mother_year'] = relationship.mother_year.nil? ? '' : relationship.mother_year.to_s
-    json_data['mother_career'] = relationship.mother_career.nil? ? '' : relationship.mother_career.to_s
+    # json_data['mother_career'] = relationship.mother_career.nil? ? '' : relationship.mother_career
+    json_data['mother_career'] = ''
+
     json_data['mother_phone'] = relationship.mother_phone.nil? ? '' : relationship.mother_phone.to_s
     json_data['mother_address'] = relationship.mother_address.nil? ? '' : relationship.mother_address.to_s
 
@@ -347,7 +311,8 @@ class FormsController < ApplicationController
 
     json_data['mother_name'] = relationship.mother_name.nil? ? '' : relationship.mother_name.upcase
     json_data['mother_year'] = relationship.mother_year.nil? ? '' : relationship.mother_year.to_s
-    json_data['mother_career'] = relationship.mother_career.nil? ? '' : relationship.mother_career.to_s
+    # json_data['mother_career'] = relationship.mother_career.nil? ? '' : (relationship.mother_career.to_s + " ")
+    json_data['mother_career'] = ''
     json_data['mother_phone'] = relationship.mother_phone.nil? ? '' : relationship.mother_phone.to_s
     json_data['mother_address'] = relationship.mother_address.nil? ? '' : relationship.mother_address.to_s
 
