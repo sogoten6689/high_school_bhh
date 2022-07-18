@@ -13,7 +13,7 @@ class FormsController < ApplicationController
     end
 
     require 'omnidocx'
-    require "i18n"
+    # require "i18n"
 
     user = User.find(params[:id])
 
@@ -117,10 +117,12 @@ class FormsController < ApplicationController
     json_data['guardian_phone'] = relationship.guardian_phone.nil? ? '' : relationship.guardian_phone.to_s
     json_data['guardian_address'] = relationship.guardian_address.nil? ? '' : relationship.guardian_address.to_s
 
+    mother_career = relationship.mother_career.nil? ? '' : relationship.mother_career
+    # puts mother_career
     json_data['mother_name'] = relationship.mother_name.nil? ? '' : relationship.mother_name.upcase
     json_data['mother_year'] = relationship.mother_year.nil? ? '' : relationship.mother_year.to_s
     # json_data['mother_career'] = relationship.mother_career.nil? ? '' : relationship.mother_career
-    json_data['mother_career'] = ''
+    json_data['mother_career'] = mother_career
 
     json_data['mother_phone'] = relationship.mother_phone.nil? ? '' : relationship.mother_phone.to_s
     json_data['mother_address'] = relationship.mother_address.nil? ? '' : relationship.mother_address.to_s
@@ -152,7 +154,7 @@ class FormsController < ApplicationController
     end
 
     require 'omnidocx'
-    require "i18n"
+    # require "i18n"
 
     user = User.find (params[:id])
 
@@ -280,7 +282,7 @@ class FormsController < ApplicationController
     end
 
     require 'omnidocx'
-    require "i18n"
+    # require "i18n"
 
     user = User.find (params[:id])
 
@@ -311,8 +313,9 @@ class FormsController < ApplicationController
 
     json_data['mother_name'] = relationship.mother_name.nil? ? '' : relationship.mother_name.upcase
     json_data['mother_year'] = relationship.mother_year.nil? ? '' : relationship.mother_year.to_s
-    # json_data['mother_career'] = relationship.mother_career.nil? ? '' : (relationship.mother_career.to_s + " ")
-    json_data['mother_career'] = ''
+    json_data['mother_career'] = relationship.mother_career.nil? ? '' : (relationship.mother_career.to_s + " ")
+    # json_data['mother_career'] = ''
+    json_data['mother_career'] = relationship.mother_career.nil? ? '' : relationship.mother_career
     json_data['mother_phone'] = relationship.mother_phone.nil? ? '' : relationship.mother_phone.to_s
     json_data['mother_address'] = relationship.mother_address.nil? ? '' : relationship.mother_address.to_s
 
