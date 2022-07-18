@@ -70,4 +70,5 @@ Rails.application.routes.draw do
   end
 
   resources :elective_subjects, :only => [:index, :create]
+  resources :statistics, :only => [:index]
 end
