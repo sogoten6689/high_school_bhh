@@ -82,16 +82,7 @@
             <% end %>
           </li>
         <%# end %>
-        <% if current_user.role > 1 %>
-          <li class="nav-item <%= menu_open_class?([])%> ">
-            <%= link_to statistics_path, :class => "nav-link  #{current_class?(statistics_path)}" do %>
-              <i class="fa fa-file-excel nav-icon"></i>
-              <p>
-                <%= 'Thống kê' %>
-              </p>
-            <% end %>
-          </li>
-        <% end %>
+
       </ul>
     </nav>
 
