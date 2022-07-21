@@ -114,7 +114,6 @@
     $('#thematic_group').val(elective_subject.thematic_group);
     $('#elective_subject_one').val(elective_subject.elective_subject_one);
     $('#elective_subject_two').val(elective_subject.elective_subject_two);
-    $('#alternative_subject').val(elective_subject.alternative_subject);
 
     <% if @elective_subject.alternative_subject.present? %>
       $.each(alternative_subjects, (key, value) => {
@@ -123,6 +122,7 @@
         }
       });
       disable_option('alternative_subject', 'tt');
+      $('#alternative_subject').val(elective_subject.alternative_subject);
       $(".alternative_subject").show();
     <% end %>
   <% end %>
